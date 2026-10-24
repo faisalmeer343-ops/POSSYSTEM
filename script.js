@@ -11,26 +11,26 @@ const defaultCategories = [
 ];
 
 const defaultItems = [
-    { id: 1, name: "Chicken Tikka", price: 450, category: "bbq", image: "images/chicken-tikka.jpg" },
-    { id: 2, name: "Seekh Kabab", price: 350, category: "bbq", image: "images/seekh-kabab.jpg" },
-    { id: 3, name: "Malai Boti", price: 500, category: "bbq", image: "images/malai-boti.jpg" },
-    { id: 4, name: "Chicken Boti", price: 480, category: "bbq", image: "images/chicken-boti.jpg" },
-    { id: 5, name: "Chicken Karahi (Half)", price: 1200, category: "karahi", image: "images/chicken-karahi.jpg" },
-    { id: 6, name: "Chicken Karahi (Full)", price: 2200, category: "karahi", image: "images/chicken-karahi.jpg" },
-    { id: 7, name: "Mutton Karahi", price: 2800, category: "karahi", image: "images/mutton-karahi.jpg" },
-    { id: 8, name: "Nihari", price: 600, category: "karahi", image: "images/nihari.jpg" },
-    { id: 9, name: "Zinger Burger", price: 350, category: "fastfood", image: "images/zinger-burger.jpg" },
-    { id: 10, name: "Beef Burger", price: 400, category: "fastfood", image: "images/beef-burger.jpg" },
-    { id: 11, name: "Pizza (Small)", price: 800, category: "fastfood", image: "images/pizza.jpg" },
-    { id: 12, name: "French Fries", price: 200, category: "fastfood", image: "images/fries.jpg" },
-    { id: 13, name: "Cold Drink", price: 100, category: "drinks", image: "images/cold-drink.jpg" },
-    { id: 14, name: "Fresh Juice", price: 180, category: "drinks", image: "images/juice.jpg" },
-    { id: 15, name: "Lassi", price: 150, category: "drinks", image: "images/lassi.jpg" },
-    { id: 16, name: "Tea", price: 60, category: "drinks", image: "images/tea.jpg" },
-    { id: 17, name: "Gulab Jamun", price: 120, category: "dessert", image: "images/gulab-jamun.jpg" },
-    { id: 18, name: "Kheer", price: 150, category: "dessert", image: "images/kheer.jpg" },
-    { id: 19, name: "Ice Cream", price: 200, category: "dessert", image: "images/ice-cream.jpg" },
-    { id: 20, name: "Gajar Halwa", price: 180, category: "dessert", image: "images/gajar-halwa.jpg" }
+    { id: 1, name: "Chicken Tikka", price: 450, category: "bbq", image: "chicken-tikka.jpg" },
+    { id: 2, name: "Seekh Kabab", price: 350, category: "bbq", image: "seekh-kabab.jpg" },
+    { id: 3, name: "Malai Boti", price: 500, category: "bbq", image: "malai-boti.jpg" },
+    { id: 4, name: "Chicken Boti", price: 480, category: "bbq", image: "chicken-boti.jpg" },
+    { id: 5, name: "Chicken Karahi (Half)", price: 1200, category: "karahi", image: "chicken-karahi.jpg" },
+    { id: 6, name: "Chicken Karahi (Full)", price: 2200, category: "karahi", image: "chicken-karahi.jpg" },
+    { id: 7, name: "Mutton Karahi", price: 2800, category: "karahi", image: "mutton-karahi.jpg" },
+    { id: 8, name: "Nihari", price: 600, category: "karahi", image: "nihari.jpg" },
+    { id: 9, name: "Zinger Burger", price: 350, category: "fastfood", image: "zinger-burger.jpg" },
+    { id: 10, name: "Beef Burger", price: 400, category: "fastfood", image: "beef-burger.jpg" },
+    { id: 11, name: "Pizza (Small)", price: 800, category: "fastfood", image: "pizza.jpg" },
+    { id: 12, name: "French Fries", price: 200, category: "fastfood", image: "fries.jpg" },
+    { id: 13, name: "Cold Drink", price: 100, category: "drinks", image: "cold-drink.jpg" },
+    { id: 14, name: "Fresh Juice", price: 180, category: "drinks", image: "juice.jpg" },
+    { id: 15, name: "Lassi", price: 150, category: "drinks", image: "lassi.jpg" },
+    { id: 16, name: "Tea", price: 60, category: "drinks", image: "tea.jpg" },
+    { id: 17, name: "Gulab Jamun", price: 120, category: "dessert", image: "gulab-jamun.jpg" },
+    { id: 18, name: "Kheer", price: 150, category: "dessert", image: "kheer.jpg" },
+    { id: 19, name: "Ice Cream", price: 200, category: "dessert", image: "ice-cream.jpg" },
+    { id: 20, name: "Gajar Halwa", price: 180, category: "dessert", image: "gajar-halwa.jpg" }
 ];
 
 // ==========================================
@@ -209,7 +209,7 @@ function saveItem() {
     const name = document.getElementById('itemName').value.trim();
     const price = parseInt(document.getElementById('itemPrice').value);
     const category = document.getElementById('itemCategory').value;
-    const image = document.getElementById('itemImage').value.trim() || "images/placeholder.jpg";
+    const image = document.getElementById('itemImage').value.trim() || "placeholder.jpg";
 
     if (!name) { alert("Item ka naam likhen!"); return; }
     if (!price || price <= 0) { alert("Sahi price likhen!"); return; }
