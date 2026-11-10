@@ -393,9 +393,9 @@ function checkout() {
 
     const receiptHTML = `
         <div style="text-align:center; margin-bottom:10px;">
-            <strong>PAKISTANI RESTAURANT</strong><br>
-            <small>Main Boulevard, Lahore</small><br>
-            <small>Tel: 0300-1234567</small>
+            <strong>Geomir Online School Materail Supplier</strong><br>
+            <small>ONLINE SUPPLIER</small><br>
+            <small>Tel: </small>
         </div>
         <hr>
         <div><strong>Order ID:</strong> ${orderId}</div>
