@@ -537,3 +537,83 @@ function init() {
 }
 
 window.addEventListener('DOMContentLoaded', init);
+
+/* ===================== AUTO IMPORT ALL ITEMS ===================== */
+function importAllItems() {
+    // Agar pehle se items hain to confirm karein
+    if (items.length > 0) {
+        if (!confirm('Pehle se items mojood hain. Kya aap sab delete karke naye items add karna chahte hain?')) {
+            return;
+        }
+        items = [];
+    }
+
+    // === CATEGORIES ===
+    const cats = ['Fast Food', 'BBQ', 'Karahi', 'Dessert', 'Drinks', 'Rice'];
+    cats.forEach(c => {
+        if (!categories.includes(c)) categories.push(c);
+    });
+
+    // === SAARE ITEMS ===
+    const allItems = [
+        // Fast Food
+        { name: 'Beef Burger',      price: 350, category: 'Fast Food', image: 'beef-burger.jpg' },
+        { name: 'Zinger Burger',    price: 400, category: 'Fast Food', image: 'zinger-burger.jpg' },
+        { name: 'Pizza',            price: 800, category: 'Fast Food', image: 'pizza.jpg' },
+        { name: 'Fries',            price: 150, category: 'Fast Food', image: 'fries.jpg' },
+
+        // BBQ
+        { name: 'Chicken Boti',     price: 450, category: 'BBQ',       image: 'chicken-boti.jpg' },
+        { name: 'Chicken Tikka',    price: 380, category: 'BBQ',       image: 'chicken-tikka.jpg' },
+        { name: 'Malai Boti',       price: 500, category: 'BBQ',       image: 'malai-boti.jpg' },
+        { name: 'Seekh Kabab',      price: 420, category: 'BBQ',       image: 'seekh-kabab.jpg' },
+
+        // Karahi
+        { name: 'Chicken Karahi',   price: 1200, category: 'Karahi',   image: 'chicken-karahi.jpg' },
+        { name: 'Mutton Karahi',    price: 1800, category: 'Karahi',   image: 'mutton-karahi.jpg' },
+        { name: 'Nihari',           price: 600,  category: 'Karahi',   image: 'nihari.jpg' },
+
+        // Dessert
+        { name: 'Gajar Halwa',      price: 200, category: 'Dessert',   image: 'gajar-halwa.jpg' },
+        { name: 'Gulab Jamun',      price: 150, category: 'Dessert',   image: 'gulab-jamun.jpg' },
+        { name: 'Ice Cream',        price: 180, category: 'Dessert',   image: 'ice-cream.jpg' },
+        { name: 'Kheer',            price: 160, category: 'Dessert',   image: 'kheer.jpg' },
+
+        // Drinks
+        { name: 'Cold Drink',       price: 100, category: 'Drinks',    image: 'cold-drink.jpg' },
+        { name: 'Juice',            price: 180, category: 'Drinks',    image: 'juice.jpg' },
+        { name: 'Lassi',            price: 150, category: 'Drinks',    image: 'lassi.jpg' },
+        { name: 'Tea',              price: 80,  category: 'Drinks',    image: 'tea.jpg' }
+    ];
+
+    // Add karein (unique IDs ke saath)
+    allItems.forEach((it, i) => {
+        items.push({
+            id: Date.now() + i,
+            name: it.name,
+            price: it.price,
+            category: it.category,
+            image: it.image
+        });
+    });
+
+    saveData();
+    renderCategories();
+    renderItems();
+    alert('✅ ' + allItems.length + ' items kamyabi se add ho gaye!\n\nAb prices edit karne ke liye kisi item par hover karein aur ✏️ button dabayen.');
+}
+
+// === Auto-run on first load (sirf jab items khali hon) ===
+window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        if (items.length === 0) {
+            const auto = confirm(
+                '👋 Khush Aamdeed!\n\n' +
+                'Kya aap saare 19 ready-made items (Beef Burger, Chicken Tikka, Pizza, etc.) add karna chahte hain?\n\n' +
+                'Yes = Saare items add ho jayenge\n' +
+                'No = Khud se items add karein'
+            );
+            if (auto) importAllItems();
+        }
+    }, 500);
+});
