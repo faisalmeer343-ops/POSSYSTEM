@@ -6,11 +6,10 @@
 <title>Geomir Online School Material Supplier</title>
 
 <style>
-/* ===================== GLOBAL ===================== */
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 body { background: #f4f6f9; color: #2c3e50; min-height: 100vh; }
 
-/* ===================== HEADER ===================== */
+/* HEADER */
 .header {
     background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
     color: #fff; padding: 15px 25px;
@@ -29,13 +28,13 @@ body { background: #f4f6f9; color: #2c3e50; min-height: 100vh; }
 }
 .btn-logout:hover { background: #c0392b; }
 
-/* ===================== LAYOUT ===================== */
+/* LAYOUT */
 .main-container {
     display: grid; grid-template-columns: 220px 1fr 340px;
     gap: 15px; padding: 15px; min-height: calc(100vh - 75px);
 }
 
-/* ===================== SIDEBAR ===================== */
+/* SIDEBAR */
 .sidebar {
     background: #fff; border-radius: 10px; padding: 15px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08); height: fit-content;
@@ -60,7 +59,7 @@ body { background: #f4f6f9; color: #2c3e50; min-height: 100vh; }
 .btn-add-item:hover { background: #21618c; }
 .sidebar-divider { border: none; border-top: 1px solid #e0e0e0; margin: 12px 0; }
 
-/* ===================== MENU ===================== */
+/* MENU */
 .menu-section {
     background: #fff; border-radius: 10px; padding: 15px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow-y: auto;
@@ -84,11 +83,11 @@ body { background: #f4f6f9; color: #2c3e50; min-height: 100vh; }
 }
 .menu-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
     gap: 12px;
 }
 
-/* ===================== MENU ITEM + IMAGE ===================== */
+/* MENU ITEM — IMAGE SUPPORT */
 .menu-item {
     background: #f9fafc; border: 1px solid #e5e9f0;
     border-radius: 10px; padding: 10px;
@@ -100,21 +99,25 @@ body { background: #f4f6f9; color: #2c3e50; min-height: 100vh; }
     box-shadow: 0 3px 10px rgba(42,82,152,0.15);
     transform: translateY(-2px);
 }
-.item-img-wrap {
-    width: 100%; height: 110px;
-    background: #eef2f7; border-radius: 6px;
-    margin-bottom: 8px; overflow: hidden;
+
+/* IMAGE BOX */
+.item-img-box {
+    width: 100%; height: 120px;
+    background: #eef2f7;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    overflow: hidden;
     display: flex; align-items: center; justify-content: center;
+    position: relative;
 }
-.item-img {
+.item-img-box img {
     width: 100%; height: 100%;
-    object-fit: cover; display: block; border-radius: 6px;
+    object-fit: cover; display: block;
 }
-.img-placeholder {
-    font-size: 40px; color: #b0b8c4;
-    display: flex; align-items: center; justify-content: center;
-    width: 100%; height: 100%;
+.item-img-box .no-img {
+    font-size: 44px; color: #b0b8c4;
 }
+
 .menu-item h4 {
     font-size: 14px; margin-bottom: 4px; color: #2c3e50;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -138,7 +141,7 @@ body { background: #f4f6f9; color: #2c3e50; min-height: 100vh; }
     color: #95a5a6; padding: 30px;
 }
 
-/* ===================== CART ===================== */
+/* CART */
 .cart-section {
     background: #fff; border-radius: 10px; padding: 15px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -204,7 +207,7 @@ body { background: #f4f6f9; color: #2c3e50; min-height: 100vh; }
 .btn-checkout { background: #27ae60; color: #fff; }
 .btn-checkout:hover { background: #229954; }
 
-/* ===================== MODALS ===================== */
+/* MODALS */
 .modal {
     display: none; position: fixed; inset: 0;
     background: rgba(0,0,0,0.55); z-index: 1000;
@@ -230,7 +233,7 @@ body { background: #f4f6f9; color: #2c3e50; min-height: 100vh; }
 }
 .modal-content input:focus, .modal-content select:focus { border-color: #2a5298; }
 
-/* Image preview */
+/* IMAGE PREVIEW IN MODAL */
 .img-preview-box {
     margin-top: 8px; width: 100%; height: 130px;
     border: 2px dashed #c9d3e0; border-radius: 8px;
@@ -242,15 +245,6 @@ body { background: #f4f6f9; color: #2c3e50; min-height: 100vh; }
     width: 100%; height: 100%;
     object-fit: cover; border-radius: 6px;
 }
-.upload-row { display: flex; gap: 8px; margin-top: 6px; }
-.upload-row label {
-    flex: 1; margin: 0; padding: 9px;
-    background: #3498db; color: #fff; text-align: center;
-    border-radius: 6px; cursor: pointer;
-    font-size: 12px; font-weight: 600; transition: 0.2s;
-}
-.upload-row label:hover { background: #2980b9; }
-.upload-row input[type="file"] { display: none; }
 
 .modal-actions { display: flex; gap: 8px; margin-top: 18px; }
 .modal-actions button {
@@ -271,7 +265,7 @@ body { background: #f4f6f9; color: #2c3e50; min-height: 100vh; }
 .btn-close { background: #ecf0f1; color: #2c3e50; }
 .btn-close:hover { background: #d5dbdb; }
 
-/* ===================== RECEIPT (BLACK FONT) ===================== */
+/* RECEIPT — BLACK FONT */
 #receiptContent, #receiptContent * { color: #000 !important; background: transparent !important; }
 #receiptContent { padding: 10px 0; font-size: 13px; line-height: 1.6; }
 #receiptContent hr { border: none; border-top: 1px dashed #999; margin: 10px 0; }
@@ -282,7 +276,7 @@ body { background: #f4f6f9; color: #2c3e50; min-height: 100vh; }
 }
 #receiptContent th { background: #e8e8e8 !important; }
 
-/* ===================== REPORT ===================== */
+/* REPORT */
 #reportContent { font-size: 13px; line-height: 1.6; color: #000 !important; }
 #reportContent h3, #reportContent h4, #reportContent p, #reportContent strong { color: #000 !important; }
 #reportContent table { width: 100%; border-collapse: collapse; margin-top: 8px; }
@@ -298,10 +292,9 @@ body { background: #f4f6f9; color: #2c3e50; min-height: 100vh; }
 }
 .report-btn-group button { flex: 1; min-width: 120px; }
 
-/* ===================== PRINT (RECEIPT + REPORT) ===================== */
+/* PRINT */
 @media print {
     body * { visibility: hidden; }
-    /* Receipt print */
     #receiptModal.printing, #receiptModal.printing * { visibility: visible; }
     #receiptModal.printing {
         position: absolute; inset: 0;
@@ -319,7 +312,6 @@ body { background: #f4f6f9; color: #2c3e50; min-height: 100vh; }
     #receiptModal.printing .btn-print,
     #receiptModal.printing .btn-close { display: none !important; }
 
-    /* Report print */
     #reportModal.printing, #reportModal.printing * { visibility: visible; }
     #reportModal.printing {
         position: absolute; inset: 0;
@@ -337,10 +329,10 @@ body { background: #f4f6f9; color: #2c3e50; min-height: 100vh; }
     }
     #reportModal.printing h2,
     #reportModal.printing .report-btn-group,
-    #reportModal.printing .modal-actions { display: none !important; }
+    #reportModal.printing .modal-actions,
+    #reportModal.printing .btn-print { display: none !important; }
 }
 
-/* ===================== RESPONSIVE ===================== */
 @media (max-width: 900px) {
     .main-container { grid-template-columns: 1fr; }
     .cart-section { position: static; max-height: none; }
@@ -363,7 +355,6 @@ body { background: #f4f6f9; color: #2c3e50; min-height: 100vh; }
 
 <div class="main-container">
 
-    <!-- SIDEBAR -->
     <aside class="sidebar">
         <h3>📂 Categories</h3>
         <div class="sidebar-categories" id="sidebarCategories"></div>
@@ -374,7 +365,6 @@ body { background: #f4f6f9; color: #2c3e50; min-height: 100vh; }
         <button class="btn-add-item" onclick="openReportModal()">📊 Sales Reports</button>
     </aside>
 
-    <!-- MENU -->
     <div class="menu-section">
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="🔍 Search item..." onkeyup="searchItems()">
@@ -386,7 +376,6 @@ body { background: #f4f6f9; color: #2c3e50; min-height: 100vh; }
         <div class="menu-grid" id="menuGrid"></div>
     </div>
 
-    <!-- CART -->
     <div class="cart-section">
         <h2>🛒 Current Order</h2>
         <div class="customer-info">
@@ -423,15 +412,10 @@ body { background: #f4f6f9; color: #2c3e50; min-height: 100vh; }
         <label>Category</label>
         <select id="itemCategory"></select>
 
-        <label>Image Path (e.g. images/tikka.jpg) — ya neeche se upload karein</label>
-        <input type="text" id="itemImage" placeholder="images/tikka.jpg" oninput="previewFromPath()">
+        <label>Image Path</label>
+        <input type="text" id="itemImage" placeholder="/image/tikka.jpg" oninput="previewFromPath()">
 
-        <div class="upload-row">
-            <label for="itemImageFile">📁 Ya Computer se Image Chunein</label>
-            <input type="file" id="itemImageFile" accept="image/*" onchange="handleUpload(event)">
-        </div>
-
-        <div class="img-preview-box" id="imgPreview">Koi image nahi chuni</div>
+        <div class="img-preview-box" id="imgPreview">Image preview</div>
 
         <div class="modal-actions">
             <button class="btn-cancel" onclick="closeItemModal()">Cancel</button>
@@ -488,20 +472,13 @@ let salesHistory = [];
 let editingItemId = null;
 let currentCategory = 'All';
 let currentSearch = '';
-let pendingImageData = '';
 
 /* ===================== STORAGE ===================== */
 function saveData() {
-    try {
-        localStorage.setItem('geomir_items', JSON.stringify(items));
-        localStorage.setItem('geomir_categories', JSON.stringify(categories));
-        localStorage.setItem('geomir_sales', JSON.stringify(salesHistory));
-    } catch (e) {
-        alert('Save fail! Image bohot bari ho sakti hai. Chhoti image ya path use karein.');
-        console.error(e);
-    }
+    localStorage.setItem('geomir_items', JSON.stringify(items));
+    localStorage.setItem('geomir_categories', JSON.stringify(categories));
+    localStorage.setItem('geomir_sales', JSON.stringify(salesHistory));
 }
-
 function loadData() {
     items = JSON.parse(localStorage.getItem('geomir_items')) || [];
     categories = JSON.parse(localStorage.getItem('geomir_categories')) || ['All'];
@@ -512,359 +489,246 @@ function loadData() {
 /* ===================== DATE-TIME ===================== */
 function updateDateTime() {
     const now = new Date();
-    const options = {
+    document.getElementById('dateTime').textContent = now.toLocaleString('en-PK', {
         weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
         hour: '2-digit', minute: '2-digit', second: '2-digit'
-    };
-    document.getElementById('dateTime').textContent = now.toLocaleString('en-PK', options);
+    });
 }
 setInterval(updateDateTime, 1000);
 
-/* ===================== RENDER: CATEGORIES ===================== */
+/* ===================== CATEGORIES ===================== */
 function renderCategories() {
-    const container = document.getElementById('sidebarCategories');
-    container.innerHTML = '';
+    const c = document.getElementById('sidebarCategories');
+    c.innerHTML = '';
     categories.forEach(cat => {
-        const btn = document.createElement('button');
-        btn.className = 'category-btn' + (cat === currentCategory ? ' active' : '');
-        btn.textContent = cat;
-        btn.onclick = () => selectCategory(cat);
-        container.appendChild(btn);
+        const b = document.createElement('button');
+        b.className = 'category-btn' + (cat === currentCategory ? ' active' : '');
+        b.textContent = cat;
+        b.onclick = () => { currentCategory = cat; document.getElementById('currentCategoryTitle').textContent = cat === 'All' ? 'All Items' : cat; renderCategories(); renderItems(); };
+        c.appendChild(b);
     });
-
-    const select = document.getElementById('itemCategory');
-    select.innerHTML = '';
-    categories.filter(c => c !== 'All').forEach(cat => {
-        const opt = document.createElement('option');
-        opt.value = cat;
-        opt.textContent = cat;
-        select.appendChild(opt);
+    const s = document.getElementById('itemCategory');
+    s.innerHTML = '';
+    categories.filter(x => x !== 'All').forEach(cat => {
+        const o = document.createElement('option');
+        o.value = cat; o.textContent = cat; s.appendChild(o);
     });
 }
 
-function selectCategory(cat) {
-    currentCategory = cat;
-    document.getElementById('currentCategoryTitle').textContent =
-        cat === 'All' ? 'All Items' : cat;
-    renderCategories();
-    renderItems();
-}
-
-/* ===================== RENDER: ITEMS (IMAGE FIX) ===================== */
+/* ===================== ITEMS RENDER (IMAGE FIX) ===================== */
 function renderItems() {
     const grid = document.getElementById('menuGrid');
     grid.innerHTML = '';
 
-    let filtered = items;
-    if (currentCategory !== 'All') {
-        filtered = filtered.filter(i => i.category === currentCategory);
-    }
+    let list = items;
+    if (currentCategory !== 'All') list = list.filter(i => i.category === currentCategory);
     if (currentSearch.trim()) {
         const q = currentSearch.toLowerCase();
-        filtered = filtered.filter(i => i.name.toLowerCase().includes(q));
+        list = list.filter(i => i.name.toLowerCase().includes(q));
     }
 
-    document.getElementById('itemCount').textContent = filtered.length + ' items';
+    document.getElementById('itemCount').textContent = list.length + ' items';
 
-    if (filtered.length === 0) {
-        grid.innerHTML = '<p class="empty-msg">Koi item nahi mila. ➕ Add New Item se add karein.</p>';
+    if (list.length === 0) {
+        grid.innerHTML = '<p class="empty-msg">Koi item nahi mila.</p>';
         return;
     }
 
-    filtered.forEach(item => {
+    list.forEach(item => {
         const div = document.createElement('div');
         div.className = 'menu-item';
 
-        // Build image HTML — trim the path
-        let imageHTML = '';
-        const imgPath = (item.image || '').trim();
-        if (imgPath !== '') {
-            imageHTML = `
-                <img src="${escapeAttr(imgPath)}"
-                     alt="${escapeAttr(item.name)}"
-                     class="item-img"
-                     loading="lazy"
-                     onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';">
-                <div class="img-placeholder" style="display:none;">🍽️</div>
-            `;
+        // === IMAGE ===
+        // Aapka path "/image/tikka.jpg" — browser HTML ke root se load karega
+        let imgHTML = '';
+        const path = (item.image || '').trim();
+        if (path !== '') {
+            imgHTML = `<img src="${escAttr(path)}" alt="${escAttr(item.name)}"
+                onerror="this.style.display='none';this.parentElement.querySelector('.no-img').style.display='block';">
+                <span class="no-img" style="display:none;">🍽️</span>`;
         } else {
-            imageHTML = `<div class="img-placeholder">🍽️</div>`;
+            imgHTML = `<span class="no-img">🍽️</span>`;
         }
 
         div.innerHTML = `
             <div class="item-actions">
-                <button class="edit-btn" onclick="event.stopPropagation(); editItem(${item.id})">✏️</button>
-                <button class="del-btn" onclick="event.stopPropagation(); deleteItem(${item.id})">🗑️</button>
+                <button class="edit-btn" onclick="event.stopPropagation();editItem(${item.id})">✏️</button>
+                <button class="del-btn" onclick="event.stopPropagation();deleteItem(${item.id})">🗑️</button>
             </div>
-            <div class="item-img-wrap">${imageHTML}</div>
-            <h4>${escapeHTML(item.name)}</h4>
+            <div class="item-img-box">${imgHTML}</div>
+            <h4>${esc(item.name)}</h4>
             <div class="price">Rs. ${item.price}</div>
-            <div class="category-tag">${escapeHTML(item.category || '-')}</div>
+            <div class="category-tag">${esc(item.category || '-')}</div>
         `;
         div.onclick = () => addToCart(item.id);
         grid.appendChild(div);
     });
 }
 
-function searchItems() {
-    currentSearch = document.getElementById('searchInput').value;
-    renderItems();
-}
+function searchItems() { currentSearch = document.getElementById('searchInput').value; renderItems(); }
 
 /* ===================== CART ===================== */
-function addToCart(itemId) {
-    const item = items.find(i => i.id === itemId);
-    if (!item) return;
-    const existing = cart.find(c => c.id === itemId);
-    if (existing) {
-        existing.qty += 1;
-    } else {
-        cart.push({ id: item.id, name: item.name, price: item.price, qty: 1 });
-    }
+function addToCart(id) {
+    const it = items.find(i => i.id === id);
+    if (!it) return;
+    const ex = cart.find(c => c.id === id);
+    if (ex) ex.qty += 1;
+    else cart.push({ id: it.id, name: it.name, price: it.price, qty: 1 });
     renderCart();
 }
-
-function changeQty(itemId, delta) {
-    const item = cart.find(c => c.id === itemId);
-    if (!item) return;
-    item.qty += delta;
-    if (item.qty <= 0) cart = cart.filter(c => c.id !== itemId);
+function changeQty(id, d) {
+    const c = cart.find(x => x.id === id);
+    if (!c) return;
+    c.qty += d;
+    if (c.qty <= 0) cart = cart.filter(x => x.id !== id);
     renderCart();
 }
-
 function renderCart() {
-    const container = document.getElementById('cartItems');
+    const c = document.getElementById('cartItems');
     if (cart.length === 0) {
-        container.innerHTML = '<p class="empty-cart">Cart khali hai</p>';
+        c.innerHTML = '<p class="empty-cart">Cart khali hai</p>';
     } else {
-        container.innerHTML = cart.map(c => `
+        c.innerHTML = cart.map(x => `
             <div class="cart-item">
-                <div class="cart-item-info">
-                    <strong>${escapeHTML(c.name)}</strong>
-                    <small>Rs. ${c.price} × ${c.qty}</small>
-                </div>
+                <div class="cart-item-info"><strong>${esc(x.name)}</strong><small>Rs. ${x.price} × ${x.qty}</small></div>
                 <div class="qty-controls">
-                    <button onclick="changeQty(${c.id}, -1)">−</button>
-                    <span>${c.qty}</span>
-                    <button onclick="changeQty(${c.id}, 1)">+</button>
+                    <button onclick="changeQty(${x.id},-1)">−</button>
+                    <span>${x.qty}</span>
+                    <button onclick="changeQty(${x.id},1)">+</button>
                 </div>
-                <div class="item-total">Rs. ${c.price * c.qty}</div>
+                <div class="item-total">Rs. ${x.price * x.qty}</div>
             </div>
         `).join('');
     }
     updateCart();
 }
-
 function updateCart() {
-    const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
-    const tax = subtotal * 0.05;
-    const discount = parseFloat(document.getElementById('discount').value) || 0;
-    const total = Math.max(0, subtotal + tax - discount);
-    document.getElementById('subtotal').textContent = 'Rs. ' + subtotal.toLocaleString();
+    const sub = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const tax = sub * 0.05;
+    const disc = parseFloat(document.getElementById('discount').value) || 0;
+    const total = Math.max(0, sub + tax - disc);
+    document.getElementById('subtotal').textContent = 'Rs. ' + sub.toLocaleString();
     document.getElementById('tax').textContent = 'Rs. ' + tax.toFixed(2);
     document.getElementById('total').textContent = 'Rs. ' + total.toFixed(2);
-    return { subtotal, tax, discount, total };
+    return { sub, tax, disc, total };
 }
-
 function clearCart() {
     if (cart.length === 0) return;
-    if (!confirm('Cart clear karein?')) return;
-    cart = [];
-    renderCart();
-}
-
-/* ===================== IMAGE UPLOAD + PREVIEW ===================== */
-function handleUpload(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    if (file.size > 2 * 1024 * 1024) {
-        alert('Image 2MB se choti honi chahiye!');
-        event.target.value = '';
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        pendingImageData = e.target.result;
-        document.getElementById('imgPreview').innerHTML =
-            `<img src="${pendingImageData}" alt="preview">`;
-        document.getElementById('itemImage').value = '';
-    };
-    reader.readAsDataURL(file);
-}
-
-function previewFromPath() {
-    const path = document.getElementById('itemImage').value.trim();
-    pendingImageData = '';
-    const box = document.getElementById('imgPreview');
-    if (!path) {
-        box.innerHTML = 'Koi image nahi chuni';
-        return;
-    }
-    box.innerHTML = `<img src="${escapeAttr(path)}" alt="preview"
-        onerror="this.parentElement.innerHTML='❌ Image load nahi hui. Path check karein: <b>${escapeHTML(path)}</b>';">`;
+    if (!confirm('Cart clear?')) return;
+    cart = []; renderCart();
 }
 
 /* ===================== ITEM MODAL ===================== */
 function openItemModal(editId = null) {
     editingItemId = editId;
-    pendingImageData = '';
-
-    const modal = document.getElementById('itemModal');
-    const title = document.getElementById('itemModalTitle');
     const box = document.getElementById('imgPreview');
-
     if (editId) {
-        const item = items.find(i => i.id === editId);
-        title.textContent = '✏️ Edit Item';
-        document.getElementById('itemName').value = item.name;
-        document.getElementById('itemPrice').value = item.price;
-        document.getElementById('itemImage').value = item.image || '';
-        if (item.image && item.image.trim() !== '') {
-            box.innerHTML = `<img src="${escapeAttr(item.image)}" alt="preview"
-                onerror="this.parentElement.innerHTML='❌ Image load nahi hui';">`;
-        } else {
-            box.innerHTML = 'Koi image nahi chuni';
-        }
+        const it = items.find(i => i.id === editId);
+        document.getElementById('itemModalTitle').textContent = '✏️ Edit Item';
+        document.getElementById('itemName').value = it.name;
+        document.getElementById('itemPrice').value = it.price;
+        document.getElementById('itemImage').value = it.image || '';
+        if (it.image) {
+            box.innerHTML = `<img src="${escAttr(it.image)}" alt="preview"
+                onerror="this.parentElement.textContent='❌ Image load nahi hui';">`;
+        } else box.textContent = 'Image preview';
     } else {
-        title.textContent = '➕ Add New Item';
+        document.getElementById('itemModalTitle').textContent = '➕ Add New Item';
         document.getElementById('itemName').value = '';
         document.getElementById('itemPrice').value = '';
         document.getElementById('itemImage').value = '';
-        box.innerHTML = 'Koi image nahi chuni';
+        box.textContent = 'Image preview';
     }
-
-    document.getElementById('itemImageFile').value = '';
     renderCategories();
-
     if (editId) {
-        const item = items.find(i => i.id === editId);
-        setTimeout(() => {
-            document.getElementById('itemCategory').value = item.category || '';
-        }, 0);
+        const it = items.find(i => i.id === editId);
+        setTimeout(() => { document.getElementById('itemCategory').value = it.category || ''; }, 0);
     }
-
-    modal.classList.add('show');
+    document.getElementById('itemModal').classList.add('show');
 }
 
 function closeItemModal() {
     document.getElementById('itemModal').classList.remove('show');
     editingItemId = null;
-    pendingImageData = '';
+}
+
+function previewFromPath() {
+    const path = document.getElementById('itemImage').value.trim();
+    const box = document.getElementById('imgPreview');
+    if (!path) { box.textContent = 'Image preview'; return; }
+    box.innerHTML = `<img src="${escAttr(path)}" alt="preview"
+        onerror="this.parentElement.textContent='❌ Image load nahi hui — path check karein';">`;
 }
 
 function saveItem() {
     const name = document.getElementById('itemName').value.trim();
     const price = parseFloat(document.getElementById('itemPrice').value);
-    const category = document.getElementById('itemCategory').value;
-    const typedPath = document.getElementById('itemImage').value.trim();
+    const cat = document.getElementById('itemCategory').value;
+    const img = document.getElementById('itemImage').value.trim();
 
-    if (!name) return alert('Item name likhein!');
-    if (isNaN(price) || price < 0) return alert('Valid price likhein!');
-    if (!category) return alert('Category select karein!');
-
-    let finalImage = '';
-    if (pendingImageData) {
-        finalImage = pendingImageData;
-    } else if (typedPath) {
-        finalImage = typedPath;
-    } else if (editingItemId) {
-        const old = items.find(i => i.id === editingItemId);
-        finalImage = old ? (old.image || '') : '';
-    }
+    if (!name) return alert('Name likhein!');
+    if (isNaN(price) || price < 0) return alert('Valid price!');
+    if (!cat) return alert('Category select karein!');
 
     if (editingItemId) {
-        const item = items.find(i => i.id === editingItemId);
-        item.name = name;
-        item.price = price;
-        item.category = category;
-        item.image = finalImage;
+        const it = items.find(i => i.id === editingItemId);
+        it.name = name; it.price = price; it.category = cat; it.image = img;
     } else {
-        items.push({
-            id: Date.now(),
-            name, price, category,
-            image: finalImage
-        });
+        items.push({ id: Date.now(), name, price, category: cat, image: img });
     }
-
     saveData();
     closeItemModal();
     renderItems();
 }
 
 function editItem(id) { openItemModal(id); }
-
 function deleteItem(id) {
-    if (!confirm('Item delete karein?')) return;
+    if (!confirm('Delete?')) return;
     items = items.filter(i => i.id !== id);
     cart = cart.filter(c => c.id !== id);
-    saveData();
-    renderItems();
-    renderCart();
+    saveData(); renderItems(); renderCart();
 }
 
 /* ===================== CATEGORY MODAL ===================== */
-function openCategoryModal() {
-    document.getElementById('categoryName').value = '';
-    document.getElementById('categoryModal').classList.add('show');
-}
-function closeCategoryModal() {
-    document.getElementById('categoryModal').classList.remove('show');
-}
+function openCategoryModal() { document.getElementById('categoryName').value = ''; document.getElementById('categoryModal').classList.add('show'); }
+function closeCategoryModal() { document.getElementById('categoryModal').classList.remove('show'); }
 function saveCategory() {
-    const name = document.getElementById('categoryName').value.trim();
-    if (!name) return alert('Category name likhein!');
-    if (categories.includes(name)) return alert('Category already exists!');
-    categories.push(name);
-    saveData();
-    closeCategoryModal();
-    renderCategories();
+    const n = document.getElementById('categoryName').value.trim();
+    if (!n) return alert('Name likhein!');
+    if (categories.includes(n)) return alert('Already exists!');
+    categories.push(n);
+    saveData(); closeCategoryModal(); renderCategories();
 }
 
 /* ===================== CHECKOUT ===================== */
 function checkout() {
     if (cart.length === 0) return alert('Cart khali hai!');
-
-    const { subtotal, tax, discount, total } = updateCart();
+    const { sub, tax, disc, total } = updateCart();
     const now = new Date();
-    const dateStr = now.toLocaleDateString('en-PK');
-    const timeStr = now.toLocaleTimeString('en-PK');
+    const dStr = now.toLocaleDateString('en-PK');
+    const tStr = now.toLocaleTimeString('en-PK');
 
-    const saleRecord = {
+    salesHistory.push({
         id: now.getTime(),
         date: now.toISOString().split('T')[0],
-        time: timeStr,
+        time: tStr,
         customerName: document.getElementById('customerName').value.trim() || 'Walk-in',
         tableNo: document.getElementById('tableNo').value.trim() || '-',
         items: JSON.parse(JSON.stringify(cart)),
-        subtotal, tax, discount, total
-    };
-    salesHistory.push(saleRecord);
+        subtotal: sub, tax, discount: disc, total
+    });
     saveData();
 
-    let html = `
-        <p><strong>Date:</strong> ${dateStr} — ${timeStr}</p>
-        <p><strong>Customer:</strong> ${escapeHTML(saleRecord.customerName)}</p>
-        <p><strong>Table:</strong> ${escapeHTML(saleRecord.tableNo)}</p>
-        <hr>
-        <table>
-            <tr><th>Item</th><th>Qty</th><th>Amount</th></tr>
-    `;
-    cart.forEach(i => {
-        html += `<tr>
-            <td>${escapeHTML(i.name)}</td>
-            <td>${i.qty}</td>
-            <td>Rs. ${i.price * i.qty}</td>
-        </tr>`;
-    });
+    let html = `<p><strong>Date:</strong> ${dStr} — ${tStr}</p>
+        <p><strong>Customer:</strong> ${esc(document.getElementById('customerName').value || 'Walk-in')}</p>
+        <p><strong>Table:</strong> ${esc(document.getElementById('tableNo').value || '-')}</p><hr>
+        <table><tr><th>Item</th><th>Qty</th><th>Amount</th></tr>`;
+    cart.forEach(i => html += `<tr><td>${esc(i.name)}</td><td>${i.qty}</td><td>Rs. ${i.price * i.qty}</td></tr>`);
     html += `</table>
-        <p><strong>Subtotal:</strong> Rs. ${subtotal}</p>
-        <p><strong>Tax (5%):</strong> Rs. ${tax.toFixed(2)}</p>
-        <p><strong>Discount:</strong> Rs. ${discount}</p>
-        <hr>
-        <h3><strong>Total: Rs. ${total.toFixed(2)}</strong></h3>
-    `;
+        <p><strong>Subtotal:</strong> Rs. ${sub}</p>
+        <p><strong>Tax:</strong> Rs. ${tax.toFixed(2)}</p>
+        <p><strong>Discount:</strong> Rs. ${disc}</p><hr>
+        <h3><strong>Total: Rs. ${total.toFixed(2)}</strong></h3>`;
 
     document.getElementById('receiptContent').innerHTML = html;
     document.getElementById('receiptModal').classList.add('show');
@@ -876,155 +740,91 @@ function checkout() {
     renderCart();
 }
 
-/* ===================== PRINT FUNCTIONS ===================== */
+/* ===================== PRINT ===================== */
 function printReceipt() {
-    const modal = document.getElementById('receiptModal');
-    modal.classList.add('printing');
-    setTimeout(() => {
-        window.print();
-        setTimeout(() => modal.classList.remove('printing'), 500);
-    }, 100);
+    const m = document.getElementById('receiptModal');
+    m.classList.add('printing');
+    setTimeout(() => { window.print(); setTimeout(() => m.classList.remove('printing'), 500); }, 100);
 }
-
-function closeReceiptModal() {
-    document.getElementById('receiptModal').classList.remove('show');
-}
+function closeReceiptModal() { document.getElementById('receiptModal').classList.remove('show'); }
 
 function printReport() {
-    const modal = document.getElementById('reportModal');
-    modal.classList.add('printing');
-    setTimeout(() => {
-        window.print();
-        setTimeout(() => modal.classList.remove('printing'), 500);
-    }, 100);
+    const m = document.getElementById('reportModal');
+    m.classList.add('printing');
+    setTimeout(() => { window.print(); setTimeout(() => m.classList.remove('printing'), 500); }, 100);
 }
 
 /* ===================== REPORTS ===================== */
-function openReportModal() {
-    document.getElementById('reportModal').classList.add('show');
-    showDailyReport();
-}
-function closeReportModal() {
-    document.getElementById('reportModal').classList.remove('show');
-}
+function openReportModal() { document.getElementById('reportModal').classList.add('show'); showDailyReport(); }
+function closeReportModal() { document.getElementById('reportModal').classList.remove('show'); }
 
 function showDailyReport() {
     const today = new Date().toISOString().split('T')[0];
-    const todaySales = salesHistory.filter(s => s.date === today);
-    const totalAmount = todaySales.reduce((s, x) => s + x.total, 0);
-    const totalOrders = todaySales.length;
-    const totalItems = todaySales.reduce((s, x) =>
-        s + x.items.reduce((a, i) => a + i.qty, 0), 0);
+    const t = salesHistory.filter(s => s.date === today);
+    const amt = t.reduce((s, x) => s + x.total, 0);
+    const cnt = t.length;
+    const items = t.reduce((s, x) => s + x.items.reduce((a, i) => a + i.qty, 0), 0);
+    const bd = {};
+    t.forEach(s => s.items.forEach(it => {
+        if (!bd[it.name]) bd[it.name] = { qty: 0, revenue: 0 };
+        bd[it.name].qty += it.qty;
+        bd[it.name].revenue += it.price * it.qty;
+    }));
 
-    const itemBreakdown = {};
-    todaySales.forEach(sale => {
-        sale.items.forEach(it => {
-            if (!itemBreakdown[it.name]) itemBreakdown[it.name] = { qty: 0, revenue: 0 };
-            itemBreakdown[it.name].qty += it.qty;
-            itemBreakdown[it.name].revenue += it.price * it.qty;
-        });
-    });
-
-    let html = `
-        <h3>📅 Daily Report — ${today}</h3>
-        <p><strong>Total Orders:</strong> ${totalOrders}</p>
-        <p><strong>Total Items Sold:</strong> ${totalItems}</p>
-        <p><strong>Total Revenue:</strong> Rs. ${totalAmount.toLocaleString()}</p>
-        <hr>
-        <h4>Item-wise Sales (Basis):</h4>
-        <table>
-            <tr><th>Item</th><th>Qty</th><th>Revenue</th></tr>
-    `;
-    if (Object.keys(itemBreakdown).length === 0) {
-        html += `<tr><td colspan="3" style="text-align:center;">No sales today</td></tr>`;
-    } else {
-        Object.keys(itemBreakdown).forEach(name => {
-            const d = itemBreakdown[name];
-            html += `<tr>
-                <td>${escapeHTML(name)}</td>
-                <td>${d.qty}</td>
-                <td>Rs. ${d.revenue.toLocaleString()}</td>
-            </tr>`;
-        });
-    }
+    let html = `<h3>📅 Daily Report — ${today}</h3>
+        <p><strong>Total Orders:</strong> ${cnt}</p>
+        <p><strong>Total Items Sold:</strong> ${items}</p>
+        <p><strong>Total Revenue:</strong> Rs. ${amt.toLocaleString()}</p><hr>
+        <h4>Item-wise Sales:</h4>
+        <table><tr><th>Item</th><th>Qty</th><th>Revenue</th></tr>`;
+    if (Object.keys(bd).length === 0) html += `<tr><td colspan="3" style="text-align:center;">No sales today</td></tr>`;
+    else Object.keys(bd).forEach(n => html += `<tr><td>${esc(n)}</td><td>${bd[n].qty}</td><td>Rs. ${bd[n].revenue.toLocaleString()}</td></tr>`);
     html += `</table>`;
     document.getElementById('reportContent').innerHTML = html;
 }
 
 function showMonthlyReport() {
-    const month = new Date().toISOString().slice(0, 7);
-    const monthSales = salesHistory.filter(s => s.date.startsWith(month));
-    const totalAmount = monthSales.reduce((s, x) => s + x.total, 0);
-    const totalOrders = monthSales.length;
-
-    const dayBreakdown = {};
-    monthSales.forEach(sale => {
-        if (!dayBreakdown[sale.date]) dayBreakdown[sale.date] = { orders: 0, revenue: 0 };
-        dayBreakdown[sale.date].orders += 1;
-        dayBreakdown[sale.date].revenue += sale.total;
+    const m = new Date().toISOString().slice(0, 7);
+    const ms = salesHistory.filter(s => s.date.startsWith(m));
+    const amt = ms.reduce((s, x) => s + x.total, 0);
+    const cnt = ms.length;
+    const db = {};
+    ms.forEach(s => {
+        if (!db[s.date]) db[s.date] = { orders: 0, revenue: 0 };
+        db[s.date].orders += 1;
+        db[s.date].revenue += s.total;
     });
 
-    let html = `
-        <h3>📆 Monthly Report — ${month}</h3>
-        <p><strong>Total Orders:</strong> ${totalOrders}</p>
-        <p><strong>Total Revenue:</strong> Rs. ${totalAmount.toLocaleString()}</p>
-        <hr>
+    let html = `<h3>📆 Monthly Report — ${m}</h3>
+        <p><strong>Total Orders:</strong> ${cnt}</p>
+        <p><strong>Total Revenue:</strong> Rs. ${amt.toLocaleString()}</p><hr>
         <h4>Day-wise Sales:</h4>
-        <table>
-            <tr><th>Date</th><th>Orders</th><th>Revenue</th></tr>
-    `;
-    if (Object.keys(dayBreakdown).length === 0) {
-        html += `<tr><td colspan="3" style="text-align:center;">No sales this month</td></tr>`;
-    } else {
-        Object.keys(dayBreakdown).sort().forEach(date => {
-            const d = dayBreakdown[date];
-            html += `<tr>
-                <td>${date}</td>
-                <td>${d.orders}</td>
-                <td>Rs. ${d.revenue.toLocaleString()}</td>
-            </tr>`;
-        });
-    }
+        <table><tr><th>Date</th><th>Orders</th><th>Revenue</th></tr>`;
+    if (Object.keys(db).length === 0) html += `<tr><td colspan="3" style="text-align:center;">No sales this month</td></tr>`;
+    else Object.keys(db).sort().forEach(d => html += `<tr><td>${d}</td><td>${db[d].orders}</td><td>Rs. ${db[d].revenue.toLocaleString()}</td></tr>`);
     html += `</table>`;
     document.getElementById('reportContent').innerHTML = html;
 }
 
 /* ===================== UTILS ===================== */
-function escapeHTML(str) {
-    if (!str) return '';
-    return String(str)
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
+function esc(s) {
+    if (!s) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
 }
-
-function escapeAttr(str) {
-    if (!str) return '';
-    return String(str)
-        .replace(/&/g, '&amp;').replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;').replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
+function escAttr(s) {
+    if (!s) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#039;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
-
-function logout() {
-    if (confirm('Logout karein?')) location.reload();
-}
+function logout() { if (confirm('Logout?')) location.reload(); }
 
 /* ===================== INIT ===================== */
 function init() {
-    loadData();
-    updateDateTime();
-    renderCategories();
-    renderItems();
-    renderCart();
-
+    loadData(); updateDateTime();
+    renderCategories(); renderItems(); renderCart();
     document.querySelectorAll('.modal').forEach(m => {
-        m.addEventListener('click', e => {
-            if (e.target === m) m.classList.remove('show');
-        });
+        m.addEventListener('click', e => { if (e.target === m) m.classList.remove('show'); });
     });
 }
-
 window.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
