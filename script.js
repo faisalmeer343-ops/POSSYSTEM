@@ -6,6 +6,7 @@ let salesHistory = [];
 let editingItemId = null;
 let currentCategory = 'All';
 let currentSearch = '';
+let nextReceiptNo = 1001;
 
 /* ===================== STORAGE ===================== */
 function saveData() {
@@ -13,8 +14,9 @@ function saveData() {
         localStorage.setItem('geomir_items', JSON.stringify(items));
         localStorage.setItem('geomir_categories', JSON.stringify(categories));
         localStorage.setItem('geomir_sales', JSON.stringify(salesHistory));
+        localStorage.setItem('geomir_next_receipt', nextReceiptNo);
     } catch (e) {
-        alert('Data save nahi ho saka! Ho sakta hai storage full ho.');
+        alert('Data save nahi ho saka! Storage full ho sakta hai.');
         console.error(e);
     }
 }
@@ -23,6 +25,7 @@ function loadData() {
     items = JSON.parse(localStorage.getItem('geomir_items')) || [];
     categories = JSON.parse(localStorage.getItem('geomir_categories')) || ['All'];
     salesHistory = JSON.parse(localStorage.getItem('geomir_sales')) || [];
+    nextReceiptNo = parseInt(localStorage.getItem('geomir_next_receipt')) || 1001;
     if (!categories.includes('All')) categories.unshift('All');
 }
 
@@ -30,22 +33,49 @@ function loadData() {
 function updateDateTime() {
     const now = new Date();
     document.getElementById('dateTime').textContent = now.toLocaleString('en-PK', {
-        weekday: 'short',
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
+        weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
+        hour: '2-digit', minute: '2-digit', second: '2-digit'
     });
 }
 setInterval(updateDateTime, 1000);
+
+/* ===================== DASHBOARD UPDATE ===================== */
+function updateDashboard() {
+    const today = new Date().toISOString().split('T')[0];
+    const month = new Date().toISOString().slice(0, 7);
+
+    // Daily
+    const todaySales = salesHistory.filter(s => s.date === today);
+    const dailyRevenue = todaySales.reduce((sum, s) => sum + s.total, 0);
+    const dailyOrders = todaySales.length;
+    const dailyItems = todaySales.reduce((sum, s) =>
+        sum + s.items.reduce((a, i) => a + i.qty, 0), 0);
+
+    // Monthly
+    const monthSales = salesHistory.filter(s => s.date.startsWith(month));
+    const monthlyRevenue = monthSales.reduce((sum, s) => sum + s.total, 0);
+    const monthlyOrders = monthSales.length;
+    const monthlyItems = monthSales.reduce((sum, s) =>
+        sum + s.items.reduce((a, i) => a + i.qty, 0), 0);
+
+    // Update top dashboard
+    document.getElementById('dashDailyRevenue').textContent = 'Rs. ' + dailyRevenue.toLocaleString();
+    document.getElementById('dashDailyOrders').textContent = dailyOrders + ' orders';
+    document.getElementById('dashDailyItems').textContent = dailyItems;
+    document.getElementById('dashMonthlyRevenue').textContent = 'Rs. ' + monthlyRevenue.toLocaleString();
+    document.getElementById('dashMonthlyOrders').textContent = monthlyOrders + ' orders';
+    document.getElementById('dashTotalItems').textContent = items.length;
+
+    // Update side mini dashboard
+    document.getElementById('sideMonthlyRevenue').textContent = 'Rs. ' + monthlyRevenue.toLocaleString();
+    document.getElementById('sideMonthlyOrders').textContent = monthlyOrders;
+    document.getElementById('sideMonthlyItems').textContent = monthlyItems;
+}
 
 /* ===================== CATEGORIES ===================== */
 function renderCategories() {
     const container = document.getElementById('sidebarCategories');
     container.innerHTML = '';
-
     categories.forEach(cat => {
         const btn = document.createElement('button');
         btn.className = 'category-btn' + (cat === currentCategory ? ' active' : '');
@@ -60,7 +90,6 @@ function renderCategories() {
         container.appendChild(btn);
     });
 
-    // Populate dropdown in item modal
     const select = document.getElementById('itemCategory');
     select.innerHTML = '';
     categories.filter(c => c !== 'All').forEach(cat => {
@@ -71,16 +100,13 @@ function renderCategories() {
     });
 }
 
-/* ===================== ITEMS RENDER (IMAGE FIX) ===================== */
+/* ===================== ITEMS RENDER ===================== */
 function renderItems() {
     const grid = document.getElementById('menuGrid');
     grid.innerHTML = '';
 
     let list = items;
-
-    if (currentCategory !== 'All') {
-        list = list.filter(i => i.category === currentCategory);
-    }
+    if (currentCategory !== 'All') list = list.filter(i => i.category === currentCategory);
     if (currentSearch.trim()) {
         const q = currentSearch.toLowerCase();
         list = list.filter(i => i.name.toLowerCase().includes(q));
@@ -89,26 +115,19 @@ function renderItems() {
     document.getElementById('itemCount').textContent = list.length + ' items';
 
     if (list.length === 0) {
-        grid.innerHTML = '<p class="empty-msg">Koi item nahi mila. ➕ Add New Item se add karein.</p>';
+        grid.innerHTML = '<p class="empty-msg">Koi item nahi mila.</p>';
         return;
     }
 
     list.forEach(item => {
         const div = document.createElement('div');
         div.className = 'menu-item';
-
-        // === IMAGE HANDLING ===
-        // Aapka path "/image/tikka.jpg" — browser HTML ke root se load karega
-        let imgHTML = '';
         const path = (item.image || '').trim();
-
-        if (path !== '') {
-            imgHTML = `
-                <img src="${escAttr(path)}"
-                     alt="${escAttr(item.name)}"
-                     onerror="this.style.display='none'; this.parentElement.querySelector('.no-img').style.display='block';">
-                <span class="no-img" style="display:none;">🍽️</span>
-            `;
+        let imgHTML = '';
+        if (path) {
+            imgHTML = `<img src="${escAttr(path)}" alt="${escAttr(item.name)}"
+                onerror="this.style.display='none'; this.parentElement.querySelector('.no-img').style.display='block';">
+                <span class="no-img" style="display:none;">🍽️</span>`;
         } else {
             imgHTML = `<span class="no-img">🍽️</span>`;
         }
@@ -137,13 +156,9 @@ function searchItems() {
 function addToCart(id) {
     const item = items.find(i => i.id === id);
     if (!item) return;
-
-    const existing = cart.find(c => c.id === id);
-    if (existing) {
-        existing.qty += 1;
-    } else {
-        cart.push({ id: item.id, name: item.name, price: item.price, qty: 1 });
-    }
+    const ex = cart.find(c => c.id === id);
+    if (ex) ex.qty += 1;
+    else cart.push({ id: item.id, name: item.name, price: item.price, qty: 1 });
     renderCart();
 }
 
@@ -157,7 +172,6 @@ function changeQty(id, delta) {
 
 function renderCart() {
     const container = document.getElementById('cartItems');
-
     if (cart.length === 0) {
         container.innerHTML = '<p class="empty-cart">Cart khali hai</p>';
     } else {
@@ -184,11 +198,9 @@ function updateCart() {
     const tax = subtotal * 0.05;
     const discount = parseFloat(document.getElementById('discount').value) || 0;
     const total = Math.max(0, subtotal + tax - discount);
-
     document.getElementById('subtotal').textContent = 'Rs. ' + subtotal.toLocaleString();
     document.getElementById('tax').textContent = 'Rs. ' + tax.toFixed(2);
     document.getElementById('total').textContent = 'Rs. ' + total.toFixed(2);
-
     return { subtotal, tax, discount, total };
 }
 
@@ -210,13 +222,10 @@ function openItemModal(editId = null) {
         document.getElementById('itemName').value = item.name;
         document.getElementById('itemPrice').value = item.price;
         document.getElementById('itemImage').value = item.image || '';
-
-        if (item.image && item.image.trim() !== '') {
+        if (item.image) {
             box.innerHTML = `<img src="${escAttr(item.image)}" alt="preview"
-                onerror="this.parentElement.textContent='❌ Image load nahi hui — path check karein';">`;
-        } else {
-            box.textContent = 'Image preview';
-        }
+                onerror="this.parentElement.textContent='❌ Image load nahi hui';">`;
+        } else box.textContent = 'Image preview';
     } else {
         document.getElementById('itemModalTitle').textContent = '➕ Add New Item';
         document.getElementById('itemName').value = '';
@@ -226,14 +235,12 @@ function openItemModal(editId = null) {
     }
 
     renderCategories();
-
     if (editId) {
         const item = items.find(i => i.id === editId);
         setTimeout(() => {
             document.getElementById('itemCategory').value = item.category || '';
         }, 0);
     }
-
     document.getElementById('itemModal').classList.add('show');
 }
 
@@ -245,14 +252,9 @@ function closeItemModal() {
 function previewFromPath() {
     const path = document.getElementById('itemImage').value.trim();
     const box = document.getElementById('imgPreview');
-
-    if (!path) {
-        box.textContent = 'Image preview';
-        return;
-    }
-
+    if (!path) { box.textContent = 'Image preview'; return; }
     box.innerHTML = `<img src="${escAttr(path)}" alt="preview"
-        onerror="this.parentElement.textContent='❌ Image load nahi hui — path check karein: ${esc(path)}';">`;
+        onerror="this.parentElement.textContent='❌ Image load nahi hui';">`;
 }
 
 function saveItem() {
@@ -267,25 +269,18 @@ function saveItem() {
 
     if (editingItemId) {
         const item = items.find(i => i.id === editingItemId);
-        item.name = name;
-        item.price = price;
-        item.category = category;
-        item.image = image;
+        item.name = name; item.price = price; item.category = category; item.image = image;
     } else {
-        items.push({
-            id: Date.now(),
-            name, price, category, image
-        });
+        items.push({ id: Date.now(), name, price, category, image });
     }
 
     saveData();
     closeItemModal();
     renderItems();
+    updateDashboard();
 }
 
-function editItem(id) {
-    openItemModal(id);
-}
+function editItem(id) { openItemModal(id); }
 
 function deleteItem(id) {
     if (!confirm('Item delete karein?')) return;
@@ -294,6 +289,7 @@ function deleteItem(id) {
     saveData();
     renderItems();
     renderCart();
+    updateDashboard();
 }
 
 /* ===================== CATEGORY MODAL ===================== */
@@ -301,11 +297,9 @@ function openCategoryModal() {
     document.getElementById('categoryName').value = '';
     document.getElementById('categoryModal').classList.add('show');
 }
-
 function closeCategoryModal() {
     document.getElementById('categoryModal').classList.remove('show');
 }
-
 function saveCategory() {
     const name = document.getElementById('categoryName').value.trim();
     if (!name) return alert('Category name likhein!');
@@ -327,52 +321,65 @@ function checkout() {
 
     const customerName = document.getElementById('customerName').value.trim() || 'Walk-in';
     const tableNo = document.getElementById('tableNo').value.trim() || '-';
+    const receiptNo = nextReceiptNo++;
 
-    salesHistory.push({
+    const saleRecord = {
         id: now.getTime(),
+        receiptNo: receiptNo,
         date: now.toISOString().split('T')[0],
         time: timeStr,
         customerName,
         tableNo,
         items: JSON.parse(JSON.stringify(cart)),
         subtotal, tax, discount, total
-    });
+    };
+    salesHistory.push(saleRecord);
     saveData();
 
+    document.getElementById('receiptContent').innerHTML = buildReceiptHTML(saleRecord);
+    document.getElementById('receiptModal').classList.add('show');
+
+    cart = [];
+    document.getElementById('customerName').value = '';
+    document.getElementById('tableNo').value = '';
+    document.getElementById('discount').value = 0;
+    renderCart();
+    updateDashboard();
+}
+
+/* ===================== RECEIPT HTML BUILDER ===================== */
+function buildReceiptHTML(sale) {
     let html = `
-        <p><strong>Date:</strong> ${dateStr} — ${timeStr}</p>
-        <p><strong>Customer:</strong> ${esc(customerName)}</p>
-        <p><strong>Table:</strong> ${esc(tableNo)}</p>
+        <div style="text-align:center; margin-bottom:6px;">
+            <strong>Receipt No: ${sale.receiptNo}</strong><br>
+            ${sale.date} — ${sale.time}
+        </div>
+        <hr>
+        <div><strong>Customer:</strong> ${esc(sale.customerName)}</div>
+        <div><strong>Table:</strong> ${esc(sale.tableNo)}</div>
         <hr>
         <table>
             <tr><th>Item</th><th>Qty</th><th>Amount</th></tr>
     `;
-
-    cart.forEach(i => {
+    sale.items.forEach(i => {
         html += `<tr>
             <td>${esc(i.name)}</td>
             <td>${i.qty}</td>
             <td>Rs. ${i.price * i.qty}</td>
         </tr>`;
     });
-
     html += `</table>
-        <p><strong>Subtotal:</strong> Rs. ${subtotal}</p>
-        <p><strong>Tax (5%):</strong> Rs. ${tax.toFixed(2)}</p>
-        <p><strong>Discount:</strong> Rs. ${discount}</p>
         <hr>
-        <h3><strong>Total: Rs. ${total.toFixed(2)}</strong></h3>
+        <div style="display:flex; justify-content:space-between;"><span>Subtotal:</span><span>Rs. ${sale.subtotal}</span></div>
+        <div style="display:flex; justify-content:space-between;"><span>Tax (5%):</span><span>Rs. ${sale.tax.toFixed(2)}</span></div>
+        <div style="display:flex; justify-content:space-between;"><span>Discount:</span><span>Rs. ${sale.discount}</span></div>
+        <hr>
+        <h3 style="display:flex; justify-content:space-between;">
+            <span>TOTAL:</span><span>Rs. ${sale.total.toFixed(2)}</span>
+        </h3>
+        <div style="text-align:center; margin-top:8px; font-size:10px;">Shukriya! Dobara tashreef laayen 😊</div>
     `;
-
-    document.getElementById('receiptContent').innerHTML = html;
-    document.getElementById('receiptModal').classList.add('show');
-
-    // Reset cart
-    cart = [];
-    document.getElementById('customerName').value = '';
-    document.getElementById('tableNo').value = '';
-    document.getElementById('discount').value = 0;
-    renderCart();
+    return html;
 }
 
 /* ===================== PRINT ===================== */
@@ -384,9 +391,20 @@ function printReceipt() {
         setTimeout(() => modal.classList.remove('printing'), 500);
     }, 100);
 }
-
 function closeReceiptModal() {
     document.getElementById('receiptModal').classList.remove('show');
+}
+
+function printViewReceipt() {
+    const modal = document.getElementById('viewReceiptModal');
+    modal.classList.add('printing');
+    setTimeout(() => {
+        window.print();
+        setTimeout(() => modal.classList.remove('printing'), 500);
+    }, 100);
+}
+function closeViewReceiptModal() {
+    document.getElementById('viewReceiptModal').classList.remove('show');
 }
 
 function printReport() {
@@ -400,25 +418,52 @@ function printReport() {
 
 /* ===================== REPORTS ===================== */
 function openReportModal() {
+    // Default: is mahine ki pehli date se aaj tak
+    const now = new Date();
+    const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+    const today = now.toISOString().split('T')[0];
+    document.getElementById('reportFromDate').value = firstDay;
+    document.getElementById('reportToDate').value = today;
+
     document.getElementById('reportModal').classList.add('show');
     showDailyReport();
 }
-
 function closeReportModal() {
     document.getElementById('reportModal').classList.remove('show');
 }
 
 function showDailyReport() {
     const today = new Date().toISOString().split('T')[0];
-    const todaySales = salesHistory.filter(s => s.date === today);
+    const list = salesHistory.filter(s => s.date === today);
+    renderReport(list, `📅 Daily Report — ${today}`);
+}
 
-    const totalAmount = todaySales.reduce((s, x) => s + x.total, 0);
-    const totalOrders = todaySales.length;
-    const totalItems = todaySales.reduce((s, x) =>
+function showMonthlyReport() {
+    const month = new Date().toISOString().slice(0, 7);
+    const list = salesHistory.filter(s => s.date.startsWith(month));
+    renderReport(list, `📆 Monthly Report — ${month}`);
+}
+
+function showRangeReport() {
+    const from = document.getElementById('reportFromDate').value;
+    const to = document.getElementById('reportToDate').value;
+
+    if (!from || !to) return alert('From aur To date select karein!');
+    if (from > to) return alert('From date, To date se pehle honi chahiye!');
+
+    const list = salesHistory.filter(s => s.date >= from && s.date <= to);
+    renderReport(list, `📋 Custom Report — ${from} to ${to}`);
+}
+
+function renderReport(list, title) {
+    const totalAmount = list.reduce((s, x) => s + x.total, 0);
+    const totalOrders = list.length;
+    const totalItems = list.reduce((s, x) =>
         s + x.items.reduce((a, i) => a + i.qty, 0), 0);
 
+    // Item-wise breakdown
     const itemBreakdown = {};
-    todaySales.forEach(sale => {
+    list.forEach(sale => {
         sale.items.forEach(it => {
             if (!itemBreakdown[it.name]) itemBreakdown[it.name] = { qty: 0, revenue: 0 };
             itemBreakdown[it.name].qty += it.qty;
@@ -426,21 +471,29 @@ function showDailyReport() {
         });
     });
 
+    // Day-wise breakdown
+    const dayBreakdown = {};
+    list.forEach(sale => {
+        if (!dayBreakdown[sale.date]) dayBreakdown[sale.date] = { orders: 0, revenue: 0 };
+        dayBreakdown[sale.date].orders += 1;
+        dayBreakdown[sale.date].revenue += sale.total;
+    });
+
     let html = `
-        <h3>📅 Daily Report — ${today}</h3>
+        <h3>${title}</h3>
         <p><strong>Total Orders:</strong> ${totalOrders}</p>
         <p><strong>Total Items Sold:</strong> ${totalItems}</p>
         <p><strong>Total Revenue:</strong> Rs. ${totalAmount.toLocaleString()}</p>
         <hr>
-        <h4>Item-wise Sales (Basis):</h4>
+        <h4>Item-wise Sales:</h4>
         <table>
             <tr><th>Item</th><th>Qty</th><th>Revenue</th></tr>
     `;
 
     if (Object.keys(itemBreakdown).length === 0) {
-        html += `<tr><td colspan="3" style="text-align:center;">No sales today</td></tr>`;
+        html += `<tr><td colspan="3" style="text-align:center;">No sales</td></tr>`;
     } else {
-        Object.keys(itemBreakdown).forEach(name => {
+        Object.keys(itemBreakdown).sort().forEach(name => {
             const d = itemBreakdown[name];
             html += `<tr>
                 <td>${esc(name)}</td>
@@ -449,38 +502,12 @@ function showDailyReport() {
             </tr>`;
         });
     }
-
     html += `</table>`;
-    document.getElementById('reportContent').innerHTML = html;
-}
 
-function showMonthlyReport() {
-    const month = new Date().toISOString().slice(0, 7);
-    const monthSales = salesHistory.filter(s => s.date.startsWith(month));
-
-    const totalAmount = monthSales.reduce((s, x) => s + x.total, 0);
-    const totalOrders = monthSales.length;
-
-    const dayBreakdown = {};
-    monthSales.forEach(sale => {
-        if (!dayBreakdown[sale.date]) dayBreakdown[sale.date] = { orders: 0, revenue: 0 };
-        dayBreakdown[sale.date].orders += 1;
-        dayBreakdown[sale.date].revenue += sale.total;
-    });
-
-    let html = `
-        <h3>📆 Monthly Report — ${month}</h3>
-        <p><strong>Total Orders:</strong> ${totalOrders}</p>
-        <p><strong>Total Revenue:</strong> Rs. ${totalAmount.toLocaleString()}</p>
-        <hr>
-        <h4>Day-wise Sales:</h4>
-        <table>
-            <tr><th>Date</th><th>Orders</th><th>Revenue</th></tr>
-    `;
-
-    if (Object.keys(dayBreakdown).length === 0) {
-        html += `<tr><td colspan="3" style="text-align:center;">No sales this month</td></tr>`;
-    } else {
+    // Day-wise (only if multiple days)
+    if (Object.keys(dayBreakdown).length > 1) {
+        html += `<hr><h4>Day-wise Sales:</h4>
+            <table><tr><th>Date</th><th>Orders</th><th>Revenue</th></tr>`;
         Object.keys(dayBreakdown).sort().forEach(date => {
             const d = dayBreakdown[date];
             html += `<tr>
@@ -489,30 +516,94 @@ function showMonthlyReport() {
                 <td>Rs. ${d.revenue.toLocaleString()}</td>
             </tr>`;
         });
+        html += `</table>`;
     }
 
-    html += `</table>`;
     document.getElementById('reportContent').innerHTML = html;
+}
+
+/* ===================== FIND RECEIPT ===================== */
+function openFindReceiptModal() {
+    document.getElementById('findDate').value = '';
+    document.getElementById('findReceiptNo').value = '';
+    document.getElementById('findCustomerName').value = '';
+    document.getElementById('findReceiptResults').innerHTML =
+        '<p style="text-align:center; color:#95a5a6;">Filters lagayen aur Search dabayen</p>';
+    document.getElementById('findReceiptModal').classList.add('show');
+}
+function closeFindReceiptModal() {
+    document.getElementById('findReceiptModal').classList.remove('show');
+}
+
+function clearReceiptSearch() {
+    document.getElementById('findDate').value = '';
+    document.getElementById('findReceiptNo').value = '';
+    document.getElementById('findCustomerName').value = '';
+    document.getElementById('findReceiptResults').innerHTML =
+        '<p style="text-align:center; color:#95a5a6;">Filters lagayen aur Search dabayen</p>';
+}
+
+function searchReceipts() {
+    const date = document.getElementById('findDate').value;
+    const rno = document.getElementById('findReceiptNo').value.trim();
+    const cname = document.getElementById('findCustomerName').value.trim().toLowerCase();
+
+    let results = salesHistory;
+
+    if (date) results = results.filter(s => s.date === date);
+    if (rno) results = results.filter(s => String(s.receiptNo).includes(rno));
+    if (cname) results = results.filter(s =>
+        (s.customerName || '').toLowerCase().includes(cname));
+
+    // Sort by newest first
+    results = results.sort((a, b) => b.id - a.id);
+
+    const container = document.getElementById('findReceiptResults');
+
+    if (results.length === 0) {
+        container.innerHTML = '<p style="text-align:center; color:#e74c3c; padding:20px;">❌ Koi receipt nahi mili. Filters change karein.</p>';
+        return;
+    }
+
+    container.innerHTML = results.map(s => `
+        <div class="find-receipt-card" onclick="viewReceipt(${s.id})">
+            <div class="rc-top">
+                <span>Receipt #${s.receiptNo}</span>
+                <span>Rs. ${s.total.toFixed(2)}</span>
+            </div>
+            <div class="rc-meta">
+                <span>📅 ${s.date}</span>
+                <span>🕐 ${s.time}</span>
+                <span>👤 ${esc(s.customerName)}</span>
+                <span>🍽️ ${esc(s.tableNo)}</span>
+            </div>
+            <div class="rc-total">${s.items.length} item(s) • ${s.items.reduce((a, i) => a + i.qty, 0)} qty</div>
+        </div>
+    `).join('');
+}
+
+function viewReceipt(saleId) {
+    const sale = salesHistory.find(s => s.id === saleId);
+    if (!sale) return alert('Receipt nahi mili!');
+
+    document.getElementById('viewReceiptContent').innerHTML = buildReceiptHTML(sale);
+    document.getElementById('viewReceiptModal').classList.add('show');
 }
 
 /* ===================== UTILS ===================== */
 function esc(s) {
     if (!s) return '';
     return String(s)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
 }
 
 function escAttr(s) {
     if (!s) return '';
     return String(s)
-        .replace(/&/g, '&amp;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;')
-        .replace(/</g, '&lt;')
+        .replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;').replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
 }
 
@@ -527,8 +618,15 @@ function init() {
     renderCategories();
     renderItems();
     renderCart();
+    updateDashboard();
 
-    // Close modal on background click
+    // Default dates for range picker
+    const now = new Date();
+    const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+    const today = now.toISOString().split('T')[0];
+    document.getElementById('reportFromDate').value = firstDay;
+    document.getElementById('reportToDate').value = today;
+
     document.querySelectorAll('.modal').forEach(m => {
         m.addEventListener('click', e => {
             if (e.target === m) m.classList.remove('show');
@@ -537,83 +635,3 @@ function init() {
 }
 
 window.addEventListener('DOMContentLoaded', init);
-
-/* ===================== AUTO IMPORT ALL ITEMS ===================== */
-function importAllItems() {
-    // Agar pehle se items hain to confirm karein
-    if (items.length > 0) {
-        if (!confirm('Pehle se items mojood hain. Kya aap sab delete karke naye items add karna chahte hain?')) {
-            return;
-        }
-        items = [];
-    }
-
-    // === CATEGORIES ===
-    const cats = ['Fast Food', 'BBQ', 'Karahi', 'Dessert', 'Drinks', 'Rice'];
-    cats.forEach(c => {
-        if (!categories.includes(c)) categories.push(c);
-    });
-
-    // === SAARE ITEMS ===
-    const allItems = [
-        // Fast Food
-        { name: 'Beef Burger',      price: 350, category: 'Fast Food', image: 'beef-burger.jpg' },
-        { name: 'Zinger Burger',    price: 400, category: 'Fast Food', image: 'zinger-burger.jpg' },
-        { name: 'Pizza',            price: 800, category: 'Fast Food', image: 'pizza.jpg' },
-        { name: 'Fries',            price: 150, category: 'Fast Food', image: 'fries.jpg' },
-
-        // BBQ
-        { name: 'Chicken Boti',     price: 450, category: 'BBQ',       image: 'chicken-boti.jpg' },
-        { name: 'Chicken Tikka',    price: 380, category: 'BBQ',       image: 'chicken-tikka.jpg' },
-        { name: 'Malai Boti',       price: 500, category: 'BBQ',       image: 'malai-boti.jpg' },
-        { name: 'Seekh Kabab',      price: 420, category: 'BBQ',       image: 'seekh-kabab.jpg' },
-
-        // Karahi
-        { name: 'Chicken Karahi',   price: 1200, category: 'Karahi',   image: 'chicken-karahi.jpg' },
-        { name: 'Mutton Karahi',    price: 1800, category: 'Karahi',   image: 'mutton-karahi.jpg' },
-        { name: 'Nihari',           price: 600,  category: 'Karahi',   image: 'nihari.jpg' },
-
-        // Dessert
-        { name: 'Gajar Halwa',      price: 200, category: 'Dessert',   image: 'gajar-halwa.jpg' },
-        { name: 'Gulab Jamun',      price: 150, category: 'Dessert',   image: 'gulab-jamun.jpg' },
-        { name: 'Ice Cream',        price: 180, category: 'Dessert',   image: 'ice-cream.jpg' },
-        { name: 'Kheer',            price: 160, category: 'Dessert',   image: 'kheer.jpg' },
-
-        // Drinks
-        { name: 'Cold Drink',       price: 100, category: 'Drinks',    image: 'cold-drink.jpg' },
-        { name: 'Juice',            price: 180, category: 'Drinks',    image: 'juice.jpg' },
-        { name: 'Lassi',            price: 150, category: 'Drinks',    image: 'lassi.jpg' },
-        { name: 'Tea',              price: 80,  category: 'Drinks',    image: 'tea.jpg' }
-    ];
-
-    // Add karein (unique IDs ke saath)
-    allItems.forEach((it, i) => {
-        items.push({
-            id: Date.now() + i,
-            name: it.name,
-            price: it.price,
-            category: it.category,
-            image: it.image
-        });
-    });
-
-    saveData();
-    renderCategories();
-    renderItems();
-    alert('✅ ' + allItems.length + ' items kamyabi se add ho gaye!\n\nAb prices edit karne ke liye kisi item par hover karein aur ✏️ button dabayen.');
-}
-
-// === Auto-run on first load (sirf jab items khali hon) ===
-window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-        if (items.length === 0) {
-            const auto = confirm(
-                '👋 Khush Aamdeed!\n\n' +
-                'Kya aap saare 19 ready-made items (Beef Burger, Chicken Tikka, Pizza, etc.) add karna chahte hain?\n\n' +
-                'Yes = Saare items add ho jayenge\n' +
-                'No = Khud se items add karein'
-            );
-            if (auto) importAllItems();
-        }
-    }, 500);
-});
