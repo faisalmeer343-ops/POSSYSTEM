@@ -1,469 +1,539 @@
-// ==========================================
-// DEFAULT DATA (Pehli dafa load hone par)
-// ==========================================
-const defaultCategories = [
-    { id: "all", name: "All" },
-    { id: "bbq", name: "BBQ" },
-    { id: "karahi", name: "Karahi" },
-    { id: "fastfood", name: "Fast Food" },
-    { id: "drinks", name: "Drinks" },
-    { id: "dessert", name: "Dessert" }
-];
-
-const defaultItems = [
-    { id: 1, name: "Chicken Tikka", price: 450, category: "bbq", image: "chicken-tikka.jpg" },
-    { id: 2, name: "Seekh Kabab", price: 350, category: "bbq", image: "seekh-kabab.jpg" },
-    { id: 3, name: "Malai Boti", price: 500, category: "bbq", image: "malai-boti.jpg" },
-    { id: 4, name: "Chicken Boti", price: 480, category: "bbq", image: "chicken-boti.jpg" },
-    { id: 5, name: "Chicken Karahi (Half)", price: 1200, category: "karahi", image: "chicken-karahi.jpg" },
-    { id: 6, name: "Chicken Karahi (Full)", price: 2200, category: "karahi", image: "chicken-karahi.jpg" },
-    { id: 7, name: "Mutton Karahi", price: 2800, category: "karahi", image: "mutton-karahi.jpg" },
-    { id: 8, name: "Nihari", price: 600, category: "karahi", image: "nihari.jpg" },
-    { id: 9, name: "Zinger Burger", price: 350, category: "fastfood", image: "zinger-burger.jpg" },
-    { id: 10, name: "Beef Burger", price: 400, category: "fastfood", image: "beef-burger.jpg" },
-    { id: 11, name: "Pizza (Small)", price: 800, category: "fastfood", image: "pizza.jpg" },
-    { id: 12, name: "French Fries", price: 200, category: "fastfood", image: "fries.jpg" },
-    { id: 13, name: "Cold Drink", price: 100, category: "drinks", image: "cold-drink.jpg" },
-    { id: 14, name: "Fresh Juice", price: 180, category: "drinks", image: "juice.jpg" },
-    { id: 15, name: "Lassi", price: 150, category: "drinks", image: "lassi.jpg" },
-    { id: 16, name: "Tea", price: 60, category: "drinks", image: "tea.jpg" },
-    { id: 17, name: "Gulab Jamun", price: 120, category: "dessert", image: "gulab-jamun.jpg" },
-    { id: 18, name: "Kheer", price: 150, category: "dessert", image: "kheer.jpg" },
-    { id: 19, name: "Ice Cream", price: 200, category: "dessert", image: "ice-cream.jpg" },
-    { id: 20, name: "Gajar Halwa", price: 180, category: "dessert", image: "gajar-halwa.jpg" }
-];
-
-// ==========================================
-// STATE - localStorage se load karo ya default
-// ==========================================
-let categories = JSON.parse(localStorage.getItem("pos_categories")) || [...defaultCategories];
-let menuItems = JSON.parse(localStorage.getItem("pos_items")) || [...defaultItems];
+/* ===================== GLOBAL STATE ===================== */
+let items = [];
+let categories = ['All'];
 let cart = [];
-let currentCategory = "all";
+let salesHistory = [];
 let editingItemId = null;
+let currentCategory = 'All';
+let currentSearch = '';
 
-// ==========================================
-// SAVE HELPERS
-// ==========================================
-function saveToStorage() {
-    localStorage.setItem("pos_categories", JSON.stringify(categories));
-    localStorage.setItem("pos_items", JSON.stringify(menuItems));
+/* ===================== STORAGE ===================== */
+function saveData() {
+    try {
+        localStorage.setItem('geomir_items', JSON.stringify(items));
+        localStorage.setItem('geomir_categories', JSON.stringify(categories));
+        localStorage.setItem('geomir_sales', JSON.stringify(salesHistory));
+    } catch (e) {
+        alert('Data save nahi ho saka! Ho sakta hai storage full ho.');
+        console.error(e);
+    }
 }
 
-// ==========================================
-// DATE & TIME
-// ==========================================
+function loadData() {
+    items = JSON.parse(localStorage.getItem('geomir_items')) || [];
+    categories = JSON.parse(localStorage.getItem('geomir_categories')) || ['All'];
+    salesHistory = JSON.parse(localStorage.getItem('geomir_sales')) || [];
+    if (!categories.includes('All')) categories.unshift('All');
+}
+
+/* ===================== DATE-TIME ===================== */
 function updateDateTime() {
     const now = new Date();
-    const options = { 
-        weekday: 'short', year: 'numeric', month: 'short', 
-        day: 'numeric', hour: '2-digit', minute: '2-digit' 
-    };
-    document.getElementById('dateTime').textContent = now.toLocaleString('en-PK', options);
+    document.getElementById('dateTime').textContent = now.toLocaleString('en-PK', {
+        weekday: 'short',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
 }
 setInterval(updateDateTime, 1000);
-updateDateTime();
 
-// ==========================================
-// RENDER SIDEBAR CATEGORIES
-// ==========================================
-function renderSidebar() {
+/* ===================== CATEGORIES ===================== */
+function renderCategories() {
     const container = document.getElementById('sidebarCategories');
     container.innerHTML = '';
 
     categories.forEach(cat => {
         const btn = document.createElement('button');
-        btn.className = 'sidebar-cat-btn' + (cat.id === currentCategory ? ' active' : '');
-        btn.onclick = () => filterCategory(cat.id);
-
-        // "All" ko delete nahi kar sakte
-        const deleteBtn = cat.id === "all" ? '' : 
-            `<span class="cat-delete-btn" onclick="event.stopPropagation(); deleteCategory('${cat.id}')">×</span>`;
-
-        btn.innerHTML = `<span>${cat.name}</span>${deleteBtn}`;
+        btn.className = 'category-btn' + (cat === currentCategory ? ' active' : '');
+        btn.textContent = cat;
+        btn.onclick = () => {
+            currentCategory = cat;
+            document.getElementById('currentCategoryTitle').textContent =
+                cat === 'All' ? 'All Items' : cat;
+            renderCategories();
+            renderItems();
+        };
         container.appendChild(btn);
     });
+
+    // Populate dropdown in item modal
+    const select = document.getElementById('itemCategory');
+    select.innerHTML = '';
+    categories.filter(c => c !== 'All').forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat;
+        opt.textContent = cat;
+        select.appendChild(opt);
+    });
 }
 
-// ==========================================
-// FILTER BY CATEGORY
-// ==========================================
-function filterCategory(categoryId) {
-    currentCategory = categoryId;
-    renderSidebar();
-    renderMenu();
-}
-
-// ==========================================
-// RENDER MENU
-// ==========================================
-function renderMenu() {
+/* ===================== ITEMS RENDER (IMAGE FIX) ===================== */
+function renderItems() {
     const grid = document.getElementById('menuGrid');
-    const query = document.getElementById('searchInput').value.toLowerCase();
-    
-    // Filter logic
-    let items = menuItems;
-    if (currentCategory !== "all") {
-        items = items.filter(i => i.category === currentCategory);
-    }
-    if (query) {
-        items = items.filter(i => i.name.toLowerCase().includes(query));
-    }
-
-    // Title update
-    const catObj = categories.find(c => c.id === currentCategory);
-    document.getElementById('currentCategoryTitle').textContent = 
-        (catObj ? catObj.name : "All") + " Items";
-    document.getElementById('itemCount').textContent = items.length + " items";
-
     grid.innerHTML = '';
 
-    if (items.length === 0) {
-        grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:40px;color:#999;">Koi item nahi mila. "Add New Item" se add karen.</p>';
+    let list = items;
+
+    if (currentCategory !== 'All') {
+        list = list.filter(i => i.category === currentCategory);
+    }
+    if (currentSearch.trim()) {
+        const q = currentSearch.toLowerCase();
+        list = list.filter(i => i.name.toLowerCase().includes(q));
+    }
+
+    document.getElementById('itemCount').textContent = list.length + ' items';
+
+    if (list.length === 0) {
+        grid.innerHTML = '<p class="empty-msg">Koi item nahi mila. ➕ Add New Item se add karein.</p>';
         return;
     }
 
-    items.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'menu-card';
+    list.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'menu-item';
 
-        // Card par click = cart mein add
-        card.onclick = () => addToCart(item.id);
+        // === IMAGE HANDLING ===
+        // Aapka path "/image/tikka.jpg" — browser HTML ke root se load karega
+        let imgHTML = '';
+        const path = (item.image || '').trim();
 
-        card.innerHTML = `
-            <div class="card-actions">
-                <button class="btn-edit" onclick="event.stopPropagation(); openItemModal(${item.id})">✏️</button>
-                <button class="btn-delete" onclick="event.stopPropagation(); deleteItem(${item.id})">🗑️</button>
-            </div>
-            <img src="${item.image}" alt="${item.name}" 
-                 onerror="this.outerHTML='<div class=\\'image-placeholder\\'>[ IMAGE ]<br><small>${item.name}</small></div>'">
-            <div class="card-info">
-                <h3>${item.name}</h3>
-                <p class="price">Rs. ${item.price}</p>
-            </div>
-        `;
-        grid.appendChild(card);
-    });
-}
-
-// ==========================================
-// SEARCH
-// ==========================================
-function searchItems() {
-    renderMenu();
-}
-
-// ==========================================
-// ITEM MODAL - OPEN / CLOSE
-// ==========================================
-function openItemModal(editId = null) {
-    editingItemId = editId;
-    const modal = document.getElementById('itemModal');
-    const title = document.getElementById('itemModalTitle');
-    const nameInput = document.getElementById('itemName');
-    const priceInput = document.getElementById('itemPrice');
-    const imageInput = document.getElementById('itemImage');
-    const catSelect = document.getElementById('itemCategory');
-
-    // Category dropdown bharao (All ko chhor kar)
-    catSelect.innerHTML = '';
-    categories.filter(c => c.id !== "all").forEach(cat => {
-        const opt = document.createElement('option');
-        opt.value = cat.id;
-        opt.textContent = cat.name;
-        catSelect.appendChild(opt);
-    });
-
-    if (editId) {
-        // Edit mode
-        title.textContent = "✏️ Edit Item";
-        const item = menuItems.find(i => i.id === editId);
-        nameInput.value = item.name;
-        priceInput.value = item.price;
-        imageInput.value = item.image;
-        catSelect.value = item.category;
-    } else {
-        // Add mode
-        title.textContent = "➕ Add New Item";
-        nameInput.value = '';
-        priceInput.value = '';
-        imageInput.value = '';
-        if (catSelect.options.length > 0) {
-            catSelect.selectedIndex = 0;
+        if (path !== '') {
+            imgHTML = `
+                <img src="${escAttr(path)}"
+                     alt="${escAttr(item.name)}"
+                     onerror="this.style.display='none'; this.parentElement.querySelector('.no-img').style.display='block';">
+                <span class="no-img" style="display:none;">🍽️</span>
+            `;
+        } else {
+            imgHTML = `<span class="no-img">🍽️</span>`;
         }
-    }
 
-    modal.classList.add('active');
-    nameInput.focus();
+        div.innerHTML = `
+            <div class="item-actions">
+                <button class="edit-btn" onclick="event.stopPropagation(); editItem(${item.id})">✏️</button>
+                <button class="del-btn" onclick="event.stopPropagation(); deleteItem(${item.id})">🗑️</button>
+            </div>
+            <div class="item-img-box">${imgHTML}</div>
+            <h4>${esc(item.name)}</h4>
+            <div class="price">Rs. ${item.price}</div>
+            <div class="category-tag">${esc(item.category || '-')}</div>
+        `;
+        div.onclick = () => addToCart(item.id);
+        grid.appendChild(div);
+    });
 }
 
-function closeItemModal() {
-    document.getElementById('itemModal').classList.remove('active');
-    editingItemId = null;
+function searchItems() {
+    currentSearch = document.getElementById('searchInput').value;
+    renderItems();
 }
 
-// ==========================================
-// SAVE ITEM (Add ya Edit)
-// ==========================================
-function saveItem() {
-    const name = document.getElementById('itemName').value.trim();
-    const price = parseInt(document.getElementById('itemPrice').value);
-    const category = document.getElementById('itemCategory').value;
-    const image = document.getElementById('itemImage').value.trim() || "placeholder.jpg";
-
-    if (!name) { alert("Item ka naam likhen!"); return; }
-    if (!price || price <= 0) { alert("Sahi price likhen!"); return; }
-    if (!category) { alert("Category select karen!"); return; }
-
-    if (editingItemId) {
-        // Edit
-        const idx = menuItems.findIndex(i => i.id === editingItemId);
-        menuItems[idx] = { ...menuItems[idx], name, price, category, image };
-    } else {
-        // Add new
-        const newId = menuItems.length > 0 ? Math.max(...menuItems.map(i => i.id)) + 1 : 1;
-        menuItems.push({ id: newId, name, price, category, image });
-    }
-
-    saveToStorage();
-    renderMenu();
-    closeItemModal();
-}
-
-// ==========================================
-// DELETE ITEM
-// ==========================================
-function deleteItem(id) {
-    const item = menuItems.find(i => i.id === id);
-    if (!confirm(`"${item.name}" delete karna chahte hain?`)) return;
-
-    menuItems = menuItems.filter(i => i.id !== id);
-    cart = cart.filter(c => c.id !== id);
-    saveToStorage();
-    renderMenu();
-    updateCart();
-}
-
-// ==========================================
-// CATEGORY MODAL - OPEN / CLOSE
-// ==========================================
-function openCategoryModal() {
-    document.getElementById('categoryName').value = '';
-    document.getElementById('categoryModal').classList.add('active');
-    document.getElementById('categoryName').focus();
-}
-
-function closeCategoryModal() {
-    document.getElementById('categoryModal').classList.remove('active');
-}
-
-// ==========================================
-// SAVE CATEGORY
-// ==========================================
-function saveCategory() {
-    const name = document.getElementById('categoryName').value.trim();
-    if (!name) { alert("Category ka naam likhen!"); return; }
-
-    // Check duplicate
-    if (categories.some(c => c.name.toLowerCase() === name.toLowerCase())) {
-        alert("Ye category pehle se mojood hai!");
-        return;
-    }
-
-    const id = "cat_" + Date.now(); // unique id
-    categories.push({ id, name });
-
-    saveToStorage();
-    renderSidebar();
-    closeCategoryModal();
-}
-
-// ==========================================
-// DELETE CATEGORY
-// ==========================================
-function deleteCategory(id) {
-    if (id === "all") return;
-
-    const cat = categories.find(c => c.id === id);
-    const itemsInCat = menuItems.filter(i => i.category === id).length;
-
-    let msg = `"${cat.name}" category delete karni hai?`;
-    if (itemsInCat > 0) {
-        msg += `\n\n⚠️ Is category mein ${itemsInCat} items hain. Woh bhi delete ho jayenge!`;
-    }
-
-    if (!confirm(msg)) return;
-
-    // Category + uske items hatao
-    categories = categories.filter(c => c.id !== id);
-    menuItems = menuItems.filter(i => i.category !== id);
-
-    if (currentCategory === id) currentCategory = "all";
-
-    saveToStorage();
-    renderSidebar();
-    renderMenu();
-}
-
-// ==========================================
-// CART FUNCTIONS
-// ==========================================
+/* ===================== CART ===================== */
 function addToCart(id) {
-    const item = menuItems.find(m => m.id === id);
-    const existing = cart.find(c => c.id === id);
+    const item = items.find(i => i.id === id);
+    if (!item) return;
 
+    const existing = cart.find(c => c.id === id);
     if (existing) {
-        existing.qty++;
+        existing.qty += 1;
     } else {
-        cart.push({ ...item, qty: 1 });
+        cart.push({ id: item.id, name: item.name, price: item.price, qty: 1 });
+    }
+    renderCart();
+}
+
+function changeQty(id, delta) {
+    const c = cart.find(x => x.id === id);
+    if (!c) return;
+    c.qty += delta;
+    if (c.qty <= 0) cart = cart.filter(x => x.id !== id);
+    renderCart();
+}
+
+function renderCart() {
+    const container = document.getElementById('cartItems');
+
+    if (cart.length === 0) {
+        container.innerHTML = '<p class="empty-cart">Cart khali hai</p>';
+    } else {
+        container.innerHTML = cart.map(x => `
+            <div class="cart-item">
+                <div class="cart-item-info">
+                    <strong>${esc(x.name)}</strong>
+                    <small>Rs. ${x.price} × ${x.qty}</small>
+                </div>
+                <div class="qty-controls">
+                    <button onclick="changeQty(${x.id}, -1)">−</button>
+                    <span>${x.qty}</span>
+                    <button onclick="changeQty(${x.id}, 1)">+</button>
+                </div>
+                <div class="item-total">Rs. ${x.price * x.qty}</div>
+            </div>
+        `).join('');
     }
     updateCart();
 }
 
 function updateCart() {
-    const cartItemsDiv = document.getElementById('cartItems');
-    
-    if (cart.length === 0) {
-        cartItemsDiv.innerHTML = '<p class="empty-cart">Cart khali hai</p>';
-    } else {
-        cartItemsDiv.innerHTML = cart.map(item => `
-            <div class="cart-item">
-                <div class="item-info">
-                    <h4>${item.name}</h4>
-                    <span class="item-price">Rs. ${item.price} × ${item.qty} = Rs. ${item.price * item.qty}</span>
-                </div>
-                <div class="qty-controls">
-                    <button onclick="changeQty(${item.id}, -1)">−</button>
-                    <span>${item.qty}</span>
-                    <button onclick="changeQty(${item.id}, 1)">+</button>
-                    <button class="btn-remove" onclick="removeItem(${item.id})">×</button>
-                </div>
-            </div>
-        `).join('');
-    }
+    const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const tax = subtotal * 0.05;
+    const discount = parseFloat(document.getElementById('discount').value) || 0;
+    const total = Math.max(0, subtotal + tax - discount);
 
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-    const tax = Math.round(subtotal * 0.05);
-    const discount = parseInt(document.getElementById('discount').value) || 0;
-    const total = subtotal + tax - discount;
+    document.getElementById('subtotal').textContent = 'Rs. ' + subtotal.toLocaleString();
+    document.getElementById('tax').textContent = 'Rs. ' + tax.toFixed(2);
+    document.getElementById('total').textContent = 'Rs. ' + total.toFixed(2);
 
-    document.getElementById('subtotal').textContent = `Rs. ${subtotal}`;
-    document.getElementById('tax').textContent = `Rs. ${tax}`;
-    document.getElementById('total').textContent = `Rs. ${Math.max(0, total)}`;
-}
-
-function changeQty(id, change) {
-    const item = cart.find(c => c.id === id);
-    if (!item) return;
-    item.qty += change;
-    if (item.qty <= 0) cart = cart.filter(c => c.id !== id);
-    updateCart();
-}
-
-function removeItem(id) {
-    cart = cart.filter(c => c.id !== id);
-    updateCart();
+    return { subtotal, tax, discount, total };
 }
 
 function clearCart() {
     if (cart.length === 0) return;
-    if (confirm('Cart clear karna chahte hain?')) {
-        cart = [];
-        document.getElementById('discount').value = 0;
-        updateCart();
-    }
+    if (!confirm('Cart clear karein?')) return;
+    cart = [];
+    renderCart();
 }
 
-// ==========================================
-// CHECKOUT
-// ==========================================
-function checkout() {
-    if (cart.length === 0) {
-        alert('Cart khali hai! Pehle items add karen.');
+/* ===================== ITEM MODAL ===================== */
+function openItemModal(editId = null) {
+    editingItemId = editId;
+    const box = document.getElementById('imgPreview');
+
+    if (editId) {
+        const item = items.find(i => i.id === editId);
+        document.getElementById('itemModalTitle').textContent = '✏️ Edit Item';
+        document.getElementById('itemName').value = item.name;
+        document.getElementById('itemPrice').value = item.price;
+        document.getElementById('itemImage').value = item.image || '';
+
+        if (item.image && item.image.trim() !== '') {
+            box.innerHTML = `<img src="${escAttr(item.image)}" alt="preview"
+                onerror="this.parentElement.textContent='❌ Image load nahi hui — path check karein';">`;
+        } else {
+            box.textContent = 'Image preview';
+        }
+    } else {
+        document.getElementById('itemModalTitle').textContent = '➕ Add New Item';
+        document.getElementById('itemName').value = '';
+        document.getElementById('itemPrice').value = '';
+        document.getElementById('itemImage').value = '';
+        box.textContent = 'Image preview';
+    }
+
+    renderCategories();
+
+    if (editId) {
+        const item = items.find(i => i.id === editId);
+        setTimeout(() => {
+            document.getElementById('itemCategory').value = item.category || '';
+        }, 0);
+    }
+
+    document.getElementById('itemModal').classList.add('show');
+}
+
+function closeItemModal() {
+    document.getElementById('itemModal').classList.remove('show');
+    editingItemId = null;
+}
+
+function previewFromPath() {
+    const path = document.getElementById('itemImage').value.trim();
+    const box = document.getElementById('imgPreview');
+
+    if (!path) {
+        box.textContent = 'Image preview';
         return;
     }
 
-    const customerName = document.getElementById('customerName').value || 'Walk-in Customer';
-    const tableNo = document.getElementById('tableNo').value || 'N/A';
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-    const tax = Math.round(subtotal * 0.05);
-    const discount = parseInt(document.getElementById('discount').value) || 0;
-    const total = subtotal + tax - discount;
-    const orderId = 'ORD-' + Date.now().toString().slice(-6);
+    box.innerHTML = `<img src="${escAttr(path)}" alt="preview"
+        onerror="this.parentElement.textContent='❌ Image load nahi hui — path check karein: ${esc(path)}';">`;
+}
 
-    const receiptHTML = `
-        <div style="text-align:center; margin-bottom:10px;">
-            <strong>Geomir Online School Materail Supplier</strong><br>
-            <small>ONLINE SUPPLIER</small><br>
-            <small>Tel: </small>
-        </div>
+function saveItem() {
+    const name = document.getElementById('itemName').value.trim();
+    const price = parseFloat(document.getElementById('itemPrice').value);
+    const category = document.getElementById('itemCategory').value;
+    const image = document.getElementById('itemImage').value.trim();
+
+    if (!name) return alert('Item name likhein!');
+    if (isNaN(price) || price < 0) return alert('Valid price likhein!');
+    if (!category) return alert('Category select karein!');
+
+    if (editingItemId) {
+        const item = items.find(i => i.id === editingItemId);
+        item.name = name;
+        item.price = price;
+        item.category = category;
+        item.image = image;
+    } else {
+        items.push({
+            id: Date.now(),
+            name, price, category, image
+        });
+    }
+
+    saveData();
+    closeItemModal();
+    renderItems();
+}
+
+function editItem(id) {
+    openItemModal(id);
+}
+
+function deleteItem(id) {
+    if (!confirm('Item delete karein?')) return;
+    items = items.filter(i => i.id !== id);
+    cart = cart.filter(c => c.id !== id);
+    saveData();
+    renderItems();
+    renderCart();
+}
+
+/* ===================== CATEGORY MODAL ===================== */
+function openCategoryModal() {
+    document.getElementById('categoryName').value = '';
+    document.getElementById('categoryModal').classList.add('show');
+}
+
+function closeCategoryModal() {
+    document.getElementById('categoryModal').classList.remove('show');
+}
+
+function saveCategory() {
+    const name = document.getElementById('categoryName').value.trim();
+    if (!name) return alert('Category name likhein!');
+    if (categories.includes(name)) return alert('Category already exists!');
+    categories.push(name);
+    saveData();
+    closeCategoryModal();
+    renderCategories();
+}
+
+/* ===================== CHECKOUT ===================== */
+function checkout() {
+    if (cart.length === 0) return alert('Cart khali hai!');
+
+    const { subtotal, tax, discount, total } = updateCart();
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-PK');
+    const timeStr = now.toLocaleTimeString('en-PK');
+
+    const customerName = document.getElementById('customerName').value.trim() || 'Walk-in';
+    const tableNo = document.getElementById('tableNo').value.trim() || '-';
+
+    salesHistory.push({
+        id: now.getTime(),
+        date: now.toISOString().split('T')[0],
+        time: timeStr,
+        customerName,
+        tableNo,
+        items: JSON.parse(JSON.stringify(cart)),
+        subtotal, tax, discount, total
+    });
+    saveData();
+
+    let html = `
+        <p><strong>Date:</strong> ${dateStr} — ${timeStr}</p>
+        <p><strong>Customer:</strong> ${esc(customerName)}</p>
+        <p><strong>Table:</strong> ${esc(tableNo)}</p>
         <hr>
-        <div><strong>Order ID:</strong> ${orderId}</div>
-        <div><strong>Customer:</strong> ${customerName}</div>
-        <div><strong>Table:</strong> ${tableNo}</div>
-        <div><strong>Date:</strong> ${new Date().toLocaleString('en-PK')}</div>
-        <hr>
-        ${cart.map(item => `
-            <div style="display:flex; justify-content:space-between;">
-                <span>${item.name} x${item.qty}</span>
-                <span>Rs. ${item.price * item.qty}</span>
-            </div>
-        `).join('')}
-        <hr>
-        <div style="display:flex; justify-content:space-between;">
-            <span>Subtotal:</span><span>Rs. ${subtotal}</span>
-        </div>
-        <div style="display:flex; justify-content:space-between;">
-            <span>Tax (5%):</span><span>Rs. ${tax}</span>
-        </div>
-        <div style="display:flex; justify-content:space-between;">
-            <span>Discount:</span><span>- Rs. ${discount}</span>
-        </div>
-        <hr>
-        <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:15px;">
-            <span>TOTAL:</span><span>Rs. ${total}</span>
-        </div>
-        <hr>
-        <div style="text-align:center; margin-top:10px;">
-            <small>Shukriya! Dobara tashreef laayen 🙏</small>
-        </div>
+        <table>
+            <tr><th>Item</th><th>Qty</th><th>Amount</th></tr>
     `;
 
-    document.getElementById('receiptContent').innerHTML = receiptHTML;
-    document.getElementById('receiptModal').classList.add('active');
+    cart.forEach(i => {
+        html += `<tr>
+            <td>${esc(i.name)}</td>
+            <td>${i.qty}</td>
+            <td>Rs. ${i.price * i.qty}</td>
+        </tr>`;
+    });
+
+    html += `</table>
+        <p><strong>Subtotal:</strong> Rs. ${subtotal}</p>
+        <p><strong>Tax (5%):</strong> Rs. ${tax.toFixed(2)}</p>
+        <p><strong>Discount:</strong> Rs. ${discount}</p>
+        <hr>
+        <h3><strong>Total: Rs. ${total.toFixed(2)}</strong></h3>
+    `;
+
+    document.getElementById('receiptContent').innerHTML = html;
+    document.getElementById('receiptModal').classList.add('show');
+
+    // Reset cart
+    cart = [];
+    document.getElementById('customerName').value = '';
+    document.getElementById('tableNo').value = '';
+    document.getElementById('discount').value = 0;
+    renderCart();
+}
+
+/* ===================== PRINT ===================== */
+function printReceipt() {
+    const modal = document.getElementById('receiptModal');
+    modal.classList.add('printing');
+    setTimeout(() => {
+        window.print();
+        setTimeout(() => modal.classList.remove('printing'), 500);
+    }, 100);
 }
 
 function closeReceiptModal() {
-    document.getElementById('receiptModal').classList.remove('active');
-    cart = [];
-    document.getElementById('discount').value = 0;
-    document.getElementById('customerName').value = '';
-    document.getElementById('tableNo').value = '';
-    updateCart();
+    document.getElementById('receiptModal').classList.remove('show');
 }
 
-function printReceipt() {
-    const content = document.getElementById('receiptContent').innerHTML;
-    const printWindow = window.open('', '', 'width=400,height=600');
-    printWindow.document.write(`
-        <html><head><title>Receipt</title>
-        <style>
-            body { font-family: 'Courier New', monospace; font-size: 12px; padding: 10px; }
-            hr { border: 1px dashed #999; }
-        </style></head>
-        <body>${content}</body></html>
-    `);
-    printWindow.document.close();
-    printWindow.print();
+function printReport() {
+    const modal = document.getElementById('reportModal');
+    modal.classList.add('printing');
+    setTimeout(() => {
+        window.print();
+        setTimeout(() => modal.classList.remove('printing'), 500);
+    }, 100);
+}
+
+/* ===================== REPORTS ===================== */
+function openReportModal() {
+    document.getElementById('reportModal').classList.add('show');
+    showDailyReport();
+}
+
+function closeReportModal() {
+    document.getElementById('reportModal').classList.remove('show');
+}
+
+function showDailyReport() {
+    const today = new Date().toISOString().split('T')[0];
+    const todaySales = salesHistory.filter(s => s.date === today);
+
+    const totalAmount = todaySales.reduce((s, x) => s + x.total, 0);
+    const totalOrders = todaySales.length;
+    const totalItems = todaySales.reduce((s, x) =>
+        s + x.items.reduce((a, i) => a + i.qty, 0), 0);
+
+    const itemBreakdown = {};
+    todaySales.forEach(sale => {
+        sale.items.forEach(it => {
+            if (!itemBreakdown[it.name]) itemBreakdown[it.name] = { qty: 0, revenue: 0 };
+            itemBreakdown[it.name].qty += it.qty;
+            itemBreakdown[it.name].revenue += it.price * it.qty;
+        });
+    });
+
+    let html = `
+        <h3>📅 Daily Report — ${today}</h3>
+        <p><strong>Total Orders:</strong> ${totalOrders}</p>
+        <p><strong>Total Items Sold:</strong> ${totalItems}</p>
+        <p><strong>Total Revenue:</strong> Rs. ${totalAmount.toLocaleString()}</p>
+        <hr>
+        <h4>Item-wise Sales (Basis):</h4>
+        <table>
+            <tr><th>Item</th><th>Qty</th><th>Revenue</th></tr>
+    `;
+
+    if (Object.keys(itemBreakdown).length === 0) {
+        html += `<tr><td colspan="3" style="text-align:center;">No sales today</td></tr>`;
+    } else {
+        Object.keys(itemBreakdown).forEach(name => {
+            const d = itemBreakdown[name];
+            html += `<tr>
+                <td>${esc(name)}</td>
+                <td>${d.qty}</td>
+                <td>Rs. ${d.revenue.toLocaleString()}</td>
+            </tr>`;
+        });
+    }
+
+    html += `</table>`;
+    document.getElementById('reportContent').innerHTML = html;
+}
+
+function showMonthlyReport() {
+    const month = new Date().toISOString().slice(0, 7);
+    const monthSales = salesHistory.filter(s => s.date.startsWith(month));
+
+    const totalAmount = monthSales.reduce((s, x) => s + x.total, 0);
+    const totalOrders = monthSales.length;
+
+    const dayBreakdown = {};
+    monthSales.forEach(sale => {
+        if (!dayBreakdown[sale.date]) dayBreakdown[sale.date] = { orders: 0, revenue: 0 };
+        dayBreakdown[sale.date].orders += 1;
+        dayBreakdown[sale.date].revenue += sale.total;
+    });
+
+    let html = `
+        <h3>📆 Monthly Report — ${month}</h3>
+        <p><strong>Total Orders:</strong> ${totalOrders}</p>
+        <p><strong>Total Revenue:</strong> Rs. ${totalAmount.toLocaleString()}</p>
+        <hr>
+        <h4>Day-wise Sales:</h4>
+        <table>
+            <tr><th>Date</th><th>Orders</th><th>Revenue</th></tr>
+    `;
+
+    if (Object.keys(dayBreakdown).length === 0) {
+        html += `<tr><td colspan="3" style="text-align:center;">No sales this month</td></tr>`;
+    } else {
+        Object.keys(dayBreakdown).sort().forEach(date => {
+            const d = dayBreakdown[date];
+            html += `<tr>
+                <td>${date}</td>
+                <td>${d.orders}</td>
+                <td>Rs. ${d.revenue.toLocaleString()}</td>
+            </tr>`;
+        });
+    }
+
+    html += `</table>`;
+    document.getElementById('reportContent').innerHTML = html;
+}
+
+/* ===================== UTILS ===================== */
+function esc(s) {
+    if (!s) return '';
+    return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function escAttr(s) {
+    if (!s) return '';
+    return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
 }
 
 function logout() {
-    if (confirm('Logout karna chahte hain?')) location.reload();
+    if (confirm('Logout karein?')) location.reload();
 }
 
-// ==========================================
-// INITIAL LOAD
-// ==========================================
-renderSidebar();
-renderMenu();
-updateCart();
+/* ===================== INIT ===================== */
+function init() {
+    loadData();
+    updateDateTime();
+    renderCategories();
+    renderItems();
+    renderCart();
+
+    // Close modal on background click
+    document.querySelectorAll('.modal').forEach(m => {
+        m.addEventListener('click', e => {
+            if (e.target === m) m.classList.remove('show');
+        });
+    });
+}
+
+window.addEventListener('DOMContentLoaded', init);
