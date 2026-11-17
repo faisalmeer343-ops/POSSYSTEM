@@ -6,102 +6,53 @@
 <title>Geomir Online School Material Supplier</title>
 
 <style>
-/* ===================== GLOBAL RESET ===================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-body {
-    background: #f4f6f9;
-    color: #2c3e50;
-    min-height: 100vh;
-}
+/* ===================== GLOBAL ===================== */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { background: #f4f6f9; color: #2c3e50; min-height: 100vh; }
 
 /* ===================== HEADER ===================== */
 .header {
     background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-    color: #fff;
-    padding: 15px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
+    color: #fff; padding: 15px 25px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 10px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    position: sticky; top: 0; z-index: 100;
 }
 .header .logo h1 { font-size: 20px; font-weight: 600; }
 .header-info { display: flex; align-items: center; gap: 15px; font-size: 13px; }
-#dateTime {
-    background: rgba(255,255,255,0.15);
-    padding: 6px 12px;
-    border-radius: 20px;
-}
+#dateTime { background: rgba(255,255,255,0.15); padding: 6px 12px; border-radius: 20px; }
 .btn-logout {
-    background: #e74c3c;
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 600;
-    transition: 0.2s;
+    background: #e74c3c; color: #fff; border: none;
+    padding: 8px 16px; border-radius: 6px; cursor: pointer;
+    font-size: 13px; font-weight: 600; transition: 0.2s;
 }
 .btn-logout:hover { background: #c0392b; }
 
-/* ===================== MAIN LAYOUT ===================== */
+/* ===================== LAYOUT ===================== */
 .main-container {
-    display: grid;
-    grid-template-columns: 220px 1fr 340px;
-    gap: 15px;
-    padding: 15px;
-    min-height: calc(100vh - 75px);
+    display: grid; grid-template-columns: 220px 1fr 340px;
+    gap: 15px; padding: 15px; min-height: calc(100vh - 75px);
 }
 
 /* ===================== SIDEBAR ===================== */
 .sidebar {
-    background: #fff;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    height: fit-content;
+    background: #fff; border-radius: 10px; padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); height: fit-content;
 }
 .sidebar h3 { font-size: 15px; margin-bottom: 12px; color: #1e3c72; }
-.sidebar-categories {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 12px;
-}
+.sidebar-categories { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
 .category-btn {
-    background: #f0f3f8;
-    border: none;
-    padding: 9px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    text-align: left;
-    font-size: 13px;
-    color: #2c3e50;
-    transition: 0.2s;
+    background: #f0f3f8; border: none; padding: 9px 12px;
+    border-radius: 6px; cursor: pointer; text-align: left;
+    font-size: 13px; color: #2c3e50; transition: 0.2s;
 }
 .category-btn:hover { background: #dfe6f0; }
 .category-btn.active { background: #2a5298; color: #fff; font-weight: 600; }
-.btn-add-category,
-.btn-add-item {
-    width: 100%;
-    padding: 9px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 600;
-    transition: 0.2s;
-    margin-bottom: 6px;
+.btn-add-category, .btn-add-item {
+    width: 100%; padding: 9px; border: none; border-radius: 6px;
+    cursor: pointer; font-size: 13px; font-weight: 600;
+    transition: 0.2s; margin-bottom: 6px;
 }
 .btn-add-category { background: #27ae60; color: #fff; }
 .btn-add-category:hover { background: #229954; }
@@ -109,39 +60,27 @@ body {
 .btn-add-item:hover { background: #21618c; }
 .sidebar-divider { border: none; border-top: 1px solid #e0e0e0; margin: 12px 0; }
 
-/* ===================== MENU SECTION ===================== */
+/* ===================== MENU ===================== */
 .menu-section {
-    background: #fff;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    overflow-y: auto;
+    background: #fff; border-radius: 10px; padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow-y: auto;
 }
 .search-bar { margin-bottom: 12px; }
 .search-bar input {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1px solid #d0d7e2;
-    border-radius: 8px;
-    font-size: 14px;
-    outline: none;
-    transition: 0.2s;
+    width: 100%; padding: 10px 14px;
+    border: 1px solid #d0d7e2; border-radius: 8px;
+    font-size: 14px; outline: none; transition: 0.2s;
 }
 .search-bar input:focus { border-color: #2a5298; }
 .menu-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex; justify-content: space-between; align-items: center;
     margin-bottom: 15px;
 }
 .menu-header h2 { font-size: 18px; color: #1e3c72; }
 .item-count {
-    background: #eaf1fb;
-    color: #2a5298;
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: 600;
+    background: #eaf1fb; color: #2a5298;
+    padding: 4px 10px; border-radius: 12px;
+    font-size: 12px; font-weight: 600;
 }
 .menu-grid {
     display: grid;
@@ -151,189 +90,113 @@ body {
 
 /* ===================== MENU ITEM + IMAGE ===================== */
 .menu-item {
-    background: #f9fafc;
-    border: 1px solid #e5e9f0;
-    border-radius: 10px;
-    padding: 10px;
-    cursor: pointer;
-    transition: 0.2s;
-    position: relative;
-    overflow: hidden;
+    background: #f9fafc; border: 1px solid #e5e9f0;
+    border-radius: 10px; padding: 10px;
+    cursor: pointer; transition: 0.2s;
+    position: relative; overflow: hidden;
 }
 .menu-item:hover {
     border-color: #2a5298;
     box-shadow: 0 3px 10px rgba(42,82,152,0.15);
     transform: translateY(-2px);
 }
-
-/* Image wrapper */
 .item-img-wrap {
-    width: 100%;
-    height: 110px;
-    background: #eef2f7;
-    border-radius: 6px;
-    margin-bottom: 8px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 100%; height: 110px;
+    background: #eef2f7; border-radius: 6px;
+    margin-bottom: 8px; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
 }
 .item-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    border-radius: 6px;
+    width: 100%; height: 100%;
+    object-fit: cover; display: block; border-radius: 6px;
 }
 .img-placeholder {
-    font-size: 40px;
-    color: #b0b8c4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
+    font-size: 40px; color: #b0b8c4;
+    display: flex; align-items: center; justify-content: center;
+    width: 100%; height: 100%;
 }
-
 .menu-item h4 {
-    font-size: 14px;
-    margin-bottom: 4px;
-    color: #2c3e50;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 14px; margin-bottom: 4px; color: #2c3e50;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .menu-item .price { color: #27ae60; font-weight: 700; font-size: 14px; }
-.menu-item .category-tag {
-    font-size: 11px;
-    color: #7f8c8d;
-    margin-top: 3px;
-}
+.menu-item .category-tag { font-size: 11px; color: #7f8c8d; margin-top: 3px; }
 .menu-item .item-actions {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    display: none;
-    gap: 4px;
-    z-index: 2;
+    position: absolute; top: 8px; right: 8px;
+    display: none; gap: 4px; z-index: 2;
 }
 .menu-item:hover .item-actions { display: flex; }
 .item-actions button {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 3px 7px;
-    cursor: pointer;
-    font-size: 11px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    background: #fff; border: 1px solid #ddd;
+    border-radius: 4px; padding: 3px 7px; cursor: pointer;
+    font-size: 11px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 .item-actions .edit-btn:hover { background: #f39c12; color: #fff; }
 .item-actions .del-btn:hover { background: #e74c3c; color: #fff; }
-
 .empty-msg {
-    grid-column: 1/-1;
-    text-align: center;
-    color: #95a5a6;
-    padding: 30px;
+    grid-column: 1/-1; text-align: center;
+    color: #95a5a6; padding: 30px;
 }
 
-/* ===================== CART SECTION ===================== */
+/* ===================== CART ===================== */
 .cart-section {
-    background: #fff;
-    border-radius: 10px;
-    padding: 15px;
+    background: #fff; border-radius: 10px; padding: 15px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    display: flex;
-    flex-direction: column;
-    height: fit-content;
-    max-height: calc(100vh - 90px);
-    position: sticky;
-    top: 80px;
+    display: flex; flex-direction: column;
+    height: fit-content; max-height: calc(100vh - 90px);
+    position: sticky; top: 80px;
 }
 .cart-section h2 { font-size: 17px; margin-bottom: 12px; color: #1e3c72; }
 .customer-info { display: flex; gap: 8px; margin-bottom: 12px; }
 .customer-info input {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #d0d7e2;
-    border-radius: 6px;
-    font-size: 12px;
-    outline: none;
+    flex: 1; padding: 8px; border: 1px solid #d0d7e2;
+    border-radius: 6px; font-size: 12px; outline: none;
 }
 .customer-info input:focus { border-color: #2a5298; }
 .cart-items {
-    flex: 1;
-    overflow-y: auto;
-    margin-bottom: 12px;
-    min-height: 100px;
-    max-height: 300px;
+    flex: 1; overflow-y: auto; margin-bottom: 12px;
+    min-height: 100px; max-height: 300px;
 }
 .empty-cart { text-align: center; color: #95a5a6; padding: 20px; font-size: 13px; }
 .cart-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px;
-    border-bottom: 1px solid #f0f0f0;
-    font-size: 13px;
-    gap: 6px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px; border-bottom: 1px solid #f0f0f0;
+    font-size: 13px; gap: 6px;
 }
 .cart-item-info { flex: 1; }
 .cart-item-info strong { display: block; margin-bottom: 2px; }
 .cart-item-info small { color: #7f8c8d; }
 .qty-controls { display: flex; align-items: center; gap: 4px; }
 .qty-controls button {
-    width: 22px;
-    height: 22px;
-    border: 1px solid #d0d7e2;
-    background: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 12px;
-    line-height: 1;
+    width: 22px; height: 22px; border: 1px solid #d0d7e2;
+    background: #fff; border-radius: 4px; cursor: pointer;
+    font-weight: 700; font-size: 12px; line-height: 1;
 }
 .qty-controls button:hover { background: #eaf1fb; }
 .qty-controls span { min-width: 20px; text-align: center; font-weight: 600; }
 .item-total {
-    min-width: 60px;
-    text-align: right;
-    font-weight: 700;
-    color: #27ae60;
-    font-size: 12px;
+    min-width: 60px; text-align: right;
+    font-weight: 700; color: #27ae60; font-size: 12px;
 }
 .cart-summary { border-top: 2px dashed #e0e0e0; padding-top: 10px; }
 .summary-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 5px 0;
-    font-size: 13px;
+    display: flex; justify-content: space-between;
+    padding: 5px 0; font-size: 13px;
 }
 .discount-row input {
-    width: 70px;
-    padding: 3px 6px;
-    border: 1px solid #d0d7e2;
-    border-radius: 4px;
-    text-align: right;
-    font-size: 12px;
+    width: 70px; padding: 3px 6px;
+    border: 1px solid #d0d7e2; border-radius: 4px;
+    text-align: right; font-size: 12px;
 }
 .total-row {
-    font-size: 16px;
-    font-weight: 700;
-    color: #1e3c72;
+    font-size: 16px; font-weight: 700; color: #1e3c72;
     border-top: 1px solid #e0e0e0;
-    padding-top: 10px;
-    margin-top: 5px;
+    padding-top: 10px; margin-top: 5px;
 }
 .cart-actions { display: flex; gap: 8px; margin-top: 12px; }
 .cart-actions button {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 13px;
+    flex: 1; padding: 10px; border: none; border-radius: 6px;
+    cursor: pointer; font-weight: 600; font-size: 13px;
     transition: 0.2s;
 }
 .btn-clear { background: #ecf0f1; color: #7f8c8d; }
@@ -343,101 +206,56 @@ body {
 
 /* ===================== MODALS ===================== */
 .modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.55);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    overflow-y: auto;
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55); z-index: 1000;
+    justify-content: center; align-items: center;
+    padding: 20px; overflow-y: auto;
 }
 .modal.show { display: flex; }
 .modal-content {
-    background: #fff;
-    border-radius: 12px;
-    padding: 25px;
-    width: 100%;
-    max-width: 420px;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+    background: #fff; border-radius: 12px; padding: 25px;
+    width: 100%; max-width: 420px; max-height: 90vh;
+    overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.25);
     color: #2c3e50;
 }
 .modal-content h2 { font-size: 18px; margin-bottom: 15px; color: #1e3c72; }
 .modal-content label {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 4px;
-    margin-top: 10px;
-    color: #555;
+    display: block; font-size: 12px; font-weight: 600;
+    margin-bottom: 4px; margin-top: 10px; color: #555;
 }
-.modal-content input,
-.modal-content select {
-    width: 100%;
-    padding: 9px 12px;
-    border: 1px solid #d0d7e2;
-    border-radius: 6px;
-    font-size: 13px;
-    outline: none;
+.modal-content input, .modal-content select {
+    width: 100%; padding: 9px 12px;
+    border: 1px solid #d0d7e2; border-radius: 6px;
+    font-size: 13px; outline: none;
 }
-.modal-content input:focus,
-.modal-content select:focus { border-color: #2a5298; }
+.modal-content input:focus, .modal-content select:focus { border-color: #2a5298; }
 
-/* Image preview inside modal */
+/* Image preview */
 .img-preview-box {
-    margin-top: 8px;
-    width: 100%;
-    height: 130px;
-    border: 2px dashed #c9d3e0;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #95a5a6;
-    font-size: 13px;
-    overflow: hidden;
-    background: #f9fafc;
+    margin-top: 8px; width: 100%; height: 130px;
+    border: 2px dashed #c9d3e0; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: #95a5a6; font-size: 13px;
+    overflow: hidden; background: #f9fafc;
 }
 .img-preview-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 6px;
+    width: 100%; height: 100%;
+    object-fit: cover; border-radius: 6px;
 }
-
-.upload-row {
-    display: flex;
-    gap: 8px;
-    margin-top: 6px;
-}
+.upload-row { display: flex; gap: 8px; margin-top: 6px; }
 .upload-row label {
-    flex: 1;
-    margin: 0;
-    padding: 9px;
-    background: #3498db;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 600;
-    transition: 0.2s;
+    flex: 1; margin: 0; padding: 9px;
+    background: #3498db; color: #fff; text-align: center;
+    border-radius: 6px; cursor: pointer;
+    font-size: 12px; font-weight: 600; transition: 0.2s;
 }
 .upload-row label:hover { background: #2980b9; }
 .upload-row input[type="file"] { display: none; }
 
 .modal-actions { display: flex; gap: 8px; margin-top: 18px; }
 .modal-actions button {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 13px;
+    flex: 1; padding: 10px; border: none; border-radius: 6px;
+    cursor: pointer; font-weight: 600; font-size: 13px;
 }
 .btn-cancel { background: #ecf0f1; color: #7f8c8d; }
 .btn-cancel:hover { background: #d5dbdb; }
@@ -445,14 +263,8 @@ body {
 .btn-save:hover { background: #1e3c72; }
 
 .btn-print, .btn-close {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 13px;
-    margin-top: 8px;
+    width: 100%; padding: 10px; border: none; border-radius: 6px;
+    cursor: pointer; font-weight: 600; font-size: 13px; margin-top: 8px;
 }
 .btn-print { background: #27ae60; color: #fff; }
 .btn-print:hover { background: #229954; }
@@ -460,90 +272,72 @@ body {
 .btn-close:hover { background: #d5dbdb; }
 
 /* ===================== RECEIPT (BLACK FONT) ===================== */
-#receiptContent,
-#receiptContent * {
-    color: #000 !important;
-    background: transparent !important;
-}
-#receiptContent {
-    padding: 10px 0;
-    font-size: 13px;
-    line-height: 1.6;
-}
-#receiptContent hr {
-    border: none;
-    border-top: 1px dashed #999;
-    margin: 10px 0;
-}
-#receiptContent table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 8px 0;
-}
-#receiptContent th,
-#receiptContent td {
-    border: 1px solid #999;
-    padding: 5px 8px;
-    text-align: left;
-    font-size: 12px;
+#receiptContent, #receiptContent * { color: #000 !important; background: transparent !important; }
+#receiptContent { padding: 10px 0; font-size: 13px; line-height: 1.6; }
+#receiptContent hr { border: none; border-top: 1px dashed #999; margin: 10px 0; }
+#receiptContent table { width: 100%; border-collapse: collapse; margin: 8px 0; }
+#receiptContent th, #receiptContent td {
+    border: 1px solid #999; padding: 5px 8px;
+    text-align: left; font-size: 12px;
 }
 #receiptContent th { background: #e8e8e8 !important; }
 
 /* ===================== REPORT ===================== */
-#reportContent {
-    font-size: 13px;
-    line-height: 1.6;
-    color: #000 !important;
-}
-#reportContent h3,
-#reportContent h4,
-#reportContent p,
-#reportContent strong { color: #000 !important; }
-#reportContent table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 8px;
-}
-#reportContent th,
-#reportContent td {
-    border: 1px solid #999;
-    padding: 6px 10px;
-    text-align: left;
-    font-size: 12px;
-    color: #000 !important;
+#reportContent { font-size: 13px; line-height: 1.6; color: #000 !important; }
+#reportContent h3, #reportContent h4, #reportContent p, #reportContent strong { color: #000 !important; }
+#reportContent table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+#reportContent th, #reportContent td {
+    border: 1px solid #999; padding: 6px 10px;
+    text-align: left; font-size: 12px; color: #000 !important;
 }
 #reportContent th { background: #e8e8e8 !important; }
 #reportContent hr { border: none; border-top: 1px solid #ccc; margin: 10px 0; }
 .report-btn-group {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 15px;
-    flex-wrap: wrap;
+    display: flex; gap: 8px;
+    margin-bottom: 15px; flex-wrap: wrap;
 }
 .report-btn-group button { flex: 1; min-width: 120px; }
 
-/* ===================== PRINT ===================== */
+/* ===================== PRINT (RECEIPT + REPORT) ===================== */
 @media print {
     body * { visibility: hidden; }
-    #receiptModal, #receiptModal * { visibility: visible; }
-    #receiptModal {
-        position: absolute;
-        inset: 0;
+    /* Receipt print */
+    #receiptModal.printing, #receiptModal.printing * { visibility: visible; }
+    #receiptModal.printing {
+        position: absolute; inset: 0;
         display: block !important;
-        background: #fff !important;
-        padding: 20px;
+        background: #fff !important; padding: 20px;
     }
-    #receiptModal .modal-content {
-        box-shadow: none;
-        border: none;
-        max-height: none;
-        padding: 0;
+    #receiptModal.printing .modal-content {
+        box-shadow: none; border: none;
+        max-height: none; padding: 0;
     }
-    #receiptContent, #receiptContent * {
-        color: #000 !important;
-        background: #fff !important;
+    #receiptModal.printing #receiptContent,
+    #receiptModal.printing #receiptContent * {
+        color: #000 !important; background: #fff !important;
     }
-    .btn-print, .btn-close { display: none !important; }
+    #receiptModal.printing .btn-print,
+    #receiptModal.printing .btn-close { display: none !important; }
+
+    /* Report print */
+    #reportModal.printing, #reportModal.printing * { visibility: visible; }
+    #reportModal.printing {
+        position: absolute; inset: 0;
+        display: block !important;
+        background: #fff !important; padding: 20px;
+    }
+    #reportModal.printing .modal-content {
+        box-shadow: none; border: none;
+        max-width: 100% !important;
+        max-height: none; padding: 0;
+    }
+    #reportModal.printing #reportContent,
+    #reportModal.printing #reportContent * {
+        color: #000 !important; background: #fff !important;
+    }
+    #reportModal.printing h2,
+    #reportModal.printing .report-btn-group,
+    #reportModal.printing .modal-actions { display: none !important; }
 }
 
 /* ===================== RESPONSIVE ===================== */
@@ -557,7 +351,6 @@ body {
 </head>
 <body>
 
-<!-- ===================== HEADER ===================== -->
 <header class="header">
     <div class="logo">
         <h1>Geomir Online School Material Supplier</h1>
@@ -568,7 +361,6 @@ body {
     </div>
 </header>
 
-<!-- ===================== MAIN CONTAINER ===================== -->
 <div class="main-container">
 
     <!-- SIDEBAR -->
@@ -582,7 +374,7 @@ body {
         <button class="btn-add-item" onclick="openReportModal()">📊 Sales Reports</button>
     </aside>
 
-    <!-- MENU SECTION -->
+    <!-- MENU -->
     <div class="menu-section">
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="🔍 Search item..." onkeyup="searchItems()">
@@ -594,7 +386,7 @@ body {
         <div class="menu-grid" id="menuGrid"></div>
     </div>
 
-    <!-- CART SECTION -->
+    <!-- CART -->
     <div class="cart-section">
         <h2>🛒 Current Order</h2>
         <div class="customer-info">
@@ -620,31 +412,26 @@ body {
     </div>
 </div>
 
-<!-- ===================== ITEM MODAL ===================== -->
+<!-- ITEM MODAL -->
 <div class="modal" id="itemModal">
     <div class="modal-content">
         <h2 id="itemModalTitle">➕ Add New Item</h2>
-
         <label>Item Name</label>
         <input type="text" id="itemName" placeholder="e.g. Chicken Tikka">
-
         <label>Price (Rs.)</label>
         <input type="number" id="itemPrice" placeholder="e.g. 450" min="0">
-
         <label>Category</label>
         <select id="itemCategory"></select>
 
-        <label>Image (URL / Path ya Computer se Upload)</label>
-        <input type="text" id="itemImage" placeholder="images/tikka.jpg ya https://..." oninput="previewImageFromPath()">
+        <label>Image Path (e.g. images/tikka.jpg) — ya neeche se upload karein</label>
+        <input type="text" id="itemImage" placeholder="images/tikka.jpg" oninput="previewFromPath()">
 
         <div class="upload-row">
-            <label for="itemImageFile">📁 Computer se Image Chunein</label>
-            <input type="file" id="itemImageFile" accept="image/*" onchange="handleImageUpload(event)">
+            <label for="itemImageFile">📁 Ya Computer se Image Chunein</label>
+            <input type="file" id="itemImageFile" accept="image/*" onchange="handleUpload(event)">
         </div>
 
-        <div class="img-preview-box" id="imgPreview">
-            Koi image nahi chuni
-        </div>
+        <div class="img-preview-box" id="imgPreview">Koi image nahi chuni</div>
 
         <div class="modal-actions">
             <button class="btn-cancel" onclick="closeItemModal()">Cancel</button>
@@ -653,7 +440,7 @@ body {
     </div>
 </div>
 
-<!-- ===================== CATEGORY MODAL ===================== -->
+<!-- CATEGORY MODAL -->
 <div class="modal" id="categoryModal">
     <div class="modal-content">
         <h2>➕ Add New Category</h2>
@@ -666,7 +453,7 @@ body {
     </div>
 </div>
 
-<!-- ===================== RECEIPT MODAL ===================== -->
+<!-- RECEIPT MODAL -->
 <div class="modal" id="receiptModal">
     <div class="modal-content">
         <h2>✅ Order Confirmed</h2>
@@ -676,7 +463,7 @@ body {
     </div>
 </div>
 
-<!-- ===================== REPORT MODAL ===================== -->
+<!-- REPORT MODAL -->
 <div class="modal" id="reportModal">
     <div class="modal-content" style="max-width:650px;">
         <h2>📊 Sales Reports</h2>
@@ -685,15 +472,15 @@ body {
             <button onclick="showMonthlyReport()" class="btn-save">📆 Monthly Report</button>
         </div>
         <div id="reportContent"><p>Select report type above</p></div>
+        <button class="btn-print" onclick="printReport()">🖨️ Print Report</button>
         <div class="modal-actions" style="margin-top:15px;">
             <button class="btn-cancel" onclick="closeReportModal()">Close</button>
         </div>
     </div>
 </div>
 
-<!-- ===================== JAVASCRIPT ===================== -->
 <script>
-/* ===================== GLOBAL STATE ===================== */
+/* ===================== STATE ===================== */
 let items = [];
 let categories = ['All'];
 let cart = [];
@@ -701,7 +488,7 @@ let salesHistory = [];
 let editingItemId = null;
 let currentCategory = 'All';
 let currentSearch = '';
-let pendingImageData = '';   // Base64 data jab file upload ho
+let pendingImageData = '';
 
 /* ===================== STORAGE ===================== */
 function saveData() {
@@ -710,7 +497,7 @@ function saveData() {
         localStorage.setItem('geomir_categories', JSON.stringify(categories));
         localStorage.setItem('geomir_sales', JSON.stringify(salesHistory));
     } catch (e) {
-        alert('Data save nahi ho saka! Ho sakta hai image bohot bari ho. Chhoti image use karein.');
+        alert('Save fail! Image bohot bari ho sakti hai. Chhoti image ya path use karein.');
         console.error(e);
     }
 }
@@ -763,7 +550,7 @@ function selectCategory(cat) {
     renderItems();
 }
 
-/* ===================== RENDER: ITEMS (WITH IMAGE) ===================== */
+/* ===================== RENDER: ITEMS (IMAGE FIX) ===================== */
 function renderItems() {
     const grid = document.getElementById('menuGrid');
     grid.innerHTML = '';
@@ -788,14 +575,16 @@ function renderItems() {
         const div = document.createElement('div');
         div.className = 'menu-item';
 
-        // ===== IMAGE HTML BUILD =====
+        // Build image HTML — trim the path
         let imageHTML = '';
-        if (item.image && item.image.trim() !== '') {
+        const imgPath = (item.image || '').trim();
+        if (imgPath !== '') {
             imageHTML = `
-                <img src="${escapeHTML(item.image)}"
-                     alt="${escapeHTML(item.name)}"
+                <img src="${escapeAttr(imgPath)}"
+                     alt="${escapeAttr(item.name)}"
                      class="item-img"
-                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                     loading="lazy"
+                     onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';">
                 <div class="img-placeholder" style="display:none;">🍽️</div>
             `;
         } else {
@@ -885,11 +674,10 @@ function clearCart() {
 }
 
 /* ===================== IMAGE UPLOAD + PREVIEW ===================== */
-function handleImageUpload(event) {
+function handleUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
 
-    // Size check (2MB max for localStorage safety)
     if (file.size > 2 * 1024 * 1024) {
         alert('Image 2MB se choti honi chahiye!');
         event.target.value = '';
@@ -898,26 +686,24 @@ function handleImageUpload(event) {
 
     const reader = new FileReader();
     reader.onload = function(e) {
-        pendingImageData = e.target.result;   // base64
+        pendingImageData = e.target.result;
         document.getElementById('imgPreview').innerHTML =
             `<img src="${pendingImageData}" alt="preview">`;
-        // Clear text input so no conflict
         document.getElementById('itemImage').value = '';
     };
     reader.readAsDataURL(file);
 }
 
-function previewImageFromPath() {
+function previewFromPath() {
     const path = document.getElementById('itemImage').value.trim();
-    // Agar user path type kare to pendingImageData clear karo
     pendingImageData = '';
     const box = document.getElementById('imgPreview');
     if (!path) {
         box.innerHTML = 'Koi image nahi chuni';
         return;
     }
-    box.innerHTML = `<img src="${escapeHTML(path)}" alt="preview"
-        onerror="this.parentElement.innerHTML='❌ Image load nahi hui. Path check karein.';">`;
+    box.innerHTML = `<img src="${escapeAttr(path)}" alt="preview"
+        onerror="this.parentElement.innerHTML='❌ Image load nahi hui. Path check karein: <b>${escapeHTML(path)}</b>';">`;
 }
 
 /* ===================== ITEM MODAL ===================== */
@@ -927,6 +713,7 @@ function openItemModal(editId = null) {
 
     const modal = document.getElementById('itemModal');
     const title = document.getElementById('itemModalTitle');
+    const box = document.getElementById('imgPreview');
 
     if (editId) {
         const item = items.find(i => i.id === editId);
@@ -934,11 +721,8 @@ function openItemModal(editId = null) {
         document.getElementById('itemName').value = item.name;
         document.getElementById('itemPrice').value = item.price;
         document.getElementById('itemImage').value = item.image || '';
-
-        // Show current image in preview
-        const box = document.getElementById('imgPreview');
         if (item.image && item.image.trim() !== '') {
-            box.innerHTML = `<img src="${escapeHTML(item.image)}" alt="preview"
+            box.innerHTML = `<img src="${escapeAttr(item.image)}" alt="preview"
                 onerror="this.parentElement.innerHTML='❌ Image load nahi hui';">`;
         } else {
             box.innerHTML = 'Koi image nahi chuni';
@@ -948,13 +732,12 @@ function openItemModal(editId = null) {
         document.getElementById('itemName').value = '';
         document.getElementById('itemPrice').value = '';
         document.getElementById('itemImage').value = '';
-        document.getElementById('imgPreview').innerHTML = 'Koi image nahi chuni';
+        box.innerHTML = 'Koi image nahi chuni';
     }
 
     document.getElementById('itemImageFile').value = '';
     renderCategories();
 
-    // Preserve selected category when editing
     if (editId) {
         const item = items.find(i => i.id === editId);
         setTimeout(() => {
@@ -981,14 +764,12 @@ function saveItem() {
     if (isNaN(price) || price < 0) return alert('Valid price likhein!');
     if (!category) return alert('Category select karein!');
 
-    // Image priority: uploaded base64 > typed path
     let finalImage = '';
     if (pendingImageData) {
         finalImage = pendingImageData;
     } else if (typedPath) {
         finalImage = typedPath;
     } else if (editingItemId) {
-        // Keep old image if editing and no new image
         const old = items.find(i => i.id === editingItemId);
         finalImage = old ? (old.image || '') : '';
     }
@@ -1095,9 +876,27 @@ function checkout() {
     renderCart();
 }
 
-function printReceipt() { window.print(); }
+/* ===================== PRINT FUNCTIONS ===================== */
+function printReceipt() {
+    const modal = document.getElementById('receiptModal');
+    modal.classList.add('printing');
+    setTimeout(() => {
+        window.print();
+        setTimeout(() => modal.classList.remove('printing'), 500);
+    }, 100);
+}
+
 function closeReceiptModal() {
     document.getElementById('receiptModal').classList.remove('show');
+}
+
+function printReport() {
+    const modal = document.getElementById('reportModal');
+    modal.classList.add('printing');
+    setTimeout(() => {
+        window.print();
+        setTimeout(() => modal.classList.remove('printing'), 500);
+    }, 100);
 }
 
 /* ===================== REPORTS ===================== */
@@ -1194,11 +993,17 @@ function showMonthlyReport() {
 function escapeHTML(str) {
     if (!str) return '';
     return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
+}
+
+function escapeAttr(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
 }
 
 function logout() {
