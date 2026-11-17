@@ -23,9 +23,7 @@
         <!-- ================= SIDEBAR ================= -->
         <aside class="sidebar">
             <h3>📂 Categories</h3>
-            <div class="sidebar-categories" id="sidebarCategories">
-                <!-- Categories JS se load hongi -->
-            </div>
+            <div class="sidebar-categories" id="sidebarCategories"></div>
             <button class="btn-add-category" onclick="openCategoryModal()">➕ Add Category</button>
 
             <hr class="sidebar-divider">
@@ -35,10 +33,57 @@
             <hr class="sidebar-divider">
 
             <button class="btn-add-item" onclick="openReportModal()">📊 Sales Reports</button>
+
+            <hr class="sidebar-divider">
+
+            <button class="btn-add-item" onclick="openFindReceiptModal()">🔍 Find Receipt</button>
+
+            <hr class="sidebar-divider">
+
+            <!-- ===== SIDE DASHBOARD: MONTHLY SALES ===== -->
+            <div class="mini-dashboard">
+                <h3>📆 Is Mahine Ki Sales</h3>
+                <div class="mini-stat">
+                    <span class="mini-stat-label">Total Revenue</span>
+                    <span class="mini-stat-value" id="sideMonthlyRevenue">Rs. 0</span>
+                </div>
+                <div class="mini-stat">
+                    <span class="mini-stat-label">Total Orders</span>
+                    <span class="mini-stat-value" id="sideMonthlyOrders">0</span>
+                </div>
+                <div class="mini-stat">
+                    <span class="mini-stat-label">Items Sold</span>
+                    <span class="mini-stat-value" id="sideMonthlyItems">0</span>
+                </div>
+            </div>
         </aside>
 
         <!-- ================= MENU SECTION ================= -->
         <div class="menu-section">
+
+            <!-- ===== TOP DASHBOARD: DAILY SALES ===== -->
+            <div class="dashboard-top">
+                <div class="dash-card dash-card-blue">
+                    <div class="dash-label">📅 Aaj Ki Sales</div>
+                    <div class="dash-value" id="dashDailyRevenue">Rs. 0</div>
+                    <div class="dash-sub" id="dashDailyOrders">0 orders</div>
+                </div>
+                <div class="dash-card dash-card-green">
+                    <div class="dash-label">🛒 Aaj Ke Items</div>
+                    <div class="dash-value" id="dashDailyItems">0</div>
+                    <div class="dash-sub">total sold</div>
+                </div>
+                <div class="dash-card dash-card-orange">
+                    <div class="dash-label">📆 Is Mahine Ki Sales</div>
+                    <div class="dash-value" id="dashMonthlyRevenue">Rs. 0</div>
+                    <div class="dash-sub" id="dashMonthlyOrders">0 orders</div>
+                </div>
+                <div class="dash-card dash-card-purple">
+                    <div class="dash-label">📦 Total Items</div>
+                    <div class="dash-value" id="dashTotalItems">0</div>
+                    <div class="dash-sub">menu mein</div>
+                </div>
+            </div>
 
             <div class="search-bar">
                 <input type="text" id="searchInput" placeholder="🔍 Search item..." onkeyup="searchItems()">
@@ -106,7 +151,7 @@
             <select id="itemCategory"></select>
 
             <label>Image Path</label>
-            <input type="text" id="itemImage" placeholder="image/tikka.jpg" oninput="previewFromPath()">
+            <input type="text" id="itemImage" placeholder="chicken-tikka.jpg" oninput="previewFromPath()">
 
             <div class="img-preview-box" id="imgPreview">Image preview</div>
 
@@ -121,10 +166,8 @@
     <div class="modal" id="categoryModal">
         <div class="modal-content">
             <h2>➕ Add New Category</h2>
-
             <label>Category Name</label>
             <input type="text" id="categoryName" placeholder="e.g. Chinese">
-
             <div class="modal-actions">
                 <button class="btn-cancel" onclick="closeCategoryModal()">Cancel</button>
                 <button class="btn-save" onclick="saveCategory()">Save</button>
@@ -132,12 +175,21 @@
         </div>
     </div>
 
-    <!-- ================= RECEIPT MODAL ================= -->
+    <!-- ================= RECEIPT MODAL (AUTO CUT) ================= -->
     <div class="modal" id="receiptModal">
-        <div class="modal-content">
-            <h1>GEOMIR ONLINE ITEMS SUPPLIER</h1>
-            <h2>✅ Order Confirmed</h2>
-            <div id="receiptContent"></div>
+        <div class="modal-content receipt-modal-content">
+            <h1 class="receipt-shop-name">GEOMIR ONLINE ITEMS SUPPLIER</h1>
+            <h2 class="receipt-title">✅ Order Confirmed</h2>
+
+            <!-- Auto-cut receipt -->
+            <div class="receipt-paper" id="receiptContent"></div>
+
+            <!-- Cut line -->
+            <div class="receipt-cut">
+                <span>✂</span>
+                <div class="cut-line"></div>
+            </div>
+
             <button class="btn-print" onclick="printReceipt()">🖨️ Print Receipt</button>
             <button class="btn-close" onclick="closeReceiptModal()">Close</button>
         </div>
@@ -145,12 +197,22 @@
 
     <!-- ================= REPORT MODAL ================= -->
     <div class="modal" id="reportModal">
-        <div class="modal-content" style="max-width:650px;">
+        <div class="modal-content" style="max-width:750px;">
             <h2>📊 Sales Reports</h2>
 
             <div class="report-btn-group">
                 <button onclick="showDailyReport()" class="btn-save">📅 Daily Report</button>
                 <button onclick="showMonthlyReport()" class="btn-save">📆 Monthly Report</button>
+                <button onclick="showRangeReport()" class="btn-save">📋 Custom Range</button>
+            </div>
+
+            <!-- Date Range Picker -->
+            <div class="range-picker">
+                <label>From:</label>
+                <input type="date" id="reportFromDate">
+                <label>To:</label>
+                <input type="date" id="reportToDate">
+                <button class="btn-save" onclick="showRangeReport()">🔍 Show</button>
             </div>
 
             <div id="reportContent"><p>Select report type above</p></div>
@@ -160,6 +222,59 @@
             <div class="modal-actions" style="margin-top:15px;">
                 <button class="btn-cancel" onclick="closeReportModal()">Close</button>
             </div>
+        </div>
+    </div>
+
+    <!-- ================= FIND RECEIPT MODAL ================= -->
+    <div class="modal" id="findReceiptModal">
+        <div class="modal-content" style="max-width:750px;">
+            <h2>🔍 Find Receipt</h2>
+
+            <div class="find-filters">
+                <div>
+                    <label>Date (optional)</label>
+                    <input type="date" id="findDate">
+                </div>
+                <div>
+                    <label>Receipt No. (optional)</label>
+                    <input type="text" id="findReceiptNo" placeholder="e.g. 1001">
+                </div>
+                <div>
+                    <label>Customer Name (optional)</label>
+                    <input type="text" id="findCustomerName" placeholder="e.g. Ali">
+                </div>
+            </div>
+
+            <div style="display:flex; gap:8px; margin-top:10px;">
+                <button class="btn-save" style="flex:1;" onclick="searchReceipts()">🔍 Search</button>
+                <button class="btn-cancel" style="flex:1;" onclick="clearReceiptSearch()">🔄 Reset</button>
+            </div>
+
+            <div id="findReceiptResults" class="find-results">
+                <p style="text-align:center; color:#95a5a6;">Filters lagayen aur Search dabayen</p>
+            </div>
+
+            <div class="modal-actions" style="margin-top:15px;">
+                <button class="btn-cancel" onclick="closeFindReceiptModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= VIEW SINGLE RECEIPT MODAL ================= -->
+    <div class="modal" id="viewReceiptModal">
+        <div class="modal-content receipt-modal-content">
+            <h1 class="receipt-shop-name">GEOMIR ONLINE ITEMS SUPPLIER</h1>
+            <h2 class="receipt-title">📄 Receipt</h2>
+
+            <div class="receipt-paper" id="viewReceiptContent"></div>
+
+            <div class="receipt-cut">
+                <span>✂</span>
+                <div class="cut-line"></div>
+            </div>
+
+            <button class="btn-print" onclick="printViewReceipt()">🖨️ Print Receipt</button>
+            <button class="btn-close" onclick="closeViewReceiptModal()">Close</button>
         </div>
     </div>
 
