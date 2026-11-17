@@ -722,7 +722,87 @@ body {
     flex: 1;
     min-width: 120px;
 }
+/* ===================== PRINT (SIRF RECEIPT / REPORT) ===================== */
+@media print {
+    /* 1. Sab kuch hide */
+    body > * {
+        display: none !important;
+    }
 
+    /* 2. Sirf active modal show karein */
+    body > .modal.printing {
+        display: block !important;
+        position: static !important;
+        background: #fff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        inset: auto !important;
+        overflow: visible !important;
+        width: 100% !important;
+        height: auto !important;
+        max-height: none !important;
+    }
+
+    body > .modal.printing .modal-content {
+        display: block !important;
+        box-shadow: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+        max-width: 380px !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+        padding: 8px !important;
+        background: #fff !important;
+        max-height: none !important;
+        overflow: visible !important;
+    }
+
+    /* 3. Receipt content black font */
+    .modal.printing #receiptContent,
+    .modal.printing #receiptContent *,
+    .modal.printing #viewReceiptContent,
+    .modal.printing #viewReceiptContent * {
+        color: #000 !important;
+        background: #fff !important;
+    }
+
+    /* 4. Print buttons hide */
+    .modal.printing .btn-print,
+    .modal.printing .btn-close,
+    .modal.printing .modal-actions,
+    .modal.printing .report-btn-group,
+    .modal.printing .range-picker {
+        display: none !important;
+    }
+
+    /* 5. Report print ke liye wider width */
+    #reportModal.printing .modal-content {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+
+    #reportModal.printing h2 {
+        display: block !important;
+        font-size: 16px !important;
+        margin-bottom: 10px !important;
+        color: #000 !important;
+    }
+
+    /* 6. Cut line visible */
+    .modal.printing .receipt-cut {
+        display: flex !important;
+        color: #000 !important;
+    }
+
+    .modal.printing .receipt-cut .cut-line {
+        border-top: 2px dashed #000 !important;
+    }
+
+    /* 7. Page margins */
+    @page {
+        margin: 5mm;
+    }
+}
 /* ===================== PRINT ===================== */
 @media print {
     body * {
