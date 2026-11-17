@@ -1,141 +1,1230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>School Material</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geomir Online School Material Supplier</title>
+
+<style>
+/* ===================== GLOBAL RESET ===================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+    color: #2c3e50;
+    min-height: 100vh;
+}
+
+/* ===================== HEADER ===================== */
+.header {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: #fff;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header .logo h1 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.header-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 13px;
+}
+
+#dateTime {
+    background: rgba(255,255,255,0.15);
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+.btn-logout {
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.btn-logout:hover {
+    background: #c0392b;
+}
+
+/* ===================== MAIN LAYOUT ===================== */
+.main-container {
+    display: grid;
+    grid-template-columns: 220px 1fr 340px;
+    gap: 15px;
+    padding: 15px;
+    min-height: calc(100vh - 75px);
+}
+
+/* ===================== SIDEBAR ===================== */
+.sidebar {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    height: fit-content;
+}
+
+.sidebar h3 {
+    font-size: 15px;
+    margin-bottom: 12px;
+    color: #1e3c72;
+}
+
+.sidebar-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.category-btn {
+    background: #f0f3f8;
+    border: none;
+    padding: 9px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 13px;
+    color: #2c3e50;
+    transition: 0.2s;
+}
+
+.category-btn:hover {
+    background: #dfe6f0;
+}
+
+.category-btn.active {
+    background: #2a5298;
+    color: #fff;
+    font-weight: 600;
+}
+
+.btn-add-category,
+.btn-add-item {
+    width: 100%;
+    padding: 9px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s;
+    margin-bottom: 6px;
+}
+
+.btn-add-category {
+    background: #27ae60;
+    color: #fff;
+}
+
+.btn-add-category:hover { background: #229954; }
+
+.btn-add-item {
+    background: #2980b9;
+    color: #fff;
+}
+
+.btn-add-item:hover { background: #21618c; }
+
+.sidebar-divider {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 12px 0;
+}
+
+/* ===================== MENU SECTION ===================== */
+.menu-section {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    overflow-y: auto;
+}
+
+.search-bar {
+    margin-bottom: 12px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #d0d7e2;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.search-bar input:focus {
+    border-color: #2a5298;
+}
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.menu-header h2 {
+    font-size: 18px;
+    color: #1e3c72;
+}
+
+.item-count {
+    background: #eaf1fb;
+    color: #2a5298;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+}
+
+.menu-item {
+    background: #f9fafc;
+    border: 1px solid #e5e9f0;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+    position: relative;
+}
+
+.menu-item:hover {
+    border-color: #2a5298;
+    box-shadow: 0 3px 10px rgba(42,82,152,0.15);
+    transform: translateY(-2px);
+}
+
+.menu-item h4 {
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #2c3e50;
+}
+
+.menu-item .price {
+    color: #27ae60;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.menu-item .category-tag {
+    font-size: 11px;
+    color: #7f8c8d;
+    margin-top: 4px;
+}
+
+.menu-item .item-actions {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    display: none;
+    gap: 4px;
+}
+
+.menu-item:hover .item-actions {
+    display: flex;
+}
+
+.item-actions button {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 2px 6px;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.item-actions .edit-btn:hover { background: #f39c12; color: #fff; }
+.item-actions .del-btn:hover { background: #e74c3c; color: #fff; }
+
+.empty-msg {
+    grid-column: 1/-1;
+    text-align: center;
+    color: #95a5a6;
+    padding: 30px;
+}
+
+/* ===================== CART SECTION ===================== */
+.cart-section {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    max-height: calc(100vh - 90px);
+    position: sticky;
+    top: 80px;
+}
+
+.cart-section h2 {
+    font-size: 17px;
+    margin-bottom: 12px;
+    color: #1e3c72;
+}
+
+.customer-info {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.customer-info input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #d0d7e2;
+    border-radius: 6px;
+    font-size: 12px;
+    outline: none;
+}
+
+.customer-info input:focus { border-color: #2a5298; }
+
+.cart-items {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 12px;
+    min-height: 100px;
+    max-height: 300px;
+}
+
+.empty-cart {
+    text-align: center;
+    color: #95a5a6;
+    padding: 20px;
+    font-size: 13px;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 13px;
+    gap: 6px;
+}
+
+.cart-item-info { flex: 1; }
+.cart-item-info strong { display: block; margin-bottom: 2px; }
+.cart-item-info small { color: #7f8c8d; }
+
+.qty-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.qty-controls button {
+    width: 22px;
+    height: 22px;
+    border: 1px solid #d0d7e2;
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 1;
+}
+
+.qty-controls button:hover { background: #eaf1fb; }
+
+.qty-controls span {
+    min-width: 20px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.item-total {
+    min-width: 60px;
+    text-align: right;
+    font-weight: 700;
+    color: #27ae60;
+    font-size: 12px;
+}
+
+.cart-summary {
+    border-top: 2px dashed #e0e0e0;
+    padding-top: 10px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    font-size: 13px;
+}
+
+.discount-row input {
+    width: 70px;
+    padding: 3px 6px;
+    border: 1px solid #d0d7e2;
+    border-radius: 4px;
+    text-align: right;
+    font-size: 12px;
+}
+
+.total-row {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e3c72;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 10px;
+    margin-top: 5px;
+}
+
+.cart-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.cart-actions button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.btn-clear { background: #ecf0f1; color: #7f8c8d; }
+.btn-clear:hover { background: #d5dbdb; }
+
+.btn-checkout { background: #27ae60; color: #fff; }
+.btn-checkout:hover { background: #229954; }
+
+/* ===================== MODALS ===================== */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.modal.show { display: flex; }
+
+.modal-content {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    width: 100%;
+    max-width: 420px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+    color: #2c3e50;
+}
+
+.modal-content h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #1e3c72;
+}
+
+.modal-content label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    margin-top: 10px;
+    color: #555;
+}
+
+.modal-content input,
+.modal-content select {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid #d0d7e2;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+}
+
+.modal-content input:focus,
+.modal-content select:focus { border-color: #2a5298; }
+
+.modal-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.modal-actions button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.btn-cancel { background: #ecf0f1; color: #7f8c8d; }
+.btn-cancel:hover { background: #d5dbdb; }
+
+.btn-save { background: #2a5298; color: #fff; }
+.btn-save:hover { background: #1e3c72; }
+
+.btn-print, .btn-close {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+.btn-print { background: #27ae60; color: #fff; }
+.btn-print:hover { background: #229954; }
+.btn-close { background: #ecf0f1; color: #2c3e50; }
+.btn-close:hover { background: #d5dbdb; }
+
+/* ===================== RECEIPT ===================== */
+#receiptContent,
+#receiptContent * {
+    color: #000 !important;
+    background: transparent !important;
+}
+
+#receiptContent {
+    padding: 10px 0;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+#receiptContent hr {
+    border: none;
+    border-top: 1px dashed #999;
+    margin: 10px 0;
+}
+
+#receiptContent table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0;
+}
+
+#receiptContent th,
+#receiptContent td {
+    border: 1px solid #999;
+    padding: 5px 8px;
+    text-align: left;
+    font-size: 12px;
+}
+
+#receiptContent th { background: #e8e8e8 !important; }
+
+/* ===================== REPORT ===================== */
+#reportContent {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #000 !important;
+}
+
+#reportContent h3,
+#reportContent h4,
+#reportContent p,
+#reportContent strong {
+    color: #000 !important;
+}
+
+#reportContent table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+}
+
+#reportContent th,
+#reportContent td {
+    border: 1px solid #999;
+    padding: 6px 10px;
+    text-align: left;
+    font-size: 12px;
+    color: #000 !important;
+}
+
+#reportContent th { background: #e8e8e8 !important; }
+
+#reportContent hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 10px 0;
+}
+
+.report-btn-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.report-btn-group button {
+    flex: 1;
+    min-width: 120px;
+}
+
+/* ===================== PRINT ===================== */
+@media print {
+    body * { visibility: hidden; }
+    #receiptModal, #receiptModal * { visibility: visible; }
+    #receiptModal {
+        position: absolute;
+        inset: 0;
+        display: block !important;
+        background: #fff !important;
+        padding: 20px;
+    }
+    #receiptModal .modal-content {
+        box-shadow: none;
+        border: none;
+        max-height: none;
+        padding: 0;
+    }
+    #receiptContent, #receiptContent * {
+        color: #000 !important;
+        background: #fff !important;
+    }
+    .btn-print, .btn-close { display: none !important; }
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 900px) {
+    .main-container {
+        grid-template-columns: 1fr;
+    }
+    .cart-section {
+        position: static;
+        max-height: none;
+    }
+    .header .logo h1 {
+        font-size: 15px;
+    }
+    #dateTime {
+        font-size: 11px;
+    }
+}
+</style>
 </head>
 <body>
 
-    <header class="header">
-        <div class="logo">
-            <h1>Geomir Online School Materail Supplier</h1>
+<!-- ===================== HEADER ===================== -->
+<header class="header">
+    <div class="logo">
+        <h1>Geomir Online School Material Supplier</h1>
+    </div>
+    <div class="header-info">
+        <span id="dateTime"></span>
+        <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+</header>
+
+<!-- ===================== MAIN CONTAINER ===================== -->
+<div class="main-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <h3>📂 Categories</h3>
+        <div class="sidebar-categories" id="sidebarCategories"></div>
+        <button class="btn-add-category" onclick="openCategoryModal()">➕ Add Category</button>
+        <hr class="sidebar-divider">
+        <button class="btn-add-item" onclick="openItemModal()">➕ Add New Item</button>
+        <hr class="sidebar-divider">
+        <button class="btn-add-item" onclick="openReportModal()">📊 Sales Reports</button>
+    </aside>
+
+    <!-- MENU SECTION -->
+    <div class="menu-section">
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="🔍 Search item..." onkeyup="searchItems()">
         </div>
-        <div class="header-info">
-            <span id="dateTime"></span>
-            <button class="btn-logout" onclick="logout()">Logout</button>
+        <div class="menu-header">
+            <h2 id="currentCategoryTitle">All Items</h2>
+            <span id="itemCount" class="item-count">0 items</span>
         </div>
-    </header>
-
-    <div class="main-container">
-
-        <!-- ================= SIDEBAR ================= -->
-        <aside class="sidebar">
-            <h3>📂 Categories</h3>
-            <div class="sidebar-categories" id="sidebarCategories">
-                <!-- Categories JS se load hongi -->
-            </div>
-            <button class="btn-add-category" onclick="openCategoryModal()">➕ Add Category</button>
-
-            <hr class="sidebar-divider">
-
-            <button class="btn-add-item" onclick="openItemModal()">➕ Add New Item</button>
-        </aside>
-
-        <!-- ================= MENU SECTION ================= -->
-        <div class="menu-section">
-
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="🔍 Search item..." onkeyup="searchItems()">
-            </div>
-
-            <div class="menu-header">
-                <h2 id="currentCategoryTitle">All Items</h2>
-                <span id="itemCount" class="item-count">0 items</span>
-            </div>
-
-            <div class="menu-grid" id="menuGrid"></div>
-        </div>
-
-        <!-- ================= CART SECTION ================= -->
-        <div class="cart-section">
-            <h2>🛒 Current Order</h2>
-            
-            <div class="customer-info">
-                <input type="text" id="customerName" placeholder="Customer Name">
-                <input type="text" id="tableNo" placeholder="Table No.">
-            </div>
-
-            <div class="cart-items" id="cartItems">
-                <p class="empty-cart">Cart khali hai</p>
-            </div>
-
-            <div class="cart-summary">
-                <div class="summary-row">
-                    <span>Subtotal:</span>
-                    <span id="subtotal">Rs. 0</span>
-                </div>
-                <div class="summary-row">
-                    <span>Tax (5%):</span>
-                    <span id="tax">Rs. 0</span>
-                </div>
-                <div class="summary-row discount-row">
-                    <span>Discount:</span>
-                    <input type="number" id="discount" value="0" onchange="updateCart()" min="0">
-                </div>
-                <div class="summary-row total-row">
-                    <span>Total:</span>
-                    <span id="total">Rs. 0</span>
-                </div>
-            </div>
-
-            <div class="cart-actions">
-                <button class="btn-clear" onclick="clearCart()">Clear</button>
-                <button class="btn-checkout" onclick="checkout()">Checkout</button>
-            </div>
-        </div>
+        <div class="menu-grid" id="menuGrid"></div>
     </div>
 
-    <!-- ================= ADD/EDIT ITEM MODAL ================= -->
-    <div class="modal" id="itemModal">
-        <div class="modal-content">
-            <h2 id="itemModalTitle">➕ Add New Item</h2>
-
-            <label>Item Name</label>
-            <input type="text" id="itemName" placeholder="e.g. Chicken Tikka">
-
-            <label>Price (Rs.)</label>
-            <input type="number" id="itemPrice" placeholder="e.g. 450" min="0">
-
-            <label>Category</label>
-            <select id="itemCategory"></select>
-
-            <label>Image Path (optional)</label>
-            <input type="text" id="itemImage" placeholder="images/chicken-tikka.jpg">
-
-            <div class="modal-actions">
-                <button class="btn-cancel" onclick="closeItemModal()">Cancel</button>
-                <button class="btn-save" onclick="saveItem()">Save</button>
+    <!-- CART SECTION -->
+    <div class="cart-section">
+        <h2>🛒 Current Order</h2>
+        <div class="customer-info">
+            <input type="text" id="customerName" placeholder="Customer Name">
+            <input type="text" id="tableNo" placeholder="Table No.">
+        </div>
+        <div class="cart-items" id="cartItems">
+            <p class="empty-cart">Cart khali hai</p>
+        </div>
+        <div class="cart-summary">
+            <div class="summary-row"><span>Subtotal:</span><span id="subtotal">Rs. 0</span></div>
+            <div class="summary-row"><span>Tax (5%):</span><span id="tax">Rs. 0</span></div>
+            <div class="summary-row discount-row">
+                <span>Discount:</span>
+                <input type="number" id="discount" value="0" onchange="updateCart()" min="0">
             </div>
+            <div class="summary-row total-row"><span>Total:</span><span id="total">Rs. 0</span></div>
+        </div>
+        <div class="cart-actions">
+            <button class="btn-clear" onclick="clearCart()">Clear</button>
+            <button class="btn-checkout" onclick="checkout()">Checkout</button>
         </div>
     </div>
+</div>
 
-    <!-- ================= ADD CATEGORY MODAL ================= -->
-    <div class="modal" id="categoryModal">
-        <div class="modal-content">
-            <h2>➕ Add New Category</h2>
+<!-- ===================== ITEM MODAL ===================== -->
+<div class="modal" id="itemModal">
+    <div class="modal-content">
+        <h2 id="itemModalTitle">➕ Add New Item</h2>
+        <label>Item Name</label>
+        <input type="text" id="itemName" placeholder="e.g. Chicken Tikka">
+        <label>Price (Rs.)</label>
+        <input type="number" id="itemPrice" placeholder="e.g. 450" min="0">
+        <label>Category</label>
+        <select id="itemCategory"></select>
+        <label>Image Path (optional)</label>
+        <input type="text" id="itemImage" placeholder="images/chicken-tikka.jpg">
+        <div class="modal-actions">
+            <button class="btn-cancel" onclick="closeItemModal()">Cancel</button>
+            <button class="btn-save" onclick="saveItem()">Save</button>
+        </div>
+    </div>
+</div>
 
-            <label>Category Name</label>
-            <input type="text" id="categoryName" placeholder="e.g. Chinese">
+<!-- ===================== CATEGORY MODAL ===================== -->
+<div class="modal" id="categoryModal">
+    <div class="modal-content">
+        <h2>➕ Add New Category</h2>
+        <label>Category Name</label>
+        <input type="text" id="categoryName" placeholder="e.g. Chinese">
+        <div class="modal-actions">
+            <button class="btn-cancel" onclick="closeCategoryModal()">Cancel</button>
+            <button class="btn-save" onclick="saveCategory()">Save</button>
+        </div>
+    </div>
+</div>
 
-            <div class="modal-actions">
-                <button class="btn-cancel" onclick="closeCategoryModal()">Cancel</button>
-                <button class="btn-save" onclick="saveCategory()">Save</button>
+<!-- ===================== RECEIPT MODAL ===================== -->
+<div class="modal" id="receiptModal">
+    <div class="modal-content">
+        <h2>✅ Order Confirmed</h2>
+        <div id="receiptContent"></div>
+        <button class="btn-print" onclick="printReceipt()">🖨️ Print Receipt</button>
+        <button class="btn-close" onclick="closeReceiptModal()">Close</button>
+    </div>
+</div>
+
+<!-- ===================== REPORT MODAL ===================== -->
+<div class="modal" id="reportModal">
+    <div class="modal-content" style="max-width:650px;">
+        <h2>📊 Sales Reports</h2>
+        <div class="report-btn-group">
+            <button onclick="showDailyReport()" class="btn-save">📅 Daily Report</button>
+            <button onclick="showMonthlyReport()" class="btn-save">📆 Monthly Report</button>
+        </div>
+        <div id="reportContent"><p>Select report type above</p></div>
+        <div class="modal-actions" style="margin-top:15px;">
+            <button class="btn-cancel" onclick="closeReportModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===================== JAVASCRIPT ===================== -->
+<script>
+/* ===================== GLOBAL STATE ===================== */
+let items = [];
+let categories = ['All'];
+let cart = [];
+let salesHistory = [];
+let editingItemId = null;
+let currentCategory = 'All';
+let currentSearch = '';
+
+/* ===================== STORAGE ===================== */
+function saveData() {
+    localStorage.setItem('geomir_items', JSON.stringify(items));
+    localStorage.setItem('geomir_categories', JSON.stringify(categories));
+    localStorage.setItem('geomir_sales', JSON.stringify(salesHistory));
+}
+
+function loadData() {
+    items = JSON.parse(localStorage.getItem('geomir_items')) || [];
+    categories = JSON.parse(localStorage.getItem('geomir_categories')) || ['All'];
+    salesHistory = JSON.parse(localStorage.getItem('geomir_sales')) || [];
+
+    // Ensure "All" always exists
+    if (!categories.includes('All')) categories.unshift('All');
+}
+
+/* ===================== DATE-TIME ===================== */
+function updateDateTime() {
+    const now = new Date();
+    const options = {
+        weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
+        hour: '2-digit', minute: '2-digit', second: '2-digit'
+    };
+    document.getElementById('dateTime').textContent = now.toLocaleString('en-PK', options);
+}
+setInterval(updateDateTime, 1000);
+
+/* ===================== RENDER: CATEGORIES ===================== */
+function renderCategories() {
+    const container = document.getElementById('sidebarCategories');
+    container.innerHTML = '';
+    categories.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = 'category-btn' + (cat === currentCategory ? ' active' : '');
+        btn.textContent = cat;
+        btn.onclick = () => selectCategory(cat);
+        container.appendChild(btn);
+    });
+
+    // Populate category dropdown in item modal
+    const select = document.getElementById('itemCategory');
+    select.innerHTML = '';
+    categories.filter(c => c !== 'All').forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat;
+        opt.textContent = cat;
+        select.appendChild(opt);
+    });
+}
+
+function selectCategory(cat) {
+    currentCategory = cat;
+    document.getElementById('currentCategoryTitle').textContent =
+        cat === 'All' ? 'All Items' : cat;
+    renderCategories();
+    renderItems();
+}
+
+/* ===================== RENDER: ITEMS ===================== */
+function renderItems() {
+    const grid = document.getElementById('menuGrid');
+    grid.innerHTML = '';
+
+    let filtered = items;
+    if (currentCategory !== 'All') {
+        filtered = filtered.filter(i => i.category === currentCategory);
+    }
+    if (currentSearch.trim()) {
+        const q = currentSearch.toLowerCase();
+        filtered = filtered.filter(i => i.name.toLowerCase().includes(q));
+    }
+
+    document.getElementById('itemCount').textContent = filtered.length + ' items';
+
+    if (filtered.length === 0) {
+        grid.innerHTML = '<p class="empty-msg">Koi item nahi mila. ➕ Add New Item se add karein.</p>';
+        return;
+    }
+
+    filtered.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'menu-item';
+        div.innerHTML = `
+            <div class="item-actions">
+                <button class="edit-btn" onclick="event.stopPropagation(); editItem(${item.id})">✏️</button>
+                <button class="del-btn" onclick="event.stopPropagation(); deleteItem(${item.id})">🗑️</button>
             </div>
-        </div>
-    </div>
+            <h4>${escapeHTML(item.name)}</h4>
+            <div class="price">Rs. ${item.price}</div>
+            <div class="category-tag">${escapeHTML(item.category || '-')}</div>
+        `;
+        div.onclick = () => addToCart(item.id);
+        grid.appendChild(div);
+    });
+}
 
-    <!-- ================= RECEIPT MODAL ================= -->
-    <div class="modal" id="receiptModal">
-        <div class="modal-content">
-            <h2>✅ Order Confirmed</h2>
-            <div id="receiptContent"></div>
-            <button class="btn-print" onclick="printReceipt()">🖨️ Print Receipt</button>
-            <button class="btn-close" onclick="closeReceiptModal()">Close</button>
-        </div>
-    </div>
+function searchItems() {
+    currentSearch = document.getElementById('searchInput').value;
+    renderItems();
+}
 
-    <script src="script.js"></script>
+/* ===================== CART ===================== */
+function addToCart(itemId) {
+    const item = items.find(i => i.id === itemId);
+    if (!item) return;
+
+    const existing = cart.find(c => c.id === itemId);
+    if (existing) {
+        existing.qty += 1;
+    } else {
+        cart.push({ id: item.id, name: item.name, price: item.price, qty: 1 });
+    }
+    renderCart();
+}
+
+function changeQty(itemId, delta) {
+    const item = cart.find(c => c.id === itemId);
+    if (!item) return;
+    item.qty += delta;
+    if (item.qty <= 0) {
+        cart = cart.filter(c => c.id !== itemId);
+    }
+    renderCart();
+}
+
+function removeFromCart(itemId) {
+    cart = cart.filter(c => c.id !== itemId);
+    renderCart();
+}
+
+function renderCart() {
+    const container = document.getElementById('cartItems');
+    if (cart.length === 0) {
+        container.innerHTML = '<p class="empty-cart">Cart khali hai</p>';
+    } else {
+        container.innerHTML = cart.map(c => `
+            <div class="cart-item">
+                <div class="cart-item-info">
+                    <strong>${escapeHTML(c.name)}</strong>
+                    <small>Rs. ${c.price} × ${c.qty}</small>
+                </div>
+                <div class="qty-controls">
+                    <button onclick="changeQty(${c.id}, -1)">−</button>
+                    <span>${c.qty}</span>
+                    <button onclick="changeQty(${c.id}, 1)">+</button>
+                </div>
+                <div class="item-total">Rs. ${c.price * c.qty}</div>
+            </div>
+        `).join('');
+    }
+    updateCart();
+}
+
+function updateCart() {
+    const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const tax = subtotal * 0.05;
+    const discount = parseFloat(document.getElementById('discount').value) || 0;
+    const total = Math.max(0, subtotal + tax - discount);
+
+    document.getElementById('subtotal').textContent = 'Rs. ' + subtotal.toLocaleString();
+    document.getElementById('tax').textContent = 'Rs. ' + tax.toFixed(2);
+    document.getElementById('total').textContent = 'Rs. ' + total.toFixed(2);
+
+    return { subtotal, tax, discount, total };
+}
+
+function clearCart() {
+    if (cart.length === 0) return;
+    if (!confirm('Cart clear karein?')) return;
+    cart = [];
+    renderCart();
+}
+
+/* ===================== ITEM MODAL ===================== */
+function openItemModal(editId = null) {
+    editingItemId = editId;
+    const modal = document.getElementById('itemModal');
+    const title = document.getElementById('itemModalTitle');
+
+    if (editId) {
+        const item = items.find(i => i.id === editId);
+        title.textContent = '✏️ Edit Item';
+        document.getElementById('itemName').value = item.name;
+        document.getElementById('itemPrice').value = item.price;
+        document.getElementById('itemCategory').value = item.category || '';
+        document.getElementById('itemImage').value = item.image || '';
+    } else {
+        title.textContent = '➕ Add New Item';
+        document.getElementById('itemName').value = '';
+        document.getElementById('itemPrice').value = '';
+        document.getElementById('itemImage').value = '';
+    }
+    renderCategories();
+    modal.classList.add('show');
+}
+
+function closeItemModal() {
+    document.getElementById('itemModal').classList.remove('show');
+    editingItemId = null;
+}
+
+function saveItem() {
+    const name = document.getElementById('itemName').value.trim();
+    const price = parseFloat(document.getElementById('itemPrice').value);
+    const category = document.getElementById('itemCategory').value;
+    const image = document.getElementById('itemImage').value.trim();
+
+    if (!name) return alert('Item name likhein!');
+    if (isNaN(price) || price < 0) return alert('Valid price likhein!');
+    if (!category) return alert('Category select karein!');
+
+    if (editingItemId) {
+        const item = items.find(i => i.id === editingItemId);
+        item.name = name;
+        item.price = price;
+        item.category = category;
+        item.image = image;
+    } else {
+        items.push({
+            id: Date.now(),
+            name, price, category, image
+        });
+    }
+    saveData();
+    closeItemModal();
+    renderItems();
+}
+
+function editItem(id) { openItemModal(id); }
+
+function deleteItem(id) {
+    if (!confirm('Item delete karein?')) return;
+    items = items.filter(i => i.id !== id);
+    cart = cart.filter(c => c.id !== id);
+    saveData();
+    renderItems();
+    renderCart();
+}
+
+/* ===================== CATEGORY MODAL ===================== */
+function openCategoryModal() {
+    document.getElementById('categoryName').value = '';
+    document.getElementById('categoryModal').classList.add('show');
+}
+
+function closeCategoryModal() {
+    document.getElementById('categoryModal').classList.remove('show');
+}
+
+function saveCategory() {
+    const name = document.getElementById('categoryName').value.trim();
+    if (!name) return alert('Category name likhein!');
+    if (categories.includes(name)) return alert('Category already exists!');
+    categories.push(name);
+    saveData();
+    closeCategoryModal();
+    renderCategories();
+}
+
+/* ===================== CHECKOUT ===================== */
+function checkout() {
+    if (cart.length === 0) return alert('Cart khali hai!');
+
+    const { subtotal, tax, discount, total } = updateCart();
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-PK');
+    const timeStr = now.toLocaleTimeString('en-PK');
+
+    const saleRecord = {
+        id: now.getTime(),
+        date: now.toISOString().split('T')[0],
+        time: timeStr,
+        customerName: document.getElementById('customerName').value.trim() || 'Walk-in',
+        tableNo: document.getElementById('tableNo').value.trim() || '-',
+        items: JSON.parse(JSON.stringify(cart)),
+        subtotal, tax, discount, total
+    };
+    salesHistory.push(saleRecord);
+    saveData();
+
+    // Receipt
+    let html = `
+        <p><strong>Date:</strong> ${dateStr} — ${timeStr}</p>
+        <p><strong>Customer:</strong> ${escapeHTML(saleRecord.customerName)}</p>
+        <p><strong>Table:</strong> ${escapeHTML(saleRecord.tableNo)}</p>
+        <hr>
+        <table>
+            <tr><th>Item</th><th>Qty</th><th>Amount</th></tr>
+    `;
+    cart.forEach(i => {
+        html += `<tr>
+            <td>${escapeHTML(i.name)}</td>
+            <td>${i.qty}</td>
+            <td>Rs. ${i.price * i.qty}</td>
+        </tr>`;
+    });
+    html += `</table>
+        <p><strong>Subtotal:</strong> Rs. ${subtotal}</p>
+        <p><strong>Tax (5%):</strong> Rs. ${tax.toFixed(2)}</p>
+        <p><strong>Discount:</strong> Rs. ${discount}</p>
+        <hr>
+        <h3><strong>Total: Rs. ${total.toFixed(2)}</strong></h3>
+    `;
+
+    document.getElementById('receiptContent').innerHTML = html;
+    document.getElementById('receiptModal').classList.add('show');
+
+    // Reset
+    cart = [];
+    document.getElementById('customerName').value = '';
+    document.getElementById('tableNo').value = '';
+    document.getElementById('discount').value = 0;
+    renderCart();
+}
+
+function printReceipt() { window.print(); }
+function closeReceiptModal() {
+    document.getElementById('receiptModal').classList.remove('show');
+}
+
+/* ===================== REPORTS ===================== */
+function openReportModal() {
+    document.getElementById('reportModal').classList.add('show');
+    showDailyReport();
+}
+function closeReportModal() {
+    document.getElementById('reportModal').classList.remove('show');
+}
+
+function showDailyReport() {
+    const today = new Date().toISOString().split('T')[0];
+    const todaySales = salesHistory.filter(s => s.date === today);
+    const totalAmount = todaySales.reduce((s, x) => s + x.total, 0);
+    const totalOrders = todaySales.length;
+    const totalItems = todaySales.reduce((s, x) =>
+        s + x.items.reduce((a, i) => a + i.qty, 0), 0);
+
+    const itemBreakdown = {};
+    todaySales.forEach(sale => {
+        sale.items.forEach(it => {
+            if (!itemBreakdown[it.name]) itemBreakdown[it.name] = { qty: 0, revenue: 0 };
+            itemBreakdown[it.name].qty += it.qty;
+            itemBreakdown[it.name].revenue += it.price * it.qty;
+        });
+    });
+
+    let html = `
+        <h3>📅 Daily Report — ${today}</h3>
+        <p><strong>Total Orders:</strong> ${totalOrders}</p>
+        <p><strong>Total Items Sold:</strong> ${totalItems}</p>
+        <p><strong>Total Revenue:</strong> Rs. ${totalAmount.toLocaleString()}</p>
+        <hr>
+        <h4>Item-wise Sales (Basis):</h4>
+        <table>
+            <tr><th>Item</th><th>Qty</th><th>Revenue</th></tr>
+    `;
+    if (Object.keys(itemBreakdown).length === 0) {
+        html += `<tr><td colspan="3" style="text-align:center;">No sales today</td></tr>`;
+    } else {
+        Object.keys(itemBreakdown).forEach(name => {
+            const d = itemBreakdown[name];
+            html += `<tr>
+                <td>${escapeHTML(name)}</td>
+                <td>${d.qty}</td>
+                <td>Rs. ${d.revenue.toLocaleString()}</td>
+            </tr>`;
+        });
+    }
+    html += `</table>`;
+    document.getElementById('reportContent').innerHTML = html;
+}
+
+function showMonthlyReport() {
+    const month = new Date().toISOString().slice(0, 7);
+    const monthSales = salesHistory.filter(s => s.date.startsWith(month));
+    const totalAmount = monthSales.reduce((s, x) => s + x.total, 0);
+    const totalOrders = monthSales.length;
+
+    const dayBreakdown = {};
+    monthSales.forEach(sale => {
+        if (!dayBreakdown[sale.date]) dayBreakdown[sale.date] = { orders: 0, revenue: 0 };
+        dayBreakdown[sale.date].orders += 1;
+        dayBreakdown[sale.date].revenue += sale.total;
+    });
+
+    let html = `
+        <h3>📆 Monthly Report — ${month}</h3>
+        <p><strong>Total Orders:</strong> ${totalOrders}</p>
+        <p><strong>Total Revenue:</strong> Rs. ${totalAmount.toLocaleString()}</p>
+        <hr>
+        <h4>Day-wise Sales:</h4>
+        <table>
+            <tr><th>Date</th><th>Orders</th><th>Revenue</th></tr>
+    `;
+    if (Object.keys(dayBreakdown).length === 0) {
+        html += `<tr><td colspan="3" style="text-align:center;">No sales this month</td></tr>`;
+    } else {
+        Object.keys(dayBreakdown).sort().forEach(date => {
+            const d = dayBreakdown[date];
+            html += `<tr>
+                <td>${date}</td>
+                <td>${d.orders}</td>
+                <td>Rs. ${d.revenue.toLocaleString()}</td>
+            </tr>`;
+        });
+    }
+    html += `</table>`;
+    document.getElementById('reportContent').innerHTML = html;
+}
+
+/* ===================== UTILS ===================== */
+function escapeHTML(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function logout() {
+    if (confirm('Logout karein?')) {
+        // Just reload — no real auth here
+        location.reload();
+    }
+}
+
+/* ===================== INIT ===================== */
+function init() {
+    loadData();
+    updateDateTime();
+    renderCategories();
+    renderItems();
+    renderCart();
+
+    // Close modals on background click
+    document.querySelectorAll('.modal').forEach(m => {
+        m.addEventListener('click', e => {
+            if (e.target === m) m.classList.remove('show');
+        });
+    });
+}
+
+window.addEventListener('DOMContentLoaded', init);
+</script>
 </body>
 </html>
