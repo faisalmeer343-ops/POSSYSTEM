@@ -13,7 +13,6 @@
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
 body {
     background: #f4f6f9;
     color: #2c3e50;
@@ -35,25 +34,13 @@ body {
     top: 0;
     z-index: 100;
 }
-
-.header .logo h1 {
-    font-size: 20px;
-    font-weight: 600;
-}
-
-.header-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    font-size: 13px;
-}
-
+.header .logo h1 { font-size: 20px; font-weight: 600; }
+.header-info { display: flex; align-items: center; gap: 15px; font-size: 13px; }
 #dateTime {
     background: rgba(255,255,255,0.15);
     padding: 6px 12px;
     border-radius: 20px;
 }
-
 .btn-logout {
     background: #e74c3c;
     color: #fff;
@@ -65,10 +52,7 @@ body {
     font-weight: 600;
     transition: 0.2s;
 }
-
-.btn-logout:hover {
-    background: #c0392b;
-}
+.btn-logout:hover { background: #c0392b; }
 
 /* ===================== MAIN LAYOUT ===================== */
 .main-container {
@@ -87,20 +71,13 @@ body {
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     height: fit-content;
 }
-
-.sidebar h3 {
-    font-size: 15px;
-    margin-bottom: 12px;
-    color: #1e3c72;
-}
-
+.sidebar h3 { font-size: 15px; margin-bottom: 12px; color: #1e3c72; }
 .sidebar-categories {
     display: flex;
     flex-direction: column;
     gap: 6px;
     margin-bottom: 12px;
 }
-
 .category-btn {
     background: #f0f3f8;
     border: none;
@@ -112,17 +89,8 @@ body {
     color: #2c3e50;
     transition: 0.2s;
 }
-
-.category-btn:hover {
-    background: #dfe6f0;
-}
-
-.category-btn.active {
-    background: #2a5298;
-    color: #fff;
-    font-weight: 600;
-}
-
+.category-btn:hover { background: #dfe6f0; }
+.category-btn.active { background: #2a5298; color: #fff; font-weight: 600; }
 .btn-add-category,
 .btn-add-item {
     width: 100%;
@@ -135,26 +103,11 @@ body {
     transition: 0.2s;
     margin-bottom: 6px;
 }
-
-.btn-add-category {
-    background: #27ae60;
-    color: #fff;
-}
-
+.btn-add-category { background: #27ae60; color: #fff; }
 .btn-add-category:hover { background: #229954; }
-
-.btn-add-item {
-    background: #2980b9;
-    color: #fff;
-}
-
+.btn-add-item { background: #2980b9; color: #fff; }
 .btn-add-item:hover { background: #21618c; }
-
-.sidebar-divider {
-    border: none;
-    border-top: 1px solid #e0e0e0;
-    margin: 12px 0;
-}
+.sidebar-divider { border: none; border-top: 1px solid #e0e0e0; margin: 12px 0; }
 
 /* ===================== MENU SECTION ===================== */
 .menu-section {
@@ -164,11 +117,7 @@ body {
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     overflow-y: auto;
 }
-
-.search-bar {
-    margin-bottom: 12px;
-}
-
+.search-bar { margin-bottom: 12px; }
 .search-bar input {
     width: 100%;
     padding: 10px 14px;
@@ -178,23 +127,14 @@ body {
     outline: none;
     transition: 0.2s;
 }
-
-.search-bar input:focus {
-    border-color: #2a5298;
-}
-
+.search-bar input:focus { border-color: #2a5298; }
 .menu-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
 }
-
-.menu-header h2 {
-    font-size: 18px;
-    color: #1e3c72;
-}
-
+.menu-header h2 { font-size: 18px; color: #1e3c72; }
 .item-count {
     background: #eaf1fb;
     color: #2a5298;
@@ -203,68 +143,90 @@ body {
     font-size: 12px;
     font-weight: 600;
 }
-
 .menu-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 12px;
 }
 
+/* ===================== MENU ITEM + IMAGE ===================== */
 .menu-item {
     background: #f9fafc;
     border: 1px solid #e5e9f0;
-    border-radius: 8px;
-    padding: 12px;
+    border-radius: 10px;
+    padding: 10px;
     cursor: pointer;
     transition: 0.2s;
     position: relative;
+    overflow: hidden;
 }
-
 .menu-item:hover {
     border-color: #2a5298;
     box-shadow: 0 3px 10px rgba(42,82,152,0.15);
     transform: translateY(-2px);
 }
 
+/* Image wrapper */
+.item-img-wrap {
+    width: 100%;
+    height: 110px;
+    background: #eef2f7;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.item-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 6px;
+}
+.img-placeholder {
+    font-size: 40px;
+    color: #b0b8c4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
 .menu-item h4 {
     font-size: 14px;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     color: #2c3e50;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-
-.menu-item .price {
-    color: #27ae60;
-    font-weight: 700;
-    font-size: 14px;
-}
-
+.menu-item .price { color: #27ae60; font-weight: 700; font-size: 14px; }
 .menu-item .category-tag {
     font-size: 11px;
     color: #7f8c8d;
-    margin-top: 4px;
+    margin-top: 3px;
 }
-
 .menu-item .item-actions {
     position: absolute;
-    top: 6px;
-    right: 6px;
+    top: 8px;
+    right: 8px;
     display: none;
     gap: 4px;
+    z-index: 2;
 }
-
-.menu-item:hover .item-actions {
-    display: flex;
-}
-
+.menu-item:hover .item-actions { display: flex; }
 .item-actions button {
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 4px;
-    padding: 2px 6px;
+    padding: 3px 7px;
     cursor: pointer;
     font-size: 11px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
-
 .item-actions .edit-btn:hover { background: #f39c12; color: #fff; }
 .item-actions .del-btn:hover { background: #e74c3c; color: #fff; }
 
@@ -288,19 +250,8 @@ body {
     position: sticky;
     top: 80px;
 }
-
-.cart-section h2 {
-    font-size: 17px;
-    margin-bottom: 12px;
-    color: #1e3c72;
-}
-
-.customer-info {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 12px;
-}
-
+.cart-section h2 { font-size: 17px; margin-bottom: 12px; color: #1e3c72; }
+.customer-info { display: flex; gap: 8px; margin-bottom: 12px; }
 .customer-info input {
     flex: 1;
     padding: 8px;
@@ -309,9 +260,7 @@ body {
     font-size: 12px;
     outline: none;
 }
-
 .customer-info input:focus { border-color: #2a5298; }
-
 .cart-items {
     flex: 1;
     overflow-y: auto;
@@ -319,14 +268,7 @@ body {
     min-height: 100px;
     max-height: 300px;
 }
-
-.empty-cart {
-    text-align: center;
-    color: #95a5a6;
-    padding: 20px;
-    font-size: 13px;
-}
-
+.empty-cart { text-align: center; color: #95a5a6; padding: 20px; font-size: 13px; }
 .cart-item {
     display: flex;
     justify-content: space-between;
@@ -336,17 +278,10 @@ body {
     font-size: 13px;
     gap: 6px;
 }
-
 .cart-item-info { flex: 1; }
 .cart-item-info strong { display: block; margin-bottom: 2px; }
 .cart-item-info small { color: #7f8c8d; }
-
-.qty-controls {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
+.qty-controls { display: flex; align-items: center; gap: 4px; }
 .qty-controls button {
     width: 22px;
     height: 22px;
@@ -358,15 +293,8 @@ body {
     font-size: 12px;
     line-height: 1;
 }
-
 .qty-controls button:hover { background: #eaf1fb; }
-
-.qty-controls span {
-    min-width: 20px;
-    text-align: center;
-    font-weight: 600;
-}
-
+.qty-controls span { min-width: 20px; text-align: center; font-weight: 600; }
 .item-total {
     min-width: 60px;
     text-align: right;
@@ -374,19 +302,13 @@ body {
     color: #27ae60;
     font-size: 12px;
 }
-
-.cart-summary {
-    border-top: 2px dashed #e0e0e0;
-    padding-top: 10px;
-}
-
+.cart-summary { border-top: 2px dashed #e0e0e0; padding-top: 10px; }
 .summary-row {
     display: flex;
     justify-content: space-between;
     padding: 5px 0;
     font-size: 13px;
 }
-
 .discount-row input {
     width: 70px;
     padding: 3px 6px;
@@ -395,7 +317,6 @@ body {
     text-align: right;
     font-size: 12px;
 }
-
 .total-row {
     font-size: 16px;
     font-weight: 700;
@@ -404,13 +325,7 @@ body {
     padding-top: 10px;
     margin-top: 5px;
 }
-
-.cart-actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 12px;
-}
-
+.cart-actions { display: flex; gap: 8px; margin-top: 12px; }
 .cart-actions button {
     flex: 1;
     padding: 10px;
@@ -421,10 +336,8 @@ body {
     font-size: 13px;
     transition: 0.2s;
 }
-
 .btn-clear { background: #ecf0f1; color: #7f8c8d; }
 .btn-clear:hover { background: #d5dbdb; }
-
 .btn-checkout { background: #27ae60; color: #fff; }
 .btn-checkout:hover { background: #229954; }
 
@@ -440,9 +353,7 @@ body {
     padding: 20px;
     overflow-y: auto;
 }
-
 .modal.show { display: flex; }
-
 .modal-content {
     background: #fff;
     border-radius: 12px;
@@ -454,13 +365,7 @@ body {
     box-shadow: 0 10px 40px rgba(0,0,0,0.25);
     color: #2c3e50;
 }
-
-.modal-content h2 {
-    font-size: 18px;
-    margin-bottom: 15px;
-    color: #1e3c72;
-}
-
+.modal-content h2 { font-size: 18px; margin-bottom: 15px; color: #1e3c72; }
 .modal-content label {
     display: block;
     font-size: 12px;
@@ -469,7 +374,6 @@ body {
     margin-top: 10px;
     color: #555;
 }
-
 .modal-content input,
 .modal-content select {
     width: 100%;
@@ -479,16 +383,53 @@ body {
     font-size: 13px;
     outline: none;
 }
-
 .modal-content input:focus,
 .modal-content select:focus { border-color: #2a5298; }
 
-.modal-actions {
+/* Image preview inside modal */
+.img-preview-box {
+    margin-top: 8px;
+    width: 100%;
+    height: 130px;
+    border: 2px dashed #c9d3e0;
+    border-radius: 8px;
     display: flex;
-    gap: 8px;
-    margin-top: 18px;
+    align-items: center;
+    justify-content: center;
+    color: #95a5a6;
+    font-size: 13px;
+    overflow: hidden;
+    background: #f9fafc;
+}
+.img-preview-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
 }
 
+.upload-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+}
+.upload-row label {
+    flex: 1;
+    margin: 0;
+    padding: 9px;
+    background: #3498db;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+.upload-row label:hover { background: #2980b9; }
+.upload-row input[type="file"] { display: none; }
+
+.modal-actions { display: flex; gap: 8px; margin-top: 18px; }
 .modal-actions button {
     flex: 1;
     padding: 10px;
@@ -498,10 +439,8 @@ body {
     font-weight: 600;
     font-size: 13px;
 }
-
 .btn-cancel { background: #ecf0f1; color: #7f8c8d; }
 .btn-cancel:hover { background: #d5dbdb; }
-
 .btn-save { background: #2a5298; color: #fff; }
 .btn-save:hover { background: #1e3c72; }
 
@@ -515,37 +454,32 @@ body {
     font-size: 13px;
     margin-top: 8px;
 }
-
 .btn-print { background: #27ae60; color: #fff; }
 .btn-print:hover { background: #229954; }
 .btn-close { background: #ecf0f1; color: #2c3e50; }
 .btn-close:hover { background: #d5dbdb; }
 
-/* ===================== RECEIPT ===================== */
+/* ===================== RECEIPT (BLACK FONT) ===================== */
 #receiptContent,
 #receiptContent * {
     color: #000 !important;
     background: transparent !important;
 }
-
 #receiptContent {
     padding: 10px 0;
     font-size: 13px;
     line-height: 1.6;
 }
-
 #receiptContent hr {
     border: none;
     border-top: 1px dashed #999;
     margin: 10px 0;
 }
-
 #receiptContent table {
     width: 100%;
     border-collapse: collapse;
     margin: 8px 0;
 }
-
 #receiptContent th,
 #receiptContent td {
     border: 1px solid #999;
@@ -553,7 +487,6 @@ body {
     text-align: left;
     font-size: 12px;
 }
-
 #receiptContent th { background: #e8e8e8 !important; }
 
 /* ===================== REPORT ===================== */
@@ -562,20 +495,15 @@ body {
     line-height: 1.6;
     color: #000 !important;
 }
-
 #reportContent h3,
 #reportContent h4,
 #reportContent p,
-#reportContent strong {
-    color: #000 !important;
-}
-
+#reportContent strong { color: #000 !important; }
 #reportContent table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 8px;
 }
-
 #reportContent th,
 #reportContent td {
     border: 1px solid #999;
@@ -584,26 +512,15 @@ body {
     font-size: 12px;
     color: #000 !important;
 }
-
 #reportContent th { background: #e8e8e8 !important; }
-
-#reportContent hr {
-    border: none;
-    border-top: 1px solid #ccc;
-    margin: 10px 0;
-}
-
+#reportContent hr { border: none; border-top: 1px solid #ccc; margin: 10px 0; }
 .report-btn-group {
     display: flex;
     gap: 8px;
     margin-bottom: 15px;
     flex-wrap: wrap;
 }
-
-.report-btn-group button {
-    flex: 1;
-    min-width: 120px;
-}
+.report-btn-group button { flex: 1; min-width: 120px; }
 
 /* ===================== PRINT ===================== */
 @media print {
@@ -631,19 +548,10 @@ body {
 
 /* ===================== RESPONSIVE ===================== */
 @media (max-width: 900px) {
-    .main-container {
-        grid-template-columns: 1fr;
-    }
-    .cart-section {
-        position: static;
-        max-height: none;
-    }
-    .header .logo h1 {
-        font-size: 15px;
-    }
-    #dateTime {
-        font-size: 11px;
-    }
+    .main-container { grid-template-columns: 1fr; }
+    .cart-section { position: static; max-height: none; }
+    .header .logo h1 { font-size: 15px; }
+    #dateTime { font-size: 11px; }
 }
 </style>
 </head>
@@ -716,14 +624,28 @@ body {
 <div class="modal" id="itemModal">
     <div class="modal-content">
         <h2 id="itemModalTitle">➕ Add New Item</h2>
+
         <label>Item Name</label>
         <input type="text" id="itemName" placeholder="e.g. Chicken Tikka">
+
         <label>Price (Rs.)</label>
         <input type="number" id="itemPrice" placeholder="e.g. 450" min="0">
+
         <label>Category</label>
         <select id="itemCategory"></select>
-        <label>Image Path (optional)</label>
-        <input type="text" id="itemImage" placeholder="images/chicken-tikka.jpg">
+
+        <label>Image (URL / Path ya Computer se Upload)</label>
+        <input type="text" id="itemImage" placeholder="images/tikka.jpg ya https://..." oninput="previewImageFromPath()">
+
+        <div class="upload-row">
+            <label for="itemImageFile">📁 Computer se Image Chunein</label>
+            <input type="file" id="itemImageFile" accept="image/*" onchange="handleImageUpload(event)">
+        </div>
+
+        <div class="img-preview-box" id="imgPreview">
+            Koi image nahi chuni
+        </div>
+
         <div class="modal-actions">
             <button class="btn-cancel" onclick="closeItemModal()">Cancel</button>
             <button class="btn-save" onclick="saveItem()">Save</button>
@@ -779,20 +701,24 @@ let salesHistory = [];
 let editingItemId = null;
 let currentCategory = 'All';
 let currentSearch = '';
+let pendingImageData = '';   // Base64 data jab file upload ho
 
 /* ===================== STORAGE ===================== */
 function saveData() {
-    localStorage.setItem('geomir_items', JSON.stringify(items));
-    localStorage.setItem('geomir_categories', JSON.stringify(categories));
-    localStorage.setItem('geomir_sales', JSON.stringify(salesHistory));
+    try {
+        localStorage.setItem('geomir_items', JSON.stringify(items));
+        localStorage.setItem('geomir_categories', JSON.stringify(categories));
+        localStorage.setItem('geomir_sales', JSON.stringify(salesHistory));
+    } catch (e) {
+        alert('Data save nahi ho saka! Ho sakta hai image bohot bari ho. Chhoti image use karein.');
+        console.error(e);
+    }
 }
 
 function loadData() {
     items = JSON.parse(localStorage.getItem('geomir_items')) || [];
     categories = JSON.parse(localStorage.getItem('geomir_categories')) || ['All'];
     salesHistory = JSON.parse(localStorage.getItem('geomir_sales')) || [];
-
-    // Ensure "All" always exists
     if (!categories.includes('All')) categories.unshift('All');
 }
 
@@ -819,7 +745,6 @@ function renderCategories() {
         container.appendChild(btn);
     });
 
-    // Populate category dropdown in item modal
     const select = document.getElementById('itemCategory');
     select.innerHTML = '';
     categories.filter(c => c !== 'All').forEach(cat => {
@@ -838,7 +763,7 @@ function selectCategory(cat) {
     renderItems();
 }
 
-/* ===================== RENDER: ITEMS ===================== */
+/* ===================== RENDER: ITEMS (WITH IMAGE) ===================== */
 function renderItems() {
     const grid = document.getElementById('menuGrid');
     grid.innerHTML = '';
@@ -862,11 +787,27 @@ function renderItems() {
     filtered.forEach(item => {
         const div = document.createElement('div');
         div.className = 'menu-item';
+
+        // ===== IMAGE HTML BUILD =====
+        let imageHTML = '';
+        if (item.image && item.image.trim() !== '') {
+            imageHTML = `
+                <img src="${escapeHTML(item.image)}"
+                     alt="${escapeHTML(item.name)}"
+                     class="item-img"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="img-placeholder" style="display:none;">🍽️</div>
+            `;
+        } else {
+            imageHTML = `<div class="img-placeholder">🍽️</div>`;
+        }
+
         div.innerHTML = `
             <div class="item-actions">
                 <button class="edit-btn" onclick="event.stopPropagation(); editItem(${item.id})">✏️</button>
                 <button class="del-btn" onclick="event.stopPropagation(); deleteItem(${item.id})">🗑️</button>
             </div>
+            <div class="item-img-wrap">${imageHTML}</div>
             <h4>${escapeHTML(item.name)}</h4>
             <div class="price">Rs. ${item.price}</div>
             <div class="category-tag">${escapeHTML(item.category || '-')}</div>
@@ -885,7 +826,6 @@ function searchItems() {
 function addToCart(itemId) {
     const item = items.find(i => i.id === itemId);
     if (!item) return;
-
     const existing = cart.find(c => c.id === itemId);
     if (existing) {
         existing.qty += 1;
@@ -899,14 +839,7 @@ function changeQty(itemId, delta) {
     const item = cart.find(c => c.id === itemId);
     if (!item) return;
     item.qty += delta;
-    if (item.qty <= 0) {
-        cart = cart.filter(c => c.id !== itemId);
-    }
-    renderCart();
-}
-
-function removeFromCart(itemId) {
-    cart = cart.filter(c => c.id !== itemId);
+    if (item.qty <= 0) cart = cart.filter(c => c.id !== itemId);
     renderCart();
 }
 
@@ -938,11 +871,9 @@ function updateCart() {
     const tax = subtotal * 0.05;
     const discount = parseFloat(document.getElementById('discount').value) || 0;
     const total = Math.max(0, subtotal + tax - discount);
-
     document.getElementById('subtotal').textContent = 'Rs. ' + subtotal.toLocaleString();
     document.getElementById('tax').textContent = 'Rs. ' + tax.toFixed(2);
     document.getElementById('total').textContent = 'Rs. ' + total.toFixed(2);
-
     return { subtotal, tax, discount, total };
 }
 
@@ -953,9 +884,47 @@ function clearCart() {
     renderCart();
 }
 
+/* ===================== IMAGE UPLOAD + PREVIEW ===================== */
+function handleImageUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Size check (2MB max for localStorage safety)
+    if (file.size > 2 * 1024 * 1024) {
+        alert('Image 2MB se choti honi chahiye!');
+        event.target.value = '';
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        pendingImageData = e.target.result;   // base64
+        document.getElementById('imgPreview').innerHTML =
+            `<img src="${pendingImageData}" alt="preview">`;
+        // Clear text input so no conflict
+        document.getElementById('itemImage').value = '';
+    };
+    reader.readAsDataURL(file);
+}
+
+function previewImageFromPath() {
+    const path = document.getElementById('itemImage').value.trim();
+    // Agar user path type kare to pendingImageData clear karo
+    pendingImageData = '';
+    const box = document.getElementById('imgPreview');
+    if (!path) {
+        box.innerHTML = 'Koi image nahi chuni';
+        return;
+    }
+    box.innerHTML = `<img src="${escapeHTML(path)}" alt="preview"
+        onerror="this.parentElement.innerHTML='❌ Image load nahi hui. Path check karein.';">`;
+}
+
 /* ===================== ITEM MODAL ===================== */
 function openItemModal(editId = null) {
     editingItemId = editId;
+    pendingImageData = '';
+
     const modal = document.getElementById('itemModal');
     const title = document.getElementById('itemModalTitle');
 
@@ -964,45 +933,80 @@ function openItemModal(editId = null) {
         title.textContent = '✏️ Edit Item';
         document.getElementById('itemName').value = item.name;
         document.getElementById('itemPrice').value = item.price;
-        document.getElementById('itemCategory').value = item.category || '';
         document.getElementById('itemImage').value = item.image || '';
+
+        // Show current image in preview
+        const box = document.getElementById('imgPreview');
+        if (item.image && item.image.trim() !== '') {
+            box.innerHTML = `<img src="${escapeHTML(item.image)}" alt="preview"
+                onerror="this.parentElement.innerHTML='❌ Image load nahi hui';">`;
+        } else {
+            box.innerHTML = 'Koi image nahi chuni';
+        }
     } else {
         title.textContent = '➕ Add New Item';
         document.getElementById('itemName').value = '';
         document.getElementById('itemPrice').value = '';
         document.getElementById('itemImage').value = '';
+        document.getElementById('imgPreview').innerHTML = 'Koi image nahi chuni';
     }
+
+    document.getElementById('itemImageFile').value = '';
     renderCategories();
+
+    // Preserve selected category when editing
+    if (editId) {
+        const item = items.find(i => i.id === editId);
+        setTimeout(() => {
+            document.getElementById('itemCategory').value = item.category || '';
+        }, 0);
+    }
+
     modal.classList.add('show');
 }
 
 function closeItemModal() {
     document.getElementById('itemModal').classList.remove('show');
     editingItemId = null;
+    pendingImageData = '';
 }
 
 function saveItem() {
     const name = document.getElementById('itemName').value.trim();
     const price = parseFloat(document.getElementById('itemPrice').value);
     const category = document.getElementById('itemCategory').value;
-    const image = document.getElementById('itemImage').value.trim();
+    const typedPath = document.getElementById('itemImage').value.trim();
 
     if (!name) return alert('Item name likhein!');
     if (isNaN(price) || price < 0) return alert('Valid price likhein!');
     if (!category) return alert('Category select karein!');
+
+    // Image priority: uploaded base64 > typed path
+    let finalImage = '';
+    if (pendingImageData) {
+        finalImage = pendingImageData;
+    } else if (typedPath) {
+        finalImage = typedPath;
+    } else if (editingItemId) {
+        // Keep old image if editing and no new image
+        const old = items.find(i => i.id === editingItemId);
+        finalImage = old ? (old.image || '') : '';
+    }
 
     if (editingItemId) {
         const item = items.find(i => i.id === editingItemId);
         item.name = name;
         item.price = price;
         item.category = category;
-        item.image = image;
+        item.image = finalImage;
     } else {
         items.push({
             id: Date.now(),
-            name, price, category, image
+            name, price, category,
+            image: finalImage
         });
     }
+
     saveData();
     closeItemModal();
     renderItems();
@@ -1024,11 +1028,9 @@ function openCategoryModal() {
     document.getElementById('categoryName').value = '';
     document.getElementById('categoryModal').classList.add('show');
 }
-
 function closeCategoryModal() {
     document.getElementById('categoryModal').classList.remove('show');
 }
-
 function saveCategory() {
     const name = document.getElementById('categoryName').value.trim();
     if (!name) return alert('Category name likhein!');
@@ -1060,7 +1062,6 @@ function checkout() {
     salesHistory.push(saleRecord);
     saveData();
 
-    // Receipt
     let html = `
         <p><strong>Date:</strong> ${dateStr} — ${timeStr}</p>
         <p><strong>Customer:</strong> ${escapeHTML(saleRecord.customerName)}</p>
@@ -1087,7 +1088,6 @@ function checkout() {
     document.getElementById('receiptContent').innerHTML = html;
     document.getElementById('receiptModal').classList.add('show');
 
-    // Reset
     cart = [];
     document.getElementById('customerName').value = '';
     document.getElementById('tableNo').value = '';
@@ -1202,10 +1202,7 @@ function escapeHTML(str) {
 }
 
 function logout() {
-    if (confirm('Logout karein?')) {
-        // Just reload — no real auth here
-        location.reload();
-    }
+    if (confirm('Logout karein?')) location.reload();
 }
 
 /* ===================== INIT ===================== */
@@ -1216,7 +1213,6 @@ function init() {
     renderItems();
     renderCart();
 
-    // Close modals on background click
     document.querySelectorAll('.modal').forEach(m => {
         m.addEventListener('click', e => {
             if (e.target === m) m.classList.remove('show');
