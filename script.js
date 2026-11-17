@@ -385,6 +385,46 @@ function buildReceiptHTML(sale) {
 /* ===================== PRINT ===================== */
 function printReceipt() {
     const modal = document.getElementById('receiptModal');
+    // Sab modals se printing class hatao
+    document.querySelectorAll('.modal.printing').forEach(m => m.classList.remove('printing'));
+    modal.classList.add('printing');
+    setTimeout(() => {
+        window.print();
+        setTimeout(() => modal.classList.remove('printing'), 600);
+    }, 150);
+}
+function closeReceiptModal() {
+    document.getElementById('receiptModal').classList.remove('show');
+    document.getElementById('receiptModal').classList.remove('printing');
+}
+
+function printViewReceipt() {
+    const modal = document.getElementById('viewReceiptModal');
+    document.querySelectorAll('.modal.printing').forEach(m => m.classList.remove('printing'));
+    modal.classList.add('printing');
+    setTimeout(() => {
+        window.print();
+        setTimeout(() => modal.classList.remove('printing'), 600);
+    }, 150);
+}
+function closeViewReceiptModal() {
+    document.getElementById('viewReceiptModal').classList.remove('show');
+    document.getElementById('viewReceiptModal').classList.remove('printing');
+}
+
+function printReport() {
+    const modal = document.getElementById('reportModal');
+    document.querySelectorAll('.modal.printing').forEach(m => m.classList.remove('printing'));
+    modal.classList.add('printing');
+    setTimeout(() => {
+        window.print();
+        setTimeout(() => modal.classList.remove('printing'), 600);
+    }, 150);
+}
+
+/* ===================== PRINT ===================== */
+function printReceipt() {
+    const modal = document.getElementById('receiptModal');
     modal.classList.add('printing');
     setTimeout(() => {
         window.print();
